@@ -1,0 +1,454 @@
+TikTok English auto-captions, verbatim as supplied by TikTok; machine-generated, with recognition errors and no speaker correction. Source: https://www.tiktok.com/@steve8708/video/7688793433128848653
+
+[00:00:00] the most exciting thing in software development to me right now
+[00:00:03] is software factories literally software that self improves
+[00:00:06] that as you collect feedback and telemetry
+[00:00:09] the software gets better automatically
+[00:00:10] I've been using this approach for the last few months
+[00:00:13] to push the boundaries of how much we can automate
+[00:00:15] setting bugs and improvements directly through agentic loops
+[00:00:18] and having better software come out the other side
+[00:00:20] while making sure human touch points can always guard
+[00:00:22] and take over as much as needed and I've open sourced a set of
+[00:00:25] skills that you can use or customize to to run your own software
+[00:00:28] factory out of Codex or Cloud Code or your choice of tools
+[00:00:31] and it's all customizable configurable
+[00:00:33] let me walk you through how it works
+[00:00:34] the short of it is this pretty basic
+[00:00:36] loop we want any feedback or telemetry
+[00:00:38] such as century errors error logs
+[00:00:41] performance and uptime metrics of those that are verifiably fixable
+[00:00:44] as in an agent can reproduce the issue make a fix
+[00:00:47] verify the fix is correct and send a pull request
+[00:00:50] we want to just automatically delegate those two agents those agents
+[00:00:53] can be right there on your local computer using
+[00:00:55] Codex or Cloud Code or whatever tool you prefer
+[00:00:57] and when the fix is verified
+[00:00:58] they're going to a pull request
+[00:00:59] it's decided whether it needs a human review
+[00:01:01] or it's okay for a pure agent review
+[00:01:03] when CI agent review and potential human review passes
+[00:01:06] the software gets shipped and the loop starts again now obviously
+[00:01:08] there's some pretty
+[00:01:09] important things you need to do to make sure that you don't actually
+[00:01:11] break things or make your code quality worse
+[00:01:13] that's why I'm going to walk you through the actual workflow that I use with the actual
+[00:01:16] skills every day
+[00:01:18] the vast majority of the work on my open
+[00:01:19] source agent native project is built by autonomous software factories
+[00:01:23] incorporating Github issues in app feedback
+[00:01:26] internal feedback and other sources
+[00:01:27] and verifying and pushing fixes to the framework
+[00:01:29] as well as a bunch of hosted agent native apps
+[00:01:32] that we build and maintain
+[00:01:33] for things like a generic design generation slides analytics
+[00:01:36] loom alternatives mail calendar whatever
+[00:01:39] these apps are all free and open
+[00:01:40] source so you can look at the code yourself and they're non trivial
+[00:01:43] they do things like full on Figma style editing
+[00:01:45] and generation of designs slide editing like Google Slides
+[00:01:48] calendar management you name it they're very modern
+[00:01:50] they're fully agentic
+[00:01:51] every single thing that you I can do the Asian can do
+[00:01:54] you can use them as pure visual agents purify eyes
+[00:01:57] but the best is mixing a bit of both
+[00:01:58] so these aren't small apps they're built in pretty novel ways
+[00:02:01] yet the majority of work I do
+[00:02:02] is designing and optimizing
+[00:02:04] and assessing the systems for building the software
+[00:02:06] as opposed to writing the code myself
+[00:02:07] that's what my team focuses on to so let's start at the beginning
+[00:02:10] and show you how this works everything
+[00:02:11] ultimately starts with input sources
+[00:02:13] if you're doing things the traditional way
+[00:02:15] product team and engineering teams will look at things like feedback
+[00:02:18] submitted potentially via Slack or in your product
+[00:02:20] or through customer interviews also you look at issues and telemetry
+[00:02:24] is uptime reduced has P90
+[00:02:25] response time increased is there a spike in new errors and century
+[00:02:28] or for an open source project like this are there Git
+[00:02:30] issues and PRs being filed all of those become the inputs
+[00:02:33] that we start making decisions on
+[00:02:34] that's where our first skill comes into play
+[00:02:36] it's called factory collect
+[00:02:37] first thing it does is it collects
+[00:02:39] and looks at these input sources on a loop
+[00:02:41] that's where I have a ton of these things running on scheduled tasks
+[00:02:44] I use Kodak for this the same thing works in Cloud Code
+[00:02:46] I have a slight preference for Kodak
+[00:02:47] which I'll get back to but it really doesn't matter
+[00:02:49] whatever coding agent you use
+[00:02:50] should have a way to schedule tasks that could run
+[00:02:52] hourly daily whatever
+[00:02:54] and the factory collect one just runs every several hours
+[00:02:57] it'll collect from all those inputs
+[00:02:59] and then run through a policy
+[00:03:00] all of this is configured in a YAML file
+[00:03:02] so we can list out our sources and create our own
+[00:03:04] and then put them into workflows
+[00:03:05] I'll mention in a bit what some of these things mean but it's
+[00:03:07] important to know that you can add prompts
+[00:03:09] to any of these things too so configure them precisely
+[00:03:11] or just apply prompts in natural language or both
+[00:03:14] by default my factories have a simple fixed policy
+[00:03:16] if it's a clear issue that is verifiable
+[00:03:18] aka an agent can reproduce the issue itself
+[00:03:21] fix it and then verify the fix and send a PR the policy allows
+[00:03:24] which means in Codex it spawns its own isolated work tree
+[00:03:27] does the verification fix and opens or updates a PR
+[00:03:30] the reason I have a slight preference for Codex for this
+[00:03:33] is because the Luna model is so insanely cheap
+[00:03:36] you can run your factory at
+[00:03:37] very high volumes paying almost nothing I create literally dozens of
+[00:03:40] PRs that are merged per day all powered by Luna on max settings
+[00:03:44] and I don't even hit the limits of my 200 dollar ChatGPT Pro account
+[00:03:48] that's awesome this works in cloud too but you're gonna hit limits
+[00:03:50] and if your factory is doing big scale cost does start to matter
+[00:03:54] especially when you factor in that verification is so key
+[00:03:57] many things need to be verified entered in a browser
+[00:03:59] that consumes tokens automating screenshotting
+[00:04:01] and reproducing and verifying every time
+[00:04:03] but as you might have assumed the verification part is essential
+[00:04:06] you don't want agents just guessing and throwing up PR
+[00:04:08] for whatever they think might fix it we need to know it's reproduced
+[00:04:11] it's fixed before we get any autonomous
+[00:04:14] factory PR now if anything doesn't match the policy
+[00:04:17] it goes all the way over here and it goes to humans
+[00:04:19] human inputs are batch separately
+[00:04:21] that's a separate automation I'll get back to that
+[00:04:23] when the agent does create a PR
+[00:04:25] then another skill in automation kicks in
+[00:04:27] I have an every few hours automation that reviews PRs now it's
+[00:04:29] important to note there's multiple
+[00:04:30] layers of review here if we go to the agent native pull request
+[00:04:33] and open up a PR
+[00:04:34] we will see that your standard review bot comments will be pushed
+[00:04:38] we have our own agent
+[00:04:39] for this but you can actually run that off of a code or codex using a skill
+[00:04:42] and a loop as well and the agent that sends the PR
+[00:04:45] uses the factory babysit PR skill to monitor the PR
+[00:04:48] they are required to verify and address every single comment
+[00:04:51] or CI failure if they verify and agree with the comment
+[00:04:53] aka it's in line with the initial intent
+[00:04:56] and it is a true issue they will comment back
+[00:04:58] in this case if it's running from Codex commenting as me
+[00:05:00] or if they disagree they just reply
+[00:05:02] with why they are not going to do it
+[00:05:03] then the separate review PRS agents looks over the open PRS
+[00:05:07] ensures everything's been addressed ensure the CI passes
+[00:05:10] there's no merge conflicts and then invokes an approval policy
+[00:05:13] approval policies are customizable by you with configs and prompts
+[00:05:16] and basically decides are we okay with this auto merging and deploying
+[00:05:19] because it had thorough tests it was clearly verified
+[00:05:21] and it was deemed relatively safe it was a C s s fix
+[00:05:24] it was a highly unittestable fix
+[00:05:25] whatever or does it need human review if it needs human review
+[00:05:28] it waits on the human review
+[00:05:30] and then merge if allowed it gets shipped end to end
+[00:05:32] and that's the super basic workflow collect babysit review ship
+[00:05:37] repeat at any point when a policy doesn't match
+[00:05:39] set it aside for humans
+[00:05:41] either tagging them or aggregating for the humans
+[00:05:43] now there's also a few nuances to point out such as wind collecting
+[00:05:47] what if the issue is not clear enough that's where the click
+[00:05:49] skill can also optionally follow up if we need more information
+[00:05:53] we can automatically post asking for more information
+[00:05:55] such as can you at least give us the URL you're on
+[00:05:57] or what time this happened so we can look up maybe an error logs
+[00:06:00] you can customize this completely
+[00:06:01] in a lot of cases I have to specify this was sent from a bot
+[00:06:03] because it's coming from Codex or cloud code
+[00:06:06] just using my credentials which means my profile
+[00:06:08] the skill also knows to check back to see if prior clarifications
+[00:06:11] were answered and now it's clear enough to take on
+[00:06:14] and then it will before we go on to some of the deeper automations
+[00:06:17] you might also ask is it better to run this in the cloud
+[00:06:20] some kind of cloud service that runs this
+[00:06:22] even when my laptop's closed
+[00:06:23] or should it be running on my local computer which means it's not running
+[00:06:26] if the computer is off
+[00:06:27] or asleep I have gone back and forth on this like crazy
+[00:06:30] and my definitive answer right now is
+[00:06:32] it's gotta run on a laptop
+[00:06:33] because to actually verify things it needs my actual environment
+[00:06:37] I used to run on my Mac with my end files my keys
+[00:06:40] my browser sessions when it's stuck
+[00:06:42] I need to be able to look at a screen and enter an OTP
+[00:06:45] or click to log in with my passkey
+[00:06:46] or in some cases were developing on Mac native apps
+[00:06:49] at the end of the day I've constantly struggled to get
+[00:06:51] cloud systems to replicate my environment effectively
+[00:06:53] and I just need it running on my environment
+[00:06:55] but yes it's super annoying when this stuff is running
+[00:06:57] especially if it's doing a lot of work
+[00:06:59] when I'm trying to do work in parallel
+[00:07:00] that's where my latest solution is I have a second laptop
+[00:07:03] it's right next to me over here and that laptop is on 24 7
+[00:07:06] always online and running through these loops
+[00:07:08] all day and all night if it's ever blocked it telegrams me
+[00:07:12] I need a key I need a login I need whatever
+[00:07:14] I can just look to the side log it in and let it keep going
+[00:07:17] I can look over and check on it see if it's doing things right
+[00:07:19] and what I love about Codex is I can see all of my remote
+[00:07:22] tasks and work trees right here they all have the blue globe icon
+[00:07:25] in fact in Codex I use the remote feature
+[00:07:27] to actually do all of my coding on that laptop so anytime I have an
+[00:07:31] idea and I want to spit up a branch or a work tree
+[00:07:33] I actually type it into this laptop
+[00:07:35] and it runs on that laptop so that laptop is frequently bogged down
+[00:07:38] using up a lot of memory running browsers in parallel
+[00:07:41] on this laptop I can actually run and do all the chats
+[00:07:45] but my CPU and memory are never bogged down this has been
+[00:07:47] a life changer I use it both here and with Claude code
+[00:07:51] with Claude code is the SSH feature
+[00:07:52] so I just have it ssh to the side laptop
+[00:07:54] I will say I like code X's more because with SSH
+[00:07:57] at least over my local I can only access my laptop through Claude
+[00:08:01] if it's on the same network
+[00:08:03] when I'm traveling or my main laptop's closed
+[00:08:05] I could still open it and see and manage
+[00:08:08] my codex also because Codex tokens are so cheap
+[00:08:10] I like Codex by default
+[00:08:11] Luna is a shockingly good model especially for this type of work
+[00:08:15] especially with Clear Guard rails with these skills
+[00:08:17] to always focus on verification verification verification
+[00:08:19] and also I always use it on max settings
+[00:08:21] because Luna is shockingly strong and cheap
+[00:08:24] on max settings Opus level performance
+[00:08:27] for literally less than one tenth of the price
+[00:08:29] and way faster tokens per second but some work is hard
+[00:08:32] and needs some more oversight
+[00:08:34] that's where I use a skill called Factory Watchdog
+[00:08:36] for work that I know is harder
+[00:08:37] or deeper what I'll do is I'll grab the thread
+[00:08:40] you can right click copy
+[00:08:41] copy deep link I'll go over here and invoke my watchdog skill
+[00:08:44] I'll give it the link let it run
+[00:08:45] I'm gonna stop this cause I don't actually want to do that right now
+[00:08:48] but what this will do is it'll watch that thread
+[00:08:50] and it'll message that thread with guidance
+[00:08:52] it'll independently verify that work
+[00:08:54] it'll make sure it's doing the right things it'll communicate
+[00:08:56] with that thread
+[00:08:57] to make sure Luna is always doing the right things the right way
+[00:08:59] that oversight I find super valuable and super effective
+[00:09:02] and I found with a ChatGPT Pro plan and a Claude Max plan
+[00:09:06] I can do an insane amount of work
+[00:09:07] without ever going into overages I often use fable for that
+[00:09:11] but the latest Opus 5 5 is probably plenty good enough
+[00:09:13] and when in doubt I have a separate Efficient Frontier skill
+[00:09:16] that just reminds the model to spawn low cost
+[00:09:18] sub agents like with Sonic
+[00:09:20] Luna whatever as much as possible to save cost
+[00:09:22] now that's the basic as of a factory
+[00:09:24] but the important part is the next part which is what can go wrong
+[00:09:27] and how do you make sure this goes as right as possible
+[00:09:29] let's go down and look at a few more automations
+[00:09:32] that run on the host scheduler so Claud Automations or loops
+[00:09:35] or Codex Automations or loops so I touched on Factory Watchdog
+[00:09:38] which can be used
+[00:09:39] in a whole variety of ways to make sure it's overseeing
+[00:09:42] and just a whole other model
+[00:09:43] trained by someone else is giving the oversight and guidance
+[00:09:46] that the bit more G P t based factory is doing day to day
+[00:09:49] then there's another issue that drives me crazy
+[00:09:51] when you're spawning a lot of these Luna work trees
+[00:09:54] and you tell them to follow the factory
+[00:09:55] there's a lot of cases where they just don't they just kind of forget
+[00:09:58] or stop or don't go the whole way
+[00:10:00] that's what the watchdog does
+[00:10:01] I have Factory Watchdog running about four times per day
+[00:10:04] and its whole job is to look over work that was done and is actionable
+[00:10:08] but did not go to the next step
+[00:10:10] for whatever reason there's always a few of these per day
+[00:10:12] a PR that was created
+[00:10:14] and never fully shipped etcetera so to look back on the threads
+[00:10:17] it'll spot those and it'll nudge them until they finish
+[00:10:20] that one's been a lifesaver
+[00:10:21] I've wasted a lot of time on work thinking
+[00:10:23] something was worked out when it wasn't
+[00:10:24] now the other big trap as well is recurring patterns
+[00:10:27] there are cases where the same issues come up over and over
+[00:10:30] and the agents think they're fixing it over and over
+[00:10:32] and they're just not so once a week I run the factory look back Skill
+[00:10:35] Factory
+[00:10:35] will look back over the last week and say was the same feedback
+[00:10:38] reported over and over even after we thought we fixed it
+[00:10:41] are we getting the same types of P90 reports on repeat
+[00:10:44] or are there brittle areas
+[00:10:45] we fix it then it gets unfixed or fix it and it breaks again
+[00:10:48] we want to spot those patterns
+[00:10:50] and make sure we find holistic fixes
+[00:10:52] when the look back finds a pattern
+[00:10:53] it'll delegate to a larger model like soul or Opus or fable
+[00:10:57] and that larger model is tasked with doing a much broader scan
+[00:11:00] of the input sources spawning sub agents
+[00:11:03] to log over extended periods of time periods you can configure
+[00:11:06] like the window and compare is the last in previous 30 days
+[00:11:09] and find those recurring issues
+[00:11:11] and make sure you find a good solution it'll go a lot deeper
+[00:11:13] it will try and compare errors logs and customer feedback
+[00:11:17] to try and triangulate a more holistic solution
+[00:11:20] and I tend this helps a ton
+[00:11:21] we had cases in the agent ate a framework
+[00:11:23] where the chat was just brutal
+[00:11:24] it just kept erroring it's driving me crazy
+[00:11:26] there are other cases of the same sort of dragon
+[00:11:28] drop issues kept reoccurring over and over the design app
+[00:11:31] and the beauty of having these structured
+[00:11:33] input sources and these structured factory flows
+[00:11:35] is you can do totally automated meta analysis
+[00:11:38] what is systemically going wrong here
+[00:11:40] and how can we fix it and then check back and verify that oh good
+[00:11:43] this type of feedback has actually wound out where these errors
+[00:11:46] or these p 90s have actually come down
+[00:11:47] that's ultimately the goal we need to see
+[00:11:49] and having these structured connected
+[00:11:51] inputs and flows lets us do that surprisingly effectively
+[00:11:53] now there's a lot of other nuances in these skills for example
+[00:11:56] when collecting feedback it already
+[00:11:58] does also know to try and look back and see if this feedback has been reported before
+[00:12:02] on a daily recurring
+[00:12:02] basis it'll also factor that in so if a believed fix was shipped
+[00:12:06] and the feedback continued it'll know to either a
+[00:12:09] do a deeper dive and deeper verification this time b ask the human
+[00:12:13] for more
+[00:12:13] input to further validate like do we really understand this correctly
+[00:12:16] or c more heavily opt for a human decision now at the end of the day
+[00:12:20] I spend most of my time feeling like a scientist
+[00:12:23] of a biological organism always inspecting microscoping
+[00:12:27] and assessing if the factory is working
+[00:12:29] as efficiently and as effectively as possible
+[00:12:32] does it delegate to humans when it needs to
+[00:12:33] does it waste as minimal human time as possible
+[00:12:36] is it making good decisions and good fixes and good improvements
+[00:12:39] and ultimately is it saving me and my team lots of time
+[00:12:41] so we can build stuff like the agent native framework
+[00:12:44] all these applications
+[00:12:45] built on top of it and allow ourselves and others to do cool stuff
+[00:12:48] like this action system we've come up with
+[00:12:50] lets you define your application behaviors in one place
+[00:12:52] they automatically can be used in UI Agent Chat API's
+[00:12:56] MCP blah blah blah this is the stuff I want to work on
+[00:12:58] I want to work on the hard problems
+[00:13:00] and I don't want to get caught in the minutiae of little fixes
+[00:13:03] so when had an error deploying to Vrsell
+[00:13:04] I just want that auto fixed
+[00:13:06] I don't even want to look at it
+[00:13:07] as long as our system works this makes me more of a systems engineer
+[00:13:11] as well as my team to make sure we're building an autonomous system
+[00:13:14] that can constantly fix and improve things
+[00:13:16] and before we wrap I want to give a couple specific tips as well
+[00:13:19] number one it really helps if the whole thing's in a monorail
+[00:13:22] having your factory dealing with 1 isolated monorail helps a ton and 2
+[00:13:26] efficacy
+[00:13:27] of your factory is highly dependent on the quality of your inputs
+[00:13:30] spending as much time as possible
+[00:13:32] building out strong telemetry
+[00:13:33] customer feedback channels clear ability to see errors
+[00:13:36] with the original source code tied to it like with source maps
+[00:13:39] and additional layers like we have
+[00:13:40] thorough end to end tests run on beta that test performance
+[00:13:44] core user flows etc and those can catch issues
+[00:13:46] that we don't want to block PRs
+[00:13:48] cause they take quite a long time to run and they're kind of expensive
+[00:13:50] including not just scripted tests
+[00:13:52] in browsers but also agents go in and testing regularly
+[00:13:55] those turn into automatically
+[00:13:56] filed issues and get dealt with immediately
+[00:13:58] too so if something does break it's caught instantly
+[00:14:00] my third tip is to have a separate beta and production environment
+[00:14:03] so our internal users said builder
+[00:14:05] all use the beta environment they redirected it automatically
+[00:14:08] beta's always in sync with main and when they see issues on beta
+[00:14:11] those get auto fixed once a day
+[00:14:13] a production deploy is cut over to prod
+[00:14:15] and then we know production is far more stable
+[00:14:17] and if we find one of these issues linked to production
+[00:14:20] it's easy to roll back when it's only pushing out once per day
+[00:14:22] as opposed to automatically
+[00:14:24] all the time every 10 minutes or so when there's so many PRs
+[00:14:27] coming from agents all the time
+[00:14:28] and lastly I would start small
+[00:14:29] you don't have to start with all these things
+[00:14:31] in fact the very basics goes back to the beginning
+[00:14:33] we just want to have an easy way to take some input source
+[00:14:36] figure out a finite set of things to carve to agents
+[00:14:39] these are really small clear error messages
+[00:14:41] guarantee verifiable only high confidence and
+[00:14:44] continue with your typical human review etcetera
+[00:14:46] you can shift the balance
+[00:14:47] over time and you don't have to reinvent the wheel
+[00:14:49] you can go to my skills repo
+[00:14:51] you can grab all these skills
+[00:14:52] and the beauty is it's not some fancy remote custom system
+[00:14:55] these you could just all run locally
+[00:14:56] so step 0 is usually just run it locally
+[00:14:59] run slash factory collect
+[00:15:00] play with the configuration a bit and look at the output
+[00:15:03] you can start with a Dry Run
+[00:15:04] just have it identify what it thinks it should fix
+[00:15:06] and give it feedback because configurations just a YAML file
+[00:15:09] you can have the agent update its own YAML
+[00:15:11] so you can go back and forth with the skill
+[00:15:13] giving it feedback and telling the agent to update the prompts
+[00:15:16] and guidance in config options
+[00:15:18] until you can run that skill locally
+[00:15:20] and you like the set of issues that it's
+[00:15:21] deciding to do and then instead of you manually doing those
+[00:15:24] go ahead and tell it to work on them in their own work trees
+[00:15:27] tell it to post their PRs and babysit the PR
+[00:15:29] make sure you're happy with the way it's responding to feedback
+[00:15:31] verify that the even feedback takes higher priority than bot feedback
+[00:15:34] this is how I started I did this stuff very manually
+[00:15:36] just a set of skills
+[00:15:38] that let me do larger and larger groups of work at a time
+[00:15:40] and then when I eventually found
+[00:15:42] that I'm kind of just becoming a robot
+[00:15:43] every morning I would run the collect feedback and ship skill
+[00:15:46] every afternoon I would run review PRs
+[00:15:48] and I realized like I'm just clicking buttons
+[00:15:51] then you start scheduling tasks
+[00:15:52] tell the skill to do the task on schedule
+[00:15:54] if you don't have a separate
+[00:15:55] laptop you could run the stuff on just run on your main laptop
+[00:15:57] that's what you would have done anyway if you're doing it manually
+[00:15:59] so start there it was after literally
+[00:16:01] months of running the factory that I eventually realized okay
+[00:16:03] in large scale the system's working
+[00:16:05] really well for me I need a dedicated computer for this
+[00:16:08] it doesn't have to be a laptop it could be a Mac mini whatever
+[00:16:10] just make sure it has plenty of memory
+[00:16:11] I find that with a lot of agents testing things on browsers
+[00:16:13] can eat up a lot of memory and then once you get fancier and fancier
+[00:16:16] enough you can go into these full robust automated workflows
+[00:16:19] that include the automated lookbacks
+[00:16:21] which again start by running lookbacks manually
+[00:16:23] does not have to be automated at first automated recovery watch dogs
+[00:16:27] but hey this is my flow
+[00:16:28] I'm curious what's worked for you I am fascinated by this
+[00:16:30] idea of all these machines
+[00:16:32] doing work automating the product improvement process end to end this
+[00:16:36] idea of autonomously
+[00:16:37] improving software is really exciting to me but it has limits
+[00:16:40] you should do what works for you and don't do what does you can grab
+[00:16:43] install fork customize all these skills over my skills repo
+[00:16:47] there's an installer CLI that can also set up things like automations
+[00:16:50] and other things for you and if you're digging into my stuff
+[00:16:53] check out the Agent Native framework it is in my opinion
+[00:16:56] the most awesome way to build an agent today agents are great
+[00:16:59] but an agent paired with a custom fitted UI
+[00:17:01] that is completely seamless
+[00:17:03] is in my opinion the awesome future ahead of us
+[00:17:05] if you're not ready to build something go to Agentnative com
+[00:17:08] check out the apps and use some of these apps
+[00:17:09] there's literally a free alternative to loom
+[00:17:12] free alternative to Figma Google Slides
+[00:17:14] whatever BI tool you use calendar superhuman mail
+[00:17:18] all kinds of stuff notion whatever it's all free it's all open source
+[00:17:22] cost you nothing to use and it's infinitely customizable
+[00:17:24] and you can do whatever
+[00:17:25] the heck you want with it if you try the stuff I would love to hear your feedback
+[00:17:28] and your opinions on agent factories in general
+[00:17:30] do you like my approach is there a better approach
+[00:17:33] let me know in the comments thanks for watching
