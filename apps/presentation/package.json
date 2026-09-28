@@ -1,0 +1,10 @@
+{
+  "name": "@qantas-demo/presentation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "check": "node --check slides.js && node --check app.js && node --check server.mjs"
+  }
+}

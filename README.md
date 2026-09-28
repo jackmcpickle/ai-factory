@@ -19,3 +19,7 @@ pnpm dev
 ```
 
 The program does not run a scheduler, serve a webhook or invoke an LLM; it selects project-local loop descriptors against synthetic trigger input. A passing check is not a meal commitment or release approval. The submitted ZIP and panel email still require Jack's review.
+
+## HTML presentation
+
+Run `npm run presentation` and open **http://localhost:4174** for the 22-slide challenge presentation. It includes staged FigJam workflows, project skills, validation, human guardrails, team shape, cost and rollout. See [presentation setup and coverage](apps/presentation/README.md) for controls, speaker notes, editing and evidence limits.
