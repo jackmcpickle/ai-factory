@@ -1,8 +1,15 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import { issueSearch } from '#/lib/search'
+import { createFileRoute } from '@tanstack/react-router'
+import type { ReactElement } from 'react'
+import { DashboardView } from '@/modules/dashboard'
+import { dashboardQueryOptions } from '@/modules/dashboard/hooks/useDashboardQuery'
 
 export const Route = createFileRoute('/_app/')({
-  beforeLoad: () => {
-    throw redirect({ to: '/issues', search: issueSearch() })
-  },
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData(dashboardQueryOptions()),
+  head: () => ({ meta: [{ title: 'Dashboard · Meal choice' }] }),
+  component: DashboardPage,
 })
+
+function DashboardPage(): ReactElement {
+  return <DashboardView />
+}

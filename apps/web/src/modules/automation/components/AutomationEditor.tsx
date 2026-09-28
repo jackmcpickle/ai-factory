@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { ReactElement } from 'react'
 import { EditorFrame } from '@/components/editor-frame'
+import { AGENT_ID, AgentUsageReadout } from '@/modules/dashboard'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AgentInstructions } from '@/modules/automation/components/AgentInstructions'
 import { AutomationHeader } from '@/modules/automation/components/AutomationHeader'
@@ -32,6 +33,7 @@ export function AutomationEditor(): ReactElement {
       <AutomationHeader onRun={handleRun} />
       <div className="min-h-0 flex-1 overflow-y-auto">
         <div className="flex max-w-3xl flex-col gap-6 px-6 py-4">
+          <AgentUsageReadout agentId={AGENT_ID.automations} />
           <Tabs value={tab} onValueChange={handleTab}>
             <TabsList variant="line">
               <TabsTrigger value={AUTOMATION_TAB.settings}>
