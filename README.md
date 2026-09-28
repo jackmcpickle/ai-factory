@@ -1,8 +1,8 @@
-# Qantas Applied AI delivery demo
+# Applied AI delivery demo
 
-Runnable, synthetic project-scoped delivery workflow for Jack's Senior Manager, Applied AI challenge. This repository contains the working demonstration for panel review. No passenger data, model calls, airline integration or customer commitments.
+Runnable, synthetic project-scoped delivery workflow. The web app and CLI share one orchestrator over sample data. There are no passenger records, model calls, airline integrations or customer commitments.
 
-Start with [README-RUNNABLE.md](README-RUNNABLE.md) for Node 24 setup, the simulated schedule/webhook loop model, tests and safety limits. [DEMO.md](DEMO.md) is the panel walkthrough. [PLAN.md](PLAN.md), [DIAGRAMS.md](DIAGRAMS.md) and [SOURCES.md](SOURCES.md) preserve the challenge context and editable Mermaid diagrams.
+Start with the web app below, or run the CLI demo. See [editable diagrams](DIAGRAMS.md) for the signal-to-release flow, human gates, meal-commitment guardrail and project-local loops. The [presentation guide](apps/presentation/README.md) covers the separate HTML slide deck.
 
 ```sh
 pnpm check
@@ -35,8 +35,8 @@ Requires Node 24 (`.nvmrc`). No API keys, network services or model calls. On ev
 
 The same run is available headless with `pnpm demo`; the UI and CLI share one engine, so a policy change produces the same outcome in both.
 
-The program does not run a scheduler, serve a webhook or invoke an LLM; it selects project-local loop descriptors against synthetic trigger input. A passing check is not a meal commitment or release approval. The panel email and final handoff still require Jack's review.
+The program does not run a scheduler, serve a webhook or invoke an LLM; it selects project-local loop descriptors against synthetic trigger input. A passing check is not a meal commitment or release approval. Outputs and policy changes in this demo are illustrative; real releases and commitments require human approval.
 
 ## HTML presentation
 
-Run `pnpm presentation` and open **http://localhost:4174** for the 22-slide challenge presentation. It includes staged FigJam workflows, project skills, validation, human guardrails, team shape, cost and rollout. See [presentation setup and coverage](apps/presentation/README.md) for controls, speaker notes, editing and evidence limits.
+Run `pnpm presentation` and open **http://localhost:4174** for the 22-slide applied AI delivery presentation. It includes staged FigJam workflows, project skills, validation, human guardrails, team shape, cost and rollout. See [presentation setup and coverage](apps/presentation/README.md) for controls, speaker notes, editing and evidence limits.
