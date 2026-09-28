@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "skills": {
+    "elite-backend": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "a11d8885f6190adae8dcbd320a8aeb625d4de8b1ba31dc9bb3781ce0249602dd"
+    },
+    "elite-bootstrap": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "04be31fc6c4a8eb22da8c2aa8d1db809cb4431978847de8cb591dc7b5bcf2a8a"
+    },
+    "elite-deploy": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "49dd6f3dd0f25f1067c742452feaf65e44f2745009b9b4b2c597e5cf080c05e0"
+    },
+    "elite-feature": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "077c7a92cc9adea98f6a4963e875d49487127fd68a326ec48f4635c1f9be6802"
+    },
+    "elite-merge": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "35ed2b5bb80bb25be66ab1f1e55f7bd992bde874b6f562ebc3acc42d9cdd8348"
+    },
+    "elite-qa": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "04ffc3a682a249bb2884a7968b244cb6c3e00469976a937e1302be5eeae7f157"
+    },
+    "elite-react": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "8f55651207842d912b3e6ca70bd735c445d1db6f7b41c143ef20741c1e99194c"
+    },
+    "elite-review": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "22792f08b7f680c490c792c776acd05176a418dd17eb8aac91b0ce7dd1af954d"
+    },
+    "elite-style": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "cb3daa11dfd62deda50b6326d4e0cc2bb359eadfbbc0dffa71f405ef56458a7f"
+    },
+    "elite-testing": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "167fce427a9401457d323bb606497a75065ea717ed7277d27985a912d3a708ab"
+    },
+    "elite-validate": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "48f2e9ea3107e7f12420427399fbd8ece033c77ac8ea4e4f16b364b843f13c2b"
+    },
+    "elite-web": {
+      "source": "eliteskills.ai",
+      "sourceType": "well-known",
+      "computedHash": "5e94b2ab08b685b5095d376fc3364aba2516471b292ffcebf9f85a204ea3ec55"
+    }
+  }
+}
