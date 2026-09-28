@@ -1,3 +1,10 @@
 packages:
-  - 'apps/*'
-  - 'packages/*'
+- apps/*
+- packages/*
+dangerouslyAllowAllBuilds: false
+allowBuilds: { unrs-resolver: true }
+auditLevel: high
+trustPolicyIgnoreAfter: 129600
+trustPolicy: no-downgrade
+verifyDepsBeforeRun: error
+registry: https://registry.npmjs.org
