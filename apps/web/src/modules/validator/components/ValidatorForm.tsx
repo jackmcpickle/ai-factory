@@ -65,41 +65,65 @@ export function ValidatorForm(): ReactElement {
         )}
       </form.AppField>
       <form.Field name="keywords">
-        {(field) => (
-          <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium">Keywords</span>
-            <KeywordChips
-              keywords={field.state.value}
-              onRemove={(item) =>
-                field.setValue(removeKeyword(field.state.value, item))
-              }
-            />
-            <div className="flex gap-2">
-              <Input
-                aria-label="Keyword"
-                value={keyword}
-                placeholder="Add a keyword"
-                onChange={(event) => setKeyword(event.target.value)}
+        {(field) => {
+          const error = keywordFieldError(field.state.meta.errors)
+          return (
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-medium">Keywords</span>
+              <KeywordChips
+                keywords={field.state.value}
+                onRemove={(item) =>
+                  field.setValue(removeKeyword(field.state.value, item))
+                }
               />
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  field.setValue(addKeyword(field.state.value, keyword))
-                  setKeyword('')
-                }}
-              >
-                Add
-              </Button>
+              <div className="flex gap-2">
+                <Input
+                  aria-label="Keyword"
+                  aria-invalid={error !== null}
+                  value={keyword}
+                  placeholder="Add a keyword"
+                  onChange={(event) => setKeyword(event.target.value)}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    field.setValue(addKeyword(field.state.value, keyword))
+                    setKeyword('')
+                  }}
+                >
+                  Add
+                </Button>
+              </div>
+              {error ? (
+                <p className="text-xs text-destructive" role="alert">
+                  {error}
+                </p>
+              ) : null}
             </div>
-          </div>
-        )}
+          )
+        }}
       </form.Field>
       <form.AppForm>
         <form.SubmitButton label="Run validation" pendingLabel="Running..." />
       </form.AppForm>
     </form>
   )
+}
+
+function keywordFieldError(errors: ReadonlyArray<unknown>): string | null {
+  const first = errors[0]
+  if (typeof first === 'string' && first.length > 0) return first
+  if (
+    first &&
+    typeof first === 'object' &&
+    'message' in first &&
+    typeof first.message === 'string' &&
+    first.message.length > 0
+  ) {
+    return first.message
+  }
+  return null
 }
 
 function KeywordChips({
