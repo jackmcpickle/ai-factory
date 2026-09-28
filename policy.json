@@ -1,0 +1,7 @@
+{
+  "version":"demo-v1", "maxRetries":2, "maxEstimatedUsdPerRun":0.50,
+  "humanOnlyTags":["dietary","allergen","booking-commitment","catering-commitment"],
+  "eligibleKinds":["app-defect","ux-friction","performance"],
+  "releaseRequiresHuman":true, "minimumPassingChecks":3,
+  "modelPricingUsdPerMillionTokens":{"input":3,"output":15}
+}

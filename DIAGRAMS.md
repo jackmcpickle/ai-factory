@@ -43,3 +43,21 @@ flowchart TD
 ```
 
 **Boundary:** an engineering agent may propose and test code, but it cannot infer allergen safety or commit a customer's meal. The live service and approved humans own authoritative data and irreversible changes.
+
+
+## 4. Project tenancy and loops (proposed control plane)
+
+```mermaid
+flowchart TD
+  U["Global users"] --> A["Project assignments"]
+  T["Global teams"] --> A
+  A --> P["Project: tenancy boundary"]
+  P --> L["Project-local agent loops"]
+  S["Schedule trigger"] --> L
+  W["Verified webhook event"] --> L
+  L --> G["Project-scoped authorization and policy gate"]
+  G --> R["Bounded agent proposal and human review"]
+  P2["Other project: separate loops and data"] -. "No cross-project dispatch" .-> P
+```
+
+**Demo limit:** `fixtures/workspace.json` and `packages/contracts/src.js` model this boundary and match synthetic schedule/webhook descriptors. No real scheduler, webhook receiver, signature check, persisted tenant isolation or agent model runs in this package.

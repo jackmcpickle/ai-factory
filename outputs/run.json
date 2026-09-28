@@ -1,0 +1,537 @@
+{
+  "schemaVersion": "2",
+  "projectId": "meal-choice-demo",
+  "tenancyBoundary": "project",
+  "loopDispatches": [
+    {
+      "projectId": "meal-choice-demo",
+      "loopId": "daily-discovery",
+      "agentRole": "product-discovery",
+      "trigger": {
+        "type": "schedule",
+        "expression": "daily-review"
+      },
+      "signalIds": [
+        "SIG-001",
+        "SIG-002",
+        "SIG-003",
+        "SIG-004",
+        "SIG-005"
+      ],
+      "execution": "simulated",
+      "sideEffects": false
+    }
+  ],
+  "policyVersion": "demo-v1",
+  "runId": "3a8fa9c7821f7b73",
+  "mode": "synthetic dry run; no agent model invoked",
+  "teams": {
+    "app": [
+      "SIG-001",
+      "SIG-004"
+    ],
+    "safety": [
+      "SIG-002"
+    ],
+    "platform": [
+      "SIG-003",
+      "SIG-005"
+    ]
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "signal": "SIG-001",
+      "team": "product",
+      "agent": "product-discovery",
+      "event": "collected",
+      "detail": {
+        "fingerprint": "fd359d8ac7618d3dde28e0e1f26fd4734582f06b53eddfe122e542b4a939a390",
+        "baseline": {
+          "choiceMissRatePct": 12,
+          "p90Ms": 680
+        },
+        "synthetic": true
+      }
+    },
+    {
+      "sequence": 2,
+      "signal": "SIG-001",
+      "team": "design",
+      "agent": "experience-design",
+      "event": "journey-proposed",
+      "detail": {
+        "exceptions": [
+          "unavailable meal",
+          "cutoff",
+          "dietary unknown"
+        ],
+        "humanOwner": "designer"
+      }
+    },
+    {
+      "sequence": 3,
+      "signal": "SIG-001",
+      "team": "app",
+      "agent": "orchestrator",
+      "event": "routed",
+      "detail": {
+        "route": "eligible",
+        "reason": "bounded work candidate",
+        "policyVersion": "demo-v1"
+      }
+    },
+    {
+      "sequence": 4,
+      "signal": "SIG-001",
+      "team": "app",
+      "agent": "bounded-implementation",
+      "event": "isolated-proposal",
+      "detail": {
+        "change": "propose smallest fix in a fresh worktree; no code executed in this simulation",
+        "inputHash": "cf96e54f4f10df214dd2cec4dbb1712fb49b926cdaf89a552d35e889b4b7c4e4",
+        "retryCap": 2
+      }
+    },
+    {
+      "sequence": 5,
+      "signal": "SIG-001",
+      "team": "quality",
+      "agent": "independent-verification",
+      "event": "quality-gate",
+      "detail": {
+        "checks": [
+          {
+            "name": "repro",
+            "passed": true
+          },
+          {
+            "name": "contract",
+            "passed": true
+          },
+          {
+            "name": "negative",
+            "passed": true
+          },
+          {
+            "name": "accessibility",
+            "passed": true
+          }
+        ],
+        "passing": 4,
+        "required": 3,
+        "finalStatus": "awaiting_human_review"
+      }
+    },
+    {
+      "sequence": 6,
+      "signal": "SIG-001",
+      "team": "operations",
+      "agent": "rollout-observer",
+      "event": "cost-recorded",
+      "detail": {
+        "estimatedUsd": 0.0141,
+        "notMeasured": true,
+        "model": "illustrative policy rate"
+      }
+    },
+    {
+      "sequence": 7,
+      "signal": "SIG-002",
+      "team": "product",
+      "agent": "product-discovery",
+      "event": "collected",
+      "detail": {
+        "fingerprint": "6e226e674860f3c5c730305ac95b6d66743329227483e0f0be49b1e0d5d3d159",
+        "baseline": {
+          "choiceMissRatePct": 12,
+          "p90Ms": 680
+        },
+        "synthetic": true
+      }
+    },
+    {
+      "sequence": 8,
+      "signal": "SIG-002",
+      "team": "design",
+      "agent": "experience-design",
+      "event": "journey-proposed",
+      "detail": {
+        "exceptions": [
+          "unavailable meal",
+          "cutoff",
+          "dietary unknown"
+        ],
+        "humanOwner": "designer"
+      }
+    },
+    {
+      "sequence": 9,
+      "signal": "SIG-002",
+      "team": "safety",
+      "agent": "orchestrator",
+      "event": "routed",
+      "detail": {
+        "route": "human_only",
+        "reason": "safety-critical tag",
+        "policyVersion": "demo-v1"
+      }
+    },
+    {
+      "sequence": 10,
+      "signal": "SIG-002",
+      "team": "operations",
+      "agent": "rollout-observer",
+      "event": "cost-recorded",
+      "detail": {
+        "estimatedUsd": 0.00795,
+        "notMeasured": true,
+        "model": "illustrative policy rate"
+      }
+    },
+    {
+      "sequence": 11,
+      "signal": "SIG-003",
+      "team": "product",
+      "agent": "product-discovery",
+      "event": "collected",
+      "detail": {
+        "fingerprint": "16a87300900b033eca5778bae7efb14b13058d17ab34cce7c97cf520482cf1c8",
+        "baseline": {
+          "choiceMissRatePct": 12,
+          "p90Ms": 680
+        },
+        "synthetic": true
+      }
+    },
+    {
+      "sequence": 12,
+      "signal": "SIG-003",
+      "team": "design",
+      "agent": "experience-design",
+      "event": "journey-proposed",
+      "detail": {
+        "exceptions": [
+          "unavailable meal",
+          "cutoff",
+          "dietary unknown"
+        ],
+        "humanOwner": "designer"
+      }
+    },
+    {
+      "sequence": 13,
+      "signal": "SIG-003",
+      "team": "platform",
+      "agent": "orchestrator",
+      "event": "routed",
+      "detail": {
+        "route": "eligible",
+        "reason": "bounded work candidate",
+        "policyVersion": "demo-v1"
+      }
+    },
+    {
+      "sequence": 14,
+      "signal": "SIG-003",
+      "team": "platform",
+      "agent": "bounded-implementation",
+      "event": "isolated-proposal",
+      "detail": {
+        "change": "propose smallest fix in a fresh worktree; no code executed in this simulation",
+        "inputHash": "6f5a5371e8002418bdbac2347cae32d02396539f41b0361b2f2948d30a73e4e8",
+        "retryCap": 2
+      }
+    },
+    {
+      "sequence": 15,
+      "signal": "SIG-003",
+      "team": "quality",
+      "agent": "independent-verification",
+      "event": "quality-gate",
+      "detail": {
+        "checks": [
+          {
+            "name": "repro",
+            "passed": true
+          },
+          {
+            "name": "contract",
+            "passed": true
+          },
+          {
+            "name": "negative",
+            "passed": true
+          },
+          {
+            "name": "load",
+            "passed": true
+          }
+        ],
+        "passing": 4,
+        "required": 3,
+        "finalStatus": "awaiting_human_review"
+      }
+    },
+    {
+      "sequence": 16,
+      "signal": "SIG-003",
+      "team": "operations",
+      "agent": "rollout-observer",
+      "event": "cost-recorded",
+      "detail": {
+        "estimatedUsd": 0.0168,
+        "notMeasured": true,
+        "model": "illustrative policy rate"
+      }
+    },
+    {
+      "sequence": 17,
+      "signal": "SIG-004",
+      "team": "product",
+      "agent": "product-discovery",
+      "event": "collected",
+      "detail": {
+        "fingerprint": "63a522ce7d05b53f86da560fbc14747b22a60de50707f19169fcb61dc9616d60",
+        "baseline": {
+          "choiceMissRatePct": 12,
+          "p90Ms": 680
+        },
+        "synthetic": true
+      }
+    },
+    {
+      "sequence": 18,
+      "signal": "SIG-004",
+      "team": "design",
+      "agent": "experience-design",
+      "event": "journey-proposed",
+      "detail": {
+        "exceptions": [
+          "unavailable meal",
+          "cutoff",
+          "dietary unknown"
+        ],
+        "humanOwner": "designer"
+      }
+    },
+    {
+      "sequence": 19,
+      "signal": "SIG-004",
+      "team": "app",
+      "agent": "orchestrator",
+      "event": "routed",
+      "detail": {
+        "route": "needs_info",
+        "reason": "missing reproduction or low confidence",
+        "policyVersion": "demo-v1"
+      }
+    },
+    {
+      "sequence": 20,
+      "signal": "SIG-004",
+      "team": "operations",
+      "agent": "rollout-observer",
+      "event": "cost-recorded",
+      "detail": {
+        "estimatedUsd": 0.0054,
+        "notMeasured": true,
+        "model": "illustrative policy rate"
+      }
+    },
+    {
+      "sequence": 21,
+      "signal": "SIG-005",
+      "team": "product",
+      "agent": "product-discovery",
+      "event": "collected",
+      "detail": {
+        "fingerprint": "237e2fdc043fba2592310812a26ede3fc972684ab9567ce73817fd7d478601e6",
+        "baseline": {
+          "choiceMissRatePct": 12,
+          "p90Ms": 680
+        },
+        "synthetic": true
+      }
+    },
+    {
+      "sequence": 22,
+      "signal": "SIG-005",
+      "team": "design",
+      "agent": "experience-design",
+      "event": "journey-proposed",
+      "detail": {
+        "exceptions": [
+          "unavailable meal",
+          "cutoff",
+          "dietary unknown"
+        ],
+        "humanOwner": "designer"
+      }
+    },
+    {
+      "sequence": 23,
+      "signal": "SIG-005",
+      "team": "platform",
+      "agent": "orchestrator",
+      "event": "routed",
+      "detail": {
+        "route": "human_only",
+        "reason": "safety-critical tag",
+        "policyVersion": "demo-v1"
+      }
+    },
+    {
+      "sequence": 24,
+      "signal": "SIG-005",
+      "team": "operations",
+      "agent": "rollout-observer",
+      "event": "cost-recorded",
+      "detail": {
+        "estimatedUsd": 0.0081,
+        "notMeasured": true,
+        "model": "illustrative policy rate"
+      }
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "SIG-001",
+      "team": "app",
+      "route": "eligible",
+      "status": "awaiting_human_review",
+      "reason": "bounded work candidate",
+      "checks": [
+        {
+          "name": "repro",
+          "passed": true
+        },
+        {
+          "name": "contract",
+          "passed": true
+        },
+        {
+          "name": "negative",
+          "passed": true
+        },
+        {
+          "name": "accessibility",
+          "passed": true
+        }
+      ],
+      "estimatedUsd": 0.0141,
+      "inputHash": "cf96e54f4f10df214dd2cec4dbb1712fb49b926cdaf89a552d35e889b4b7c4e4",
+      "requiredHuman": "engineer + QE + release owner",
+      "releaseApproved": false,
+      "customerCommitment": false
+    },
+    {
+      "id": "SIG-002",
+      "team": "safety",
+      "route": "human_only",
+      "status": "human_only",
+      "reason": "safety-critical tag",
+      "checks": [
+        {
+          "name": "repro",
+          "passed": true
+        },
+        {
+          "name": "contract",
+          "passed": true
+        },
+        {
+          "name": "negative",
+          "passed": true
+        }
+      ],
+      "estimatedUsd": 0.00795,
+      "inputHash": "65cc6b47968e454f23f872382fde79684df2ecd76c56aaedf7728f6d0f60dd3d",
+      "requiredHuman": "domain and security owner",
+      "releaseApproved": false,
+      "customerCommitment": false
+    },
+    {
+      "id": "SIG-003",
+      "team": "platform",
+      "route": "eligible",
+      "status": "awaiting_human_review",
+      "reason": "bounded work candidate",
+      "checks": [
+        {
+          "name": "repro",
+          "passed": true
+        },
+        {
+          "name": "contract",
+          "passed": true
+        },
+        {
+          "name": "negative",
+          "passed": true
+        },
+        {
+          "name": "load",
+          "passed": true
+        }
+      ],
+      "estimatedUsd": 0.0168,
+      "inputHash": "6f5a5371e8002418bdbac2347cae32d02396539f41b0361b2f2948d30a73e4e8",
+      "requiredHuman": "engineer + QE + release owner",
+      "releaseApproved": false,
+      "customerCommitment": false
+    },
+    {
+      "id": "SIG-004",
+      "team": "app",
+      "route": "needs_info",
+      "status": "needs_info",
+      "reason": "missing reproduction or low confidence",
+      "checks": [
+        {
+          "name": "repro",
+          "passed": false
+        }
+      ],
+      "estimatedUsd": 0.0054,
+      "inputHash": "254e2053e26f8a112dc2f64da23a16eb4f8edc451d6514c23c69a1c5eebb8954",
+      "requiredHuman": "PM/engineer",
+      "releaseApproved": false,
+      "customerCommitment": false
+    },
+    {
+      "id": "SIG-005",
+      "team": "platform",
+      "route": "human_only",
+      "status": "human_only",
+      "reason": "safety-critical tag",
+      "checks": [
+        {
+          "name": "repro",
+          "passed": true
+        },
+        {
+          "name": "contract",
+          "passed": true
+        },
+        {
+          "name": "negative",
+          "passed": true
+        }
+      ],
+      "estimatedUsd": 0.0081,
+      "inputHash": "e9699bd3071ab8f2ac13bc034ea41bcc7f3ae64ed1df41fd1453abd7eb31b20c",
+      "requiredHuman": "domain and security owner",
+      "releaseApproved": false,
+      "customerCommitment": false
+    }
+  ],
+  "summary": {
+    "signals": 5,
+    "reviewReady": 2,
+    "humanOnly": 2,
+    "needsInfo": 1,
+    "estimatedUsd": 0.05235,
+    "releaseApproved": false
+  }
+}

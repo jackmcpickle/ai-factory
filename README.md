@@ -1,13 +1,13 @@
-# Qantas AI
+# Qantas Applied AI delivery demo
 
-Private working notes for Jack's Senior Manager, Applied AI technical challenge. This is a planning package, not a working challenge submission. No Qantas systems, credentials, or passenger data are used.
+Runnable, synthetic project-scoped delivery workflow for Jack's Senior Manager, Applied AI challenge. This is a private review package, not a submission to Qantas. No passenger data, model calls, airline integration or customer commitments.
 
-- [Outline and brief build plan](PLAN.md)
-- [Full timestamped auto-caption transcript](video-transcript.txt) of [Steve's 17:34 TikTok](https://www.tiktok.com/@steve8708/video/7688793433128848653). Automatic captions contain transcription errors; do not quote as a corrected verbatim transcript.
-- [Raw WebVTT captions](video-captions.vtt)
-- [Qantas technical challenge source text](challenge-source.txt), extracted from the PDF received from Michael Pulella on 25 September 2026. Check the original PDF for layout and exact requirements.
-- [Source ledger](SOURCES.md)
+Start with [README-RUNNABLE.md](README-RUNNABLE.md) for Node 22+ setup, the simulated schedule/webhook loop model, tests and safety limits. [DEMO.md](DEMO.md) is the panel walkthrough. [PLAN.md](PLAN.md), [DIAGRAMS.md](DIAGRAMS.md) and [SOURCES.md](SOURCES.md) preserve the challenge context and editable Mermaid diagrams.
 
-The diagrams are Mermaid in [DIAGRAMS.md](DIAGRAMS.md), so GitHub renders them and they remain editable. The proposed workflow is a design hypothesis. Human review and release gates here intentionally differ from the creator's broader auto-merge practices.
+```sh
+npm run check
+npm run demo
+npm run demo -- --trigger webhook --out outputs/webhook-run.json
+```
 
-**Deadline context:** the interview is Tuesday 29 September, 9:30-11:00 AM Adelaide. The recruiter's brief asks for working files and a ZIP two hours beforehand, 7:30 AM Adelaide. Nothing in this repository has been submitted to the panel.
+The program does not run a scheduler, serve a webhook or invoke an LLM; it selects project-local loop descriptors against synthetic trigger input. A passing check is not a meal commitment or release approval. The submitted ZIP and panel email still require Jack's review.

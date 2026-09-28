@@ -63,3 +63,7 @@ Track agent runs and acceptance by stage/team, tokens, elapsed time, retries, te
 ## Intentional exclusions
 
 No customer chatbot, production credentials, passenger records, real model calls, unattended code writing, auto-merge, airline integration or fabricated production metrics. Focus is a credible, changeable workflow artifact. For the existing context, diagrams and full challenge source, read `PLAN.md`, `DIAGRAMS.md` and `challenge-source.txt` in this repository; this ZIP includes a snapshot of those files for a single handoff. Demo on Jack's machine by screen share, or unzip and run on a Node 22+ machine.
+
+## Repository path
+
+The runnable source is in `apps/`, `packages/`, `agents/` and `fixtures/` in this repository. `outputs/` includes deterministic sample traces.

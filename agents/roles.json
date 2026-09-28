@@ -1,0 +1,7 @@
+{
+ "product-discovery":{"team":"product","may":"cluster synthetic signals, draft hypothesis and baseline","cannot":"decide product scope or use passenger data","humanOwner":"PM"},
+ "experience-design":{"team":"design","may":"sketch a journey and exception states","cannot":"approve accessibility or customer commitments","humanOwner":"designer"},
+ "bounded-implementation":{"team":"app-or-platform","may":"propose a small code change and failing-then-passing test","cannot":"merge or access production","humanOwner":"engineer"},
+ "independent-verification":{"team":"quality","may":"check contract, negative cases, accessibility and trace","cannot":"self-certify a fix or infer dietary truth","humanOwner":"QE"},
+ "rollout-observer":{"team":"operations","may":"report pilot metrics, cost, drift and recurrence","cannot":"release, rollback or change a booking","humanOwner":"release manager"}
+}
