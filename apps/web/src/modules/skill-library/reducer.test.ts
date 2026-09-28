@@ -24,6 +24,23 @@ describe('skill library', () => {
     expect(model.pendingZipFileName).toBeNull()
   })
 
+  it('clears a pending zip when a later file is not a zip', () => {
+    const pending = skillLibraryReducer(createSkillLibraryModel(), {
+      type: 'RECORD_ZIP',
+      fileName: 'review.zip',
+    })
+    const cleared = skillLibraryReducer(pending, {
+      type: 'RECORD_ZIP',
+      fileName: 'notes.txt',
+    })
+    expect(cleared.pendingZipFileName).toBeNull()
+    const saved = skillLibraryReducer(cleared, {
+      type: 'SUBMIT_SKILL',
+      draft,
+    })
+    expect(saved.skills[0]?.zipFileName).toBeNull()
+  })
+
   it('shows a chosen zip before submit and stores it on the skill', () => {
     const pending = skillLibraryReducer(createSkillLibraryModel(), {
       type: 'RECORD_ZIP',

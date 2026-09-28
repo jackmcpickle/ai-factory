@@ -48,6 +48,7 @@ export function SkillForm(): ReactElement {
     if (!isZipFileName(file.name)) {
       setZipError('Choose a .zip file')
       form.setFieldValue('zipFileName', null)
+      uploadSkillZipMutation({ fileName: file.name })
       return
     }
     setZipError(null)

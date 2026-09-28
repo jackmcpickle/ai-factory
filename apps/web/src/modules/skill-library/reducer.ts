@@ -34,7 +34,9 @@ export function skillLibraryReducer(
 ): SkillLibraryModel {
   switch (action.type) {
     case 'RECORD_ZIP':
-      if (!isZipFileName(action.fileName)) return model
+      if (!isZipFileName(action.fileName)) {
+        return { ...model, pendingZipFileName: null }
+      }
       return { ...model, pendingZipFileName: action.fileName.trim() }
     case 'CLEAR_ZIP':
       return { ...model, pendingZipFileName: null }
