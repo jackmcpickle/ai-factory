@@ -1,6 +1,6 @@
 # Qantas Applied AI delivery demo
 
-Runnable, synthetic project-scoped delivery workflow for Jack's Senior Manager, Applied AI challenge. This is a private review package, not a submission to Qantas. No passenger data, model calls, airline integration or customer commitments.
+Runnable, synthetic project-scoped delivery workflow for Jack's Senior Manager, Applied AI challenge. This repository contains the working demonstration for panel review. No passenger data, model calls, airline integration or customer commitments.
 
 Start with [README-RUNNABLE.md](README-RUNNABLE.md) for Node 24 setup, the simulated schedule/webhook loop model, tests and safety limits. [DEMO.md](DEMO.md) is the panel walkthrough. [PLAN.md](PLAN.md), [DIAGRAMS.md](DIAGRAMS.md) and [SOURCES.md](SOURCES.md) preserve the challenge context and editable Mermaid diagrams.
 
@@ -24,7 +24,7 @@ Requires Node 24 (`.nvmrc`). No API keys, network services or model calls. On ev
 | Page | Route | What it shows |
 | --- | --- | --- |
 | Dashboard | `/` (home) | Sample delivery figures for the last 7 days (time to merge, deployments, token cost per PR, time in agent review, PRs merged, lead time) and token spend, cost and time for each agent section. Figures are illustrative sample data, not measurements. |
-| Signals | `/issues` | Every synthetic signal as an issue, with status, priority, assignee and labels. Filter, sort, group and search via URL params; `⌘K` opens the command menu and `C` creates an issue. |
+| Signals | `/issues` | Every synthetic signal as an issue, with status, priority, assignee and labels. Filter, sort, group and search via URL params; ⌘K opens the command menu and C creates an issue. |
 | Issue detail | `/issues/SIG-001` | The agent **Trace** (each role's event and its human owner), the **Supplied checks** evidence, activity and comments, and the **Safety gate**: four synthetic authority cases (complete, dietary mismatch, idempotency replay, missing key) that fail closed or stop at `ELIGIBLE_FOR_HUMAN_REVIEW`. Dietary, allergen and catering issues are flagged as human gates. |
 | Inbox | `/inbox` | Signals the orchestrator produced an outcome for, with the reason and required human. |
 | Views | `/views` | Saved filters: All signals, My issues, Review ready, Human only, Needs information. |
@@ -35,7 +35,7 @@ Requires Node 24 (`.nvmrc`). No API keys, network services or model calls. On ev
 
 The same run is available headless with `pnpm demo`; the UI and CLI share one engine, so a policy change produces the same outcome in both.
 
-The program does not run a scheduler, serve a webhook or invoke an LLM; it selects project-local loop descriptors against synthetic trigger input. A passing check is not a meal commitment or release approval. The submitted ZIP and panel email still require Jack's review.
+The program does not run a scheduler, serve a webhook or invoke an LLM; it selects project-local loop descriptors against synthetic trigger input. A passing check is not a meal commitment or release approval. The panel email and final handoff still require Jack's review.
 
 ## HTML presentation
 
