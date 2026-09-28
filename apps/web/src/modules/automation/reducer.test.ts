@@ -18,6 +18,19 @@ describe('cron expressions', () => {
     expect(isCronExpression('0 0 0')).toBe(false)
     expect(isCronExpression('not a cron')).toBe(false)
   })
+
+  it('rejects out-of-range fields and descending ranges', () => {
+    expect(isCronExpression('99 99 99 99 99')).toBe(false)
+    expect(isCronExpression('10-2 * * * *')).toBe(false)
+    expect(isCronExpression('60 * * * *')).toBe(false)
+    expect(isCronExpression('0 24 * * *')).toBe(false)
+    expect(isCronExpression('0 0 0 * *')).toBe(false)
+    expect(isCronExpression('0 0 1 0 *')).toBe(false)
+    expect(isCronExpression('0 0 1 1 8')).toBe(false)
+    expect(isCronExpression('0 0 1 1 7')).toBe(true)
+    expect(isCronExpression('0,15,30 0 1 1 0')).toBe(true)
+    expect(isCronExpression('0,99 * * * *')).toBe(false)
+  })
 })
 
 describe('schedule labels', () => {
@@ -99,6 +112,15 @@ describe('automation editor', () => {
     const added = automationReducer(createAutomationModel(), {
       type: 'ADD_SCHEDULE',
       schedule: { kind: 'custom', expression: '' },
+    })
+    const failed = automationReducer(added, { type: 'SAVE' })
+    expect(failed.type).toBe('SaveError')
+  })
+
+  it('rejects an out-of-range custom cron on save', () => {
+    const added = automationReducer(createAutomationModel(), {
+      type: 'ADD_SCHEDULE',
+      schedule: { kind: 'custom', expression: '99 99 99 99 99' },
     })
     const failed = automationReducer(added, { type: 'SAVE' })
     expect(failed.type).toBe('SaveError')

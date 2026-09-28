@@ -16,13 +16,62 @@ import type {
   Weekday,
 } from '@/modules/automation/types'
 
-const CRON_PART =
-  /^(\*|\*\/[1-9][0-9]*|[0-9]{1,2}(-[0-9]{1,2})?(\/[1-9][0-9]*)?)(,(\*|\*\/[1-9][0-9]*|[0-9]{1,2}(-[0-9]{1,2})?(\/[1-9][0-9]*)?))*$/
+const CRON_BOUNDS = [
+  { min: 0, max: 59 },
+  { min: 0, max: 23 },
+  { min: 1, max: 31 },
+  { min: 1, max: 12 },
+  { min: 0, max: 7 },
+] as const
+
+function cronNumber(token: string): number | null {
+  if (!/^[0-9]{1,2}$/.test(token)) return null
+  return Number(token)
+}
+
+function inCronBounds(value: number, min: number, max: number): boolean {
+  return value >= min && value <= max
+}
+
+function isCronToken(token: string, min: number, max: number): boolean {
+  const pieces = token.split('/')
+  if (pieces.length > 2) return false
+  const base = pieces[0]
+  if (base.length === 0) return false
+  if (pieces.length === 2) {
+    const stepToken = pieces[1]
+    if (!/^[1-9][0-9]*$/.test(stepToken)) return false
+    if (Number(stepToken) > max) return false
+  }
+  if (base === '*') return true
+  const range = base.split('-')
+  if (range.length === 2) {
+    const start = cronNumber(range[0])
+    const end = cronNumber(range[1])
+    if (start === null || end === null) return false
+    if (!inCronBounds(start, min, max) || !inCronBounds(end, min, max)) {
+      return false
+    }
+    return start <= end
+  }
+  if (range.length !== 1) return false
+  const value = cronNumber(base)
+  if (value === null) return false
+  return inCronBounds(value, min, max)
+}
+
+function isCronField(part: string, min: number, max: number): boolean {
+  return part
+    .split(',')
+    .every((token) => token.length > 0 && isCronToken(token, min, max))
+}
 
 export function isCronExpression(value: string): boolean {
   const parts = value.trim().split(/\s+/)
   if (parts.length !== 5) return false
-  return parts.every((part) => CRON_PART.test(part))
+  return CRON_BOUNDS.every((bound, index) =>
+    isCronField(parts[index], bound.min, bound.max),
+  )
 }
 
 export function isHourlyMinute(
