@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": "node .agents/hooks/secureRead.ts",
+        "matcher": "Read|Grep|Glob|Shell",
+        "failClosed": true
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "node .agents/hooks/postFormat.ts",
+        "matcher": "Write|StrReplace"
+      }
+    ]
+  }
+}

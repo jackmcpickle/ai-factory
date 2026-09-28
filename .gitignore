@@ -1,4 +1,8 @@
 node_modules/
 .env*
+!.env.example
 .DS_Store
 coverage/
+
+# Agent hook runtime logs
+.cursor/hooks.log
