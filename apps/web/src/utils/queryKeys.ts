@@ -1,3 +1,8 @@
+export const dashboardKeys = {
+  all: ['dashboard'] as const,
+  snapshot: () => [...dashboardKeys.all, 'snapshot'] as const,
+}
+
 export const automationKeys = {
   all: ['automation'] as const,
   details: () => [...automationKeys.all, 'detail'] as const,

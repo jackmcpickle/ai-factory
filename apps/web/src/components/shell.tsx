@@ -5,6 +5,7 @@ import {
   Bot,
   Inbox,
   Layers,
+  LayoutDashboard,
   Moon,
   Plus,
   Search,
@@ -270,6 +271,13 @@ function Sidebar({
             icon={<Shield className="size-4" />}
             label="Policy"
             active={pathname === '/policy'}
+            onNavigate={onNavigate}
+          />
+          <NavLink
+            to="/"
+            icon={<LayoutDashboard className="size-4" />}
+            label="Dashboard"
+            active={pathname === '/'}
             onNavigate={onNavigate}
           />
           <NavLink
