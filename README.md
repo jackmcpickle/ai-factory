@@ -23,7 +23,8 @@ Requires Node 24 (`.nvmrc`). No API keys, network services or model calls. On ev
 
 | Page | Route | What it shows |
 | --- | --- | --- |
-| Signals | `/issues` (home) | Every synthetic signal as an issue, with status, priority, assignee and labels. Filter, sort, group and search via URL params; `⌘K` opens the command menu and `C` creates an issue. |
+| Dashboard | `/` (home) | Sample delivery figures for the last 7 days (time to merge, deployments, token cost per PR, time in agent review, PRs merged, lead time) and token spend, cost and time for each agent section. Figures are illustrative sample data, not measurements. |
+| Signals | `/issues` | Every synthetic signal as an issue, with status, priority, assignee and labels. Filter, sort, group and search via URL params; `⌘K` opens the command menu and `C` creates an issue. |
 | Issue detail | `/issues/SIG-001` | The agent **Trace** (each role's event and its human owner), the **Supplied checks** evidence, activity and comments, and the **Safety gate**: four synthetic authority cases (complete, dietary mismatch, idempotency replay, missing key) that fail closed or stop at `ELIGIBLE_FOR_HUMAN_REVIEW`. Dietary, allergen and catering issues are flagged as human gates. |
 | Inbox | `/inbox` | Signals the orchestrator produced an outcome for, with the reason and required human. |
 | Views | `/views` | Saved filters: All signals, My issues, Review ready, Human only, Needs information. |
