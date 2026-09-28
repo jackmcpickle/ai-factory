@@ -1,8 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { RulesView } from "@/modules/rules";
+import { FEATURE_PATH } from "@/lib/features";
 
 export const Route = createFileRoute("/automation/rules")({
-  head: () => ({ meta: [{ title: "Rules · Qantas AI" }] }),
-  component: RulesView,
+  beforeLoad: () => {
+    throw redirect({ to: FEATURE_PATH.rules });
+  },
 });

@@ -13,7 +13,11 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as AutomationRouteRouteImport } from './routes/automation/route'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppInboxRouteImport } from './routes/_app/inbox'
+import { Route as AppIntegrationsRouteImport } from './routes/_app/integrations'
 import { Route as AppPolicyRouteImport } from './routes/_app/policy'
+import { Route as AppRulesRouteImport } from './routes/_app/rules'
+import { Route as AppSkillsRouteImport } from './routes/_app/skills'
+import { Route as AppValidatorRouteImport } from './routes/_app/validator'
 import { Route as AppViewsRouteImport } from './routes/_app/views'
 import { Route as AutomationIndexRouteImport } from './routes/automation/index'
 import { Route as AutomationIntegrationsRouteImport } from './routes/automation/integrations'
@@ -46,9 +50,29 @@ const AppInboxRoute = AppInboxRouteImport.update({
   path: '/inbox',
   getParentRoute: () => AppRoute,
 } as any)
+const AppIntegrationsRoute = AppIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPolicyRoute = AppPolicyRouteImport.update({
   id: '/policy',
   path: '/policy',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRulesRoute = AppRulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSkillsRoute = AppSkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppValidatorRoute = AppValidatorRouteImport.update({
+  id: '/validator',
+  path: '/validator',
   getParentRoute: () => AppRoute,
 } as any)
 const AppViewsRoute = AppViewsRouteImport.update({
@@ -116,7 +140,11 @@ export interface FileRoutesByFullPath {
   '/automation': typeof AutomationRouteRouteWithChildren
   '/': typeof AppIndexRoute
   '/inbox': typeof AppInboxRoute
+  '/integrations': typeof AppIntegrationsRoute
   '/policy': typeof AppPolicyRoute
+  '/rules': typeof AppRulesRoute
+  '/skills': typeof AppSkillsRoute
+  '/validator': typeof AppValidatorRoute
   '/views': typeof AppViewsRoute
   '/automation/integrations': typeof AutomationIntegrationsRoute
   '/automation/rules': typeof AutomationRulesRoute
@@ -132,7 +160,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/inbox': typeof AppInboxRoute
+  '/integrations': typeof AppIntegrationsRoute
   '/policy': typeof AppPolicyRoute
+  '/rules': typeof AppRulesRoute
+  '/skills': typeof AppSkillsRoute
+  '/validator': typeof AppValidatorRoute
   '/views': typeof AppViewsRoute
   '/automation/integrations': typeof AutomationIntegrationsRoute
   '/automation/rules': typeof AutomationRulesRoute
@@ -152,7 +184,11 @@ export interface FileRoutesById {
   '/automation': typeof AutomationRouteRouteWithChildren
   '/_app': typeof AppRouteWithChildren
   '/_app/inbox': typeof AppInboxRoute
+  '/_app/integrations': typeof AppIntegrationsRoute
   '/_app/policy': typeof AppPolicyRoute
+  '/_app/rules': typeof AppRulesRoute
+  '/_app/skills': typeof AppSkillsRoute
+  '/_app/validator': typeof AppValidatorRoute
   '/_app/views': typeof AppViewsRoute
   '/automation/integrations': typeof AutomationIntegrationsRoute
   '/automation/rules': typeof AutomationRulesRoute
@@ -173,7 +209,11 @@ export interface FileRouteTypes {
     | '/automation'
     | '/'
     | '/inbox'
+    | '/integrations'
     | '/policy'
+    | '/rules'
+    | '/skills'
+    | '/validator'
     | '/views'
     | '/automation/integrations'
     | '/automation/rules'
@@ -189,7 +229,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/inbox'
+    | '/integrations'
     | '/policy'
+    | '/rules'
+    | '/skills'
+    | '/validator'
     | '/views'
     | '/automation/integrations'
     | '/automation/rules'
@@ -208,7 +252,11 @@ export interface FileRouteTypes {
     | '/automation'
     | '/_app'
     | '/_app/inbox'
+    | '/_app/integrations'
     | '/_app/policy'
+    | '/_app/rules'
+    | '/_app/skills'
+    | '/_app/validator'
     | '/_app/views'
     | '/automation/integrations'
     | '/automation/rules'
@@ -259,11 +307,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppInboxRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/integrations': {
+      id: '/_app/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof AppIntegrationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/policy': {
       id: '/_app/policy'
       path: '/policy'
       fullPath: '/policy'
       preLoaderRoute: typeof AppPolicyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/rules': {
+      id: '/_app/rules'
+      path: '/rules'
+      fullPath: '/rules'
+      preLoaderRoute: typeof AppRulesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/skills': {
+      id: '/_app/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof AppSkillsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/validator': {
+      id: '/_app/validator'
+      path: '/validator'
+      fullPath: '/validator'
+      preLoaderRoute: typeof AppValidatorRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/views': {
@@ -375,7 +451,11 @@ const AutomationRouteRouteWithChildren = AutomationRouteRoute._addFileChildren(
 
 interface AppRouteChildren {
   AppInboxRoute: typeof AppInboxRoute
+  AppIntegrationsRoute: typeof AppIntegrationsRoute
   AppPolicyRoute: typeof AppPolicyRoute
+  AppRulesRoute: typeof AppRulesRoute
+  AppSkillsRoute: typeof AppSkillsRoute
+  AppValidatorRoute: typeof AppValidatorRoute
   AppViewsRoute: typeof AppViewsRoute
   AppIndexRoute: typeof AppIndexRoute
   AppIssuesIssueIdRoute: typeof AppIssuesIssueIdRoute
@@ -388,7 +468,11 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppInboxRoute: AppInboxRoute,
+  AppIntegrationsRoute: AppIntegrationsRoute,
   AppPolicyRoute: AppPolicyRoute,
+  AppRulesRoute: AppRulesRoute,
+  AppSkillsRoute: AppSkillsRoute,
+  AppValidatorRoute: AppValidatorRoute,
   AppViewsRoute: AppViewsRoute,
   AppIndexRoute: AppIndexRoute,
   AppIssuesIssueIdRoute: AppIssuesIssueIdRoute,

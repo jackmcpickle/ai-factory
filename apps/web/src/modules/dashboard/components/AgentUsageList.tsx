@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactElement } from "react";
 
+import { FEATURE_PATH } from "@/lib/features";
 import { AgentUsageFigures } from "@/modules/dashboard/components/AgentUsageFigures";
 import { AGENT_ID } from "@/modules/dashboard/types";
 import type { AgentUsage } from "@/modules/dashboard/types";
@@ -34,7 +35,7 @@ function AgentSectionLink({ agent }: { agent: AgentUsage }): ReactElement {
   switch (agent.id) {
     case AGENT_ID.skills: {
       return (
-        <Link to="/automation/skills" aria-label={label} className={className}>
+        <Link to={FEATURE_PATH.skills} aria-label={label} className={className}>
           Open
         </Link>
       );
@@ -42,7 +43,7 @@ function AgentSectionLink({ agent }: { agent: AgentUsage }): ReactElement {
     case AGENT_ID.validator: {
       return (
         <Link
-          to="/automation/validator"
+          to={FEATURE_PATH.validator}
           aria-label={label}
           className={className}
         >
@@ -52,14 +53,18 @@ function AgentSectionLink({ agent }: { agent: AgentUsage }): ReactElement {
     }
     case AGENT_ID.rules: {
       return (
-        <Link to="/automation/rules" aria-label={label} className={className}>
+        <Link to={FEATURE_PATH.rules} aria-label={label} className={className}>
           Open
         </Link>
       );
     }
     case AGENT_ID.automations: {
       return (
-        <Link to="/automation" aria-label={label} className={className}>
+        <Link
+          to={FEATURE_PATH.automation}
+          aria-label={label}
+          className={className}
+        >
           Open
         </Link>
       );

@@ -1,8 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { SkillLibraryView } from "@/modules/skill-library";
+import { FEATURE_PATH } from "@/lib/features";
 
 export const Route = createFileRoute("/automation/skills")({
-  head: () => ({ meta: [{ title: "Skill library · Qantas AI" }] }),
-  component: SkillLibraryView,
+  beforeLoad: () => {
+    throw redirect({ to: FEATURE_PATH.skills });
+  },
 });

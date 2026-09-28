@@ -1,8 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { ValidatorView } from "@/modules/validator";
+import { FEATURE_PATH } from "@/lib/features";
 
 export const Route = createFileRoute("/automation/validator")({
-  head: () => ({ meta: [{ title: "Validator · Qantas AI" }] }),
-  component: ValidatorView,
+  beforeLoad: () => {
+    throw redirect({ to: FEATURE_PATH.validator });
+  },
 });

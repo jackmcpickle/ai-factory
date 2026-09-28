@@ -31,7 +31,11 @@ Requires Node 24 (`.nvmrc`). No API keys, network services or model calls. On ev
 | Projects | `/projects` | The tenancy boundary. `meal-choice-demo` and `separate-sandbox` each have Overview, Signals and Loops tabs; Loops shows which schedule or webhook loop matched the active trigger, and the sandbox proves a webhook does not cross projects. |
 | Teams | `/teams` | Global teams assigned into projects, with members and open signal counts. |
 | Policy | `/policy` | Live policy mutation. Add or remove human-only tags (**Add ui** reproduces the demo: `SIG-001` moves from review-ready to human-only and the version becomes `demo-v2`), switch between the **Daily review** schedule and **Feedback webhook** triggers, and see the run summary, illustrative cost and `Release approved: no`. |
-| Automations | `/automation` | Mock agent-loop editor: triggers, tools, agent instructions and run history, plus **Skill library**, **Rules**, **Validator** and **Integrations** subpages. Everything stays in the browser; no engine, service or model is called. |
+| Automations | `/automation` | Mock agent-loop editor: name, repository, author, triggers, tools, agent instructions, run history, Run now and Save, plus that agent's sample token spend, cost and time. |
+| Skill library | `/skills` | Add, load or share a skill. Zip files stay in the browser. Shows that agent's sample token spend, cost and time. |
+| Validator | `/validator` | Write a validation, pick a part of the app and add keywords. Shows that agent's sample token spend, cost and time. |
+| Rules | `/rules` | Write a plain-language rule and record a mock pull-request result. Shows that agent's sample token spend, cost and time. |
+| Integrations | `/integrations` | Connect Slack, webhooks, Jira, email and similar tools. Connection details stay in the browser. No token metrics. |
 
 The same run is available headless with `pnpm demo`; the UI and CLI share one engine, so a policy change produces the same outcome in both.
 

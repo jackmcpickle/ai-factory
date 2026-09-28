@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { FEATURE_PATH, isAutomationTabPath } from "@/lib/features";
 import {
   SAMPLE_AGENTS,
   SAMPLE_MERGED_PULL_REQUESTS,
@@ -16,6 +17,7 @@ import {
 } from "@/modules/dashboard/helpers";
 import { dashboardSnapshotSchema } from "@/modules/dashboard/schemas/dashboard.schema";
 import {
+  AGENT_HREFS,
   AGENT_ID,
   AGENT_IDS,
   DELIVERY_METRIC_ID,
@@ -79,6 +81,18 @@ describe("token and cost formatting", () => {
       );
     }
   );
+});
+
+describe("agent links", () => {
+  it.each([
+    ["automations", FEATURE_PATH.automation],
+    ["skills", FEATURE_PATH.skills],
+    ["validator", FEATURE_PATH.validator],
+    ["rules", FEATURE_PATH.rules],
+  ] as const)("opens %s at %s", (id, path) => {
+    expect(AGENT_HREFS[id]).toBe(path);
+    expect(isAutomationTabPath(path)).toBeFalsy();
+  });
 });
 
 describe("agent token metrics", () => {

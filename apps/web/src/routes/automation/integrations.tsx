@@ -1,8 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { IntegrationsView } from "@/modules/integrations";
+import { FEATURE_PATH } from "@/lib/features";
 
 export const Route = createFileRoute("/automation/integrations")({
-  head: () => ({ meta: [{ title: "Integrations · Qantas AI" }] }),
-  component: IntegrationsView,
+  beforeLoad: () => {
+    throw redirect({ to: FEATURE_PATH.integrations });
+  },
 });

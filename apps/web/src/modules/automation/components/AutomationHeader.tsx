@@ -4,7 +4,6 @@ import { ArrowLeft, ChevronDown, Pencil } from "lucide-react";
 import { useRef } from "react";
 import type { ChangeEvent, ReactElement } from "react";
 
-import { EditorNav } from "@/components/editor-frame";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -162,7 +161,6 @@ export function AutomationHeader({
           {saveError}
         </p>
       ) : null}
-      <EditorNav />
     </header>
   );
 }

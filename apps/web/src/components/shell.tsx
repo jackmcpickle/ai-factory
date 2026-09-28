@@ -5,10 +5,14 @@ import {
   Inbox,
   Layers,
   LayoutDashboard,
+  Library,
   Moon,
+  Plug,
   Plus,
+  ScrollText,
   Search,
   Shield,
+  ShieldCheck,
   Sun,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -36,6 +40,7 @@ import {
 import { ScrollArea } from "#/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTitle } from "#/components/ui/sheet";
 import { CURRENT_USER_ID, teamMeta } from "#/lib/catalog";
+import { FEATURE_PATH } from "#/lib/features";
 import {
   SAVED_VIEWS,
   defaultTrigger,
@@ -229,17 +234,48 @@ function Sidebar({
             onNavigate={onNavigate}
           />
           <NavLink
-            to="/"
+            to={FEATURE_PATH.dashboard}
             icon={<LayoutDashboard className="size-4" />}
             label="Dashboard"
-            active={pathname === "/"}
+            active={pathname === FEATURE_PATH.dashboard}
             onNavigate={onNavigate}
           />
           <NavLink
-            to="/automation"
+            to={FEATURE_PATH.automation}
             icon={<Bot className="size-4" />}
             label="Automations"
-            active={pathname.startsWith("/automation")}
+            active={
+              pathname === FEATURE_PATH.automation ||
+              pathname === `${FEATURE_PATH.automation}/`
+            }
+            onNavigate={onNavigate}
+          />
+          <NavLink
+            to={FEATURE_PATH.skills}
+            icon={<Library className="size-4" />}
+            label="Skill library"
+            active={pathname === FEATURE_PATH.skills}
+            onNavigate={onNavigate}
+          />
+          <NavLink
+            to={FEATURE_PATH.validator}
+            icon={<ShieldCheck className="size-4" />}
+            label="Validator"
+            active={pathname === FEATURE_PATH.validator}
+            onNavigate={onNavigate}
+          />
+          <NavLink
+            to={FEATURE_PATH.rules}
+            icon={<ScrollText className="size-4" />}
+            label="Rules"
+            active={pathname === FEATURE_PATH.rules}
+            onNavigate={onNavigate}
+          />
+          <NavLink
+            to={FEATURE_PATH.integrations}
+            icon={<Plug className="size-4" />}
+            label="Integrations"
+            active={pathname === FEATURE_PATH.integrations}
             onNavigate={onNavigate}
           />
           <Section label="Your teams" />
