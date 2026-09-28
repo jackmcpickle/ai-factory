@@ -1,6 +1,6 @@
 # Applied AI delivery demo
 
-Runnable, synthetic project-scoped delivery workflow. The web app and CLI share one orchestrator over sample data. There are no passenger records, model calls, airline integrations or customer commitments.
+Runnable, synthetic project-scoped delivery workflow. The web app and CLI share one orchestrator over sample data. There are no passenger records, airline integrations or customer commitments. Only the [factory CLI](#factory-cli) calls models; everything else runs offline.
 
 Start with the web app below, or run the CLI demo. See [editable diagrams](DIAGRAMS.md) for the signal-to-release flow, human gates, meal-commitment guardrail and project-local loops. The [presentation guide](apps/presentation/README.md) covers the separate HTML slide deck.
 
@@ -36,6 +36,32 @@ Requires Node 24 (`.nvmrc`). No API keys, network services or model calls. On ev
 The same run is available headless with `pnpm demo`; the UI and CLI share one engine, so a policy change produces the same outcome in both.
 
 The program does not run a scheduler, serve a webhook or invoke an LLM; it selects project-local loop descriptors against synthetic trigger input. A passing check is not a meal commitment or release approval. Outputs and policy changes in this demo are illustrative; real releases and commitments require human approval.
+
+## Factory CLI
+
+`apps/factory` takes a synthetic ticket and runs it through live agents with [Sandcastle](https://github.com/mattpocock/sandcastle) against this repo's web app:
+
+| Step | Model | Output |
+| --- | --- | --- |
+| Triage | Jev ([TypeSafe](https://docs.typesafe.ai)) | `eligible`, `needs_info` (lists what is missing) or `human_only`. Only `eligible` continues. |
+| Root cause | Sonnet | Handoff: root cause, files to read or change, discovery questions, proposed fix, test plan. Read only. |
+| Minimum fix | Opus | Failing test first, smallest change, commit on `agent/<ticket>-<time>`. |
+| Review routing | Jev | Backend, frontend or both. Falls back to changed paths when Jev is unsure. |
+| Reviews | Opus + `elite-backend` / `elite-react` | Each reviewer fixes what it finds on the branch and reports anything unresolved. |
+| Merge gate | Jev + rules | Human review if Jev flags risk, safety impact or open concerns, or the diff touches guardrail paths, fails checks or exceeds 300 lines. |
+| PR | Opus + `elite-merge` | Opens the PR. Gated PRs get the `needs-human-review` label and stop; the rest are babysat through CI to merge. |
+
+Agent steps share one Docker sandbox per ticket. Each step's JSON and log land in `.sandcastle/runs/<run>/` (gitignored).
+
+```sh
+# once: add TYPESAFE_API_KEY and ANTHROPIC_API_KEY (or CLAUDE_CODE_OAUTH_TOKEN) to .env, then
+pnpm factory:image
+pnpm factory --ticket fixtures/tickets/QF-102-unclear.json   # stops at triage: needs_info
+pnpm factory --ticket fixtures/tickets/QF-101-clear.json --no-pr   # full run, local branch only
+pnpm factory --ticket fixtures/tickets/QF-101-clear.json     # full run, PR and merge
+```
+
+`--local` runs the agents on the host in a git worktree instead of Docker. The merge step always runs on the host because it needs your `gh` and git credentials. Model ids can be overridden with `FACTORY_ANALYST_MODEL` and `FACTORY_ENGINEER_MODEL`.
 
 ## HTML presentation
 

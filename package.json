@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "pnpm --dir apps/web dev",
     "demo": "node apps/orchestrator/src/cli.js",
+    "factory": "node --env-file-if-exists=.env apps/factory/src/cli.js",
+    "factory:image": "docker build --build-arg AGENT_UID=$(id -u) --build-arg AGENT_GID=$(id -g) -t sandcastle:qantas-factory apps/factory",
     "presentation": "node apps/presentation/server.mjs",
     "presentation:check": "pnpm --dir apps/presentation run check",
     "lint": "ultracite check",

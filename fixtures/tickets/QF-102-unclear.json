@@ -1,0 +1,7 @@
+{
+  "id": "QF-102",
+  "synthetic": true,
+  "title": "Search is broken",
+  "reporter": "synthetic-pm",
+  "body": "Search doesn't really work, I couldn't find the thing I was looking for this morning. Can we make it smarter? Needs fixing before the demo."
+}

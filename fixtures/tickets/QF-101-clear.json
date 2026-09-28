@@ -1,0 +1,7 @@
+{
+  "id": "QF-101",
+  "synthetic": true,
+  "title": "New issue dialog keeps the previous team, status and priority after cancelling",
+  "reporter": "synthetic-qe",
+  "body": "Where: the \"New issue\" dialog in the web app (open it with Cmd+K, then \"New issue\").\n\nSteps to reproduce:\n1. Open the New issue dialog.\n2. Change Priority to Urgent, Status to In Progress and Team to Platform.\n3. Press Esc (or click outside) to cancel without creating the issue.\n4. Open the New issue dialog again.\n\nExpected: the dialog opens with the defaults: Team App, Status Todo, Priority Medium, empty title and description.\n\nActual: title and description are cleared, but Team, Status and Priority keep the values from the cancelled draft. It also happens after successfully creating an issue, so the next issue silently inherits the last priority.\n\nImpact: people file issues with the wrong priority and team without noticing."
+}

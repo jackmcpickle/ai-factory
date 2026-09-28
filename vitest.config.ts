@@ -7,6 +7,7 @@ export default defineConfig({
     coverage: {
       include: [
         "apps/orchestrator/src/**",
+        "apps/factory/src/**",
         "packages/contracts/**",
         "apps/web/src/**",
       ],
@@ -19,6 +20,7 @@ export default defineConfig({
           environment: "node",
           include: [
             "apps/orchestrator/**/*.test.js",
+            "apps/factory/**/*.test.js",
             "packages/*/**/*.test.js",
             ".agents/hooks/**/*.test.ts",
           ],

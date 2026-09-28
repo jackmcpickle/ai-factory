@@ -6,3 +6,6 @@ coverage/
 
 # Agent hook runtime logs
 .cursor/hooks.log
+
+# Factory CLI worktrees, logs and run artifacts
+.sandcastle/
