@@ -1,3 +1,5 @@
+import { FEATURE_PATH } from "@/lib/features";
+
 export const AGENT_IDS = [
   "automations",
   "skills",
@@ -15,10 +17,10 @@ export const AGENT_ID = {
 } as const satisfies Record<AgentId, AgentId>;
 
 export const AGENT_HREFS = {
-  automations: "/automation",
-  skills: "/automation/skills",
-  validator: "/automation/validator",
-  rules: "/automation/rules",
+  automations: FEATURE_PATH.automation,
+  skills: FEATURE_PATH.skills,
+  validator: FEATURE_PATH.validator,
+  rules: FEATURE_PATH.rules,
 } as const satisfies Record<AgentId, string>;
 
 export type AgentHref = (typeof AGENT_HREFS)[AgentId];

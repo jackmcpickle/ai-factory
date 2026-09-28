@@ -17,6 +17,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "#/components/ui/command";
+import { FEATURE_PATH } from "#/lib/features";
 import { SAVED_VIEWS, defaultTrigger, issueSearch } from "#/lib/search";
 
 export function CommandMenu() {
@@ -92,6 +93,44 @@ export function CommandMenu() {
             onSelect={() => go(() => navigate({ to: "/inbox" }))}
           >
             Inbox
+          </CommandItem>
+          <CommandItem
+            value="Dashboard"
+            onSelect={() => go(() => navigate({ to: FEATURE_PATH.dashboard }))}
+          >
+            Dashboard
+          </CommandItem>
+          <CommandItem
+            value="Automations"
+            onSelect={() => go(() => navigate({ to: FEATURE_PATH.automation }))}
+          >
+            Automations
+          </CommandItem>
+          <CommandItem
+            value="Skill library"
+            onSelect={() => go(() => navigate({ to: FEATURE_PATH.skills }))}
+          >
+            Skill library
+          </CommandItem>
+          <CommandItem
+            value="Validator"
+            onSelect={() => go(() => navigate({ to: FEATURE_PATH.validator }))}
+          >
+            Validator
+          </CommandItem>
+          <CommandItem
+            value="Rules"
+            onSelect={() => go(() => navigate({ to: FEATURE_PATH.rules }))}
+          >
+            Rules
+          </CommandItem>
+          <CommandItem
+            value="Integrations"
+            onSelect={() =>
+              go(() => navigate({ to: FEATURE_PATH.integrations }))
+            }
+          >
+            Integrations
           </CommandItem>
         </CommandGroup>
         <CommandSeparator />

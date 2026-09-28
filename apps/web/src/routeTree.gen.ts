@@ -10,16 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
-import { Route as AutomationRouteRouteImport } from './routes/automation/route'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppAutomationRouteRouteImport } from './routes/_app/automation/route'
 import { Route as AppInboxRouteImport } from './routes/_app/inbox'
+import { Route as AppIntegrationsRouteImport } from './routes/_app/integrations'
 import { Route as AppPolicyRouteImport } from './routes/_app/policy'
+import { Route as AppRulesRouteImport } from './routes/_app/rules'
+import { Route as AppSkillsRouteImport } from './routes/_app/skills'
+import { Route as AppValidatorRouteImport } from './routes/_app/validator'
 import { Route as AppViewsRouteImport } from './routes/_app/views'
-import { Route as AutomationIndexRouteImport } from './routes/automation/index'
-import { Route as AutomationIntegrationsRouteImport } from './routes/automation/integrations'
-import { Route as AutomationRulesRouteImport } from './routes/automation/rules'
-import { Route as AutomationSkillsRouteImport } from './routes/automation/skills'
-import { Route as AutomationValidatorRouteImport } from './routes/automation/validator'
+import { Route as AppAutomationIndexRouteImport } from './routes/_app/automation/index'
+import { Route as AppAutomationIntegrationsRouteImport } from './routes/_app/automation/integrations'
+import { Route as AppAutomationRulesRouteImport } from './routes/_app/automation/rules'
+import { Route as AppAutomationSkillsRouteImport } from './routes/_app/automation/skills'
+import { Route as AppAutomationValidatorRouteImport } from './routes/_app/automation/validator'
 import { Route as AppIssuesIndexRouteImport } from './routes/_app/issues/index'
 import { Route as AppIssuesIssueIdRouteImport } from './routes/_app/issues/$issueId'
 import { Route as AppProjectsIndexRouteImport } from './routes/_app/projects/index'
@@ -31,14 +35,14 @@ const AppRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AutomationRouteRoute = AutomationRouteRouteImport.update({
-  id: '/automation',
-  path: '/automation',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAutomationRouteRoute = AppAutomationRouteRouteImport.update({
+  id: '/automation',
+  path: '/automation',
   getParentRoute: () => AppRoute,
 } as any)
 const AppInboxRoute = AppInboxRouteImport.update({
@@ -46,9 +50,29 @@ const AppInboxRoute = AppInboxRouteImport.update({
   path: '/inbox',
   getParentRoute: () => AppRoute,
 } as any)
+const AppIntegrationsRoute = AppIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPolicyRoute = AppPolicyRouteImport.update({
   id: '/policy',
   path: '/policy',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRulesRoute = AppRulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSkillsRoute = AppSkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppValidatorRoute = AppValidatorRouteImport.update({
+  id: '/validator',
+  path: '/validator',
   getParentRoute: () => AppRoute,
 } as any)
 const AppViewsRoute = AppViewsRouteImport.update({
@@ -56,30 +80,31 @@ const AppViewsRoute = AppViewsRouteImport.update({
   path: '/views',
   getParentRoute: () => AppRoute,
 } as any)
-const AutomationIndexRoute = AutomationIndexRouteImport.update({
+const AppAutomationIndexRoute = AppAutomationIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AutomationRouteRoute,
+  getParentRoute: () => AppAutomationRouteRoute,
 } as any)
-const AutomationIntegrationsRoute = AutomationIntegrationsRouteImport.update({
-  id: '/integrations',
-  path: '/integrations',
-  getParentRoute: () => AutomationRouteRoute,
-} as any)
-const AutomationRulesRoute = AutomationRulesRouteImport.update({
+const AppAutomationIntegrationsRoute =
+  AppAutomationIntegrationsRouteImport.update({
+    id: '/integrations',
+    path: '/integrations',
+    getParentRoute: () => AppAutomationRouteRoute,
+  } as any)
+const AppAutomationRulesRoute = AppAutomationRulesRouteImport.update({
   id: '/rules',
   path: '/rules',
-  getParentRoute: () => AutomationRouteRoute,
+  getParentRoute: () => AppAutomationRouteRoute,
 } as any)
-const AutomationSkillsRoute = AutomationSkillsRouteImport.update({
+const AppAutomationSkillsRoute = AppAutomationSkillsRouteImport.update({
   id: '/skills',
   path: '/skills',
-  getParentRoute: () => AutomationRouteRoute,
+  getParentRoute: () => AppAutomationRouteRoute,
 } as any)
-const AutomationValidatorRoute = AutomationValidatorRouteImport.update({
+const AppAutomationValidatorRoute = AppAutomationValidatorRouteImport.update({
   id: '/validator',
   path: '/validator',
-  getParentRoute: () => AutomationRouteRoute,
+  getParentRoute: () => AppAutomationRouteRoute,
 } as any)
 const AppIssuesIndexRoute = AppIssuesIndexRouteImport.update({
   id: '/issues/',
@@ -113,56 +138,68 @@ const AppTeamsTeamIdRoute = AppTeamsTeamIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/automation': typeof AutomationRouteRouteWithChildren
   '/': typeof AppIndexRoute
+  '/automation': typeof AppAutomationRouteRouteWithChildren
   '/inbox': typeof AppInboxRoute
+  '/integrations': typeof AppIntegrationsRoute
   '/policy': typeof AppPolicyRoute
+  '/rules': typeof AppRulesRoute
+  '/skills': typeof AppSkillsRoute
+  '/validator': typeof AppValidatorRoute
   '/views': typeof AppViewsRoute
-  '/automation/integrations': typeof AutomationIntegrationsRoute
-  '/automation/rules': typeof AutomationRulesRoute
-  '/automation/skills': typeof AutomationSkillsRoute
-  '/automation/validator': typeof AutomationValidatorRoute
-  '/automation/': typeof AutomationIndexRoute
+  '/automation/integrations': typeof AppAutomationIntegrationsRoute
+  '/automation/rules': typeof AppAutomationRulesRoute
+  '/automation/skills': typeof AppAutomationSkillsRoute
+  '/automation/validator': typeof AppAutomationValidatorRoute
   '/issues/$issueId': typeof AppIssuesIssueIdRoute
   '/projects/$projectId': typeof AppProjectsProjectIdRoute
   '/teams/$teamId': typeof AppTeamsTeamIdRoute
+  '/automation/': typeof AppAutomationIndexRoute
   '/issues/': typeof AppIssuesIndexRoute
   '/projects/': typeof AppProjectsIndexRoute
   '/teams/': typeof AppTeamsIndexRoute
 }
 export interface FileRoutesByTo {
   '/inbox': typeof AppInboxRoute
+  '/integrations': typeof AppIntegrationsRoute
   '/policy': typeof AppPolicyRoute
+  '/rules': typeof AppRulesRoute
+  '/skills': typeof AppSkillsRoute
+  '/validator': typeof AppValidatorRoute
   '/views': typeof AppViewsRoute
-  '/automation/integrations': typeof AutomationIntegrationsRoute
-  '/automation/rules': typeof AutomationRulesRoute
-  '/automation/skills': typeof AutomationSkillsRoute
-  '/automation/validator': typeof AutomationValidatorRoute
   '/': typeof AppIndexRoute
-  '/automation': typeof AutomationIndexRoute
+  '/automation/integrations': typeof AppAutomationIntegrationsRoute
+  '/automation/rules': typeof AppAutomationRulesRoute
+  '/automation/skills': typeof AppAutomationSkillsRoute
+  '/automation/validator': typeof AppAutomationValidatorRoute
   '/issues/$issueId': typeof AppIssuesIssueIdRoute
   '/projects/$projectId': typeof AppProjectsProjectIdRoute
   '/teams/$teamId': typeof AppTeamsTeamIdRoute
+  '/automation': typeof AppAutomationIndexRoute
   '/issues': typeof AppIssuesIndexRoute
   '/projects': typeof AppProjectsIndexRoute
   '/teams': typeof AppTeamsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/automation': typeof AutomationRouteRouteWithChildren
   '/_app': typeof AppRouteWithChildren
+  '/_app/automation': typeof AppAutomationRouteRouteWithChildren
   '/_app/inbox': typeof AppInboxRoute
+  '/_app/integrations': typeof AppIntegrationsRoute
   '/_app/policy': typeof AppPolicyRoute
+  '/_app/rules': typeof AppRulesRoute
+  '/_app/skills': typeof AppSkillsRoute
+  '/_app/validator': typeof AppValidatorRoute
   '/_app/views': typeof AppViewsRoute
-  '/automation/integrations': typeof AutomationIntegrationsRoute
-  '/automation/rules': typeof AutomationRulesRoute
-  '/automation/skills': typeof AutomationSkillsRoute
-  '/automation/validator': typeof AutomationValidatorRoute
   '/_app/': typeof AppIndexRoute
-  '/automation/': typeof AutomationIndexRoute
+  '/_app/automation/integrations': typeof AppAutomationIntegrationsRoute
+  '/_app/automation/rules': typeof AppAutomationRulesRoute
+  '/_app/automation/skills': typeof AppAutomationSkillsRoute
+  '/_app/automation/validator': typeof AppAutomationValidatorRoute
   '/_app/issues/$issueId': typeof AppIssuesIssueIdRoute
   '/_app/projects/$projectId': typeof AppProjectsProjectIdRoute
   '/_app/teams/$teamId': typeof AppTeamsTeamIdRoute
+  '/_app/automation/': typeof AppAutomationIndexRoute
   '/_app/issues/': typeof AppIssuesIndexRoute
   '/_app/projects/': typeof AppProjectsIndexRoute
   '/_app/teams/': typeof AppTeamsIndexRoute
@@ -170,62 +207,73 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/automation'
     | '/'
+    | '/automation'
     | '/inbox'
+    | '/integrations'
     | '/policy'
+    | '/rules'
+    | '/skills'
+    | '/validator'
     | '/views'
     | '/automation/integrations'
     | '/automation/rules'
     | '/automation/skills'
     | '/automation/validator'
-    | '/automation/'
     | '/issues/$issueId'
     | '/projects/$projectId'
     | '/teams/$teamId'
+    | '/automation/'
     | '/issues/'
     | '/projects/'
     | '/teams/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/inbox'
+    | '/integrations'
     | '/policy'
+    | '/rules'
+    | '/skills'
+    | '/validator'
     | '/views'
+    | '/'
     | '/automation/integrations'
     | '/automation/rules'
     | '/automation/skills'
     | '/automation/validator'
-    | '/'
-    | '/automation'
     | '/issues/$issueId'
     | '/projects/$projectId'
     | '/teams/$teamId'
+    | '/automation'
     | '/issues'
     | '/projects'
     | '/teams'
   id:
     | '__root__'
-    | '/automation'
     | '/_app'
+    | '/_app/automation'
     | '/_app/inbox'
+    | '/_app/integrations'
     | '/_app/policy'
+    | '/_app/rules'
+    | '/_app/skills'
+    | '/_app/validator'
     | '/_app/views'
-    | '/automation/integrations'
-    | '/automation/rules'
-    | '/automation/skills'
-    | '/automation/validator'
     | '/_app/'
-    | '/automation/'
+    | '/_app/automation/integrations'
+    | '/_app/automation/rules'
+    | '/_app/automation/skills'
+    | '/_app/automation/validator'
     | '/_app/issues/$issueId'
     | '/_app/projects/$projectId'
     | '/_app/teams/$teamId'
+    | '/_app/automation/'
     | '/_app/issues/'
     | '/_app/projects/'
     | '/_app/teams/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AutomationRouteRoute: typeof AutomationRouteRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
 }
 
@@ -238,18 +286,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/automation': {
-      id: '/automation'
-      path: '/automation'
-      fullPath: '/automation'
-      preLoaderRoute: typeof AutomationRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_app/': {
       id: '/_app/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/automation': {
+      id: '/_app/automation'
+      path: '/automation'
+      fullPath: '/automation'
+      preLoaderRoute: typeof AppAutomationRouteRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/inbox': {
@@ -259,11 +307,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppInboxRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/integrations': {
+      id: '/_app/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof AppIntegrationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/policy': {
       id: '/_app/policy'
       path: '/policy'
       fullPath: '/policy'
       preLoaderRoute: typeof AppPolicyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/rules': {
+      id: '/_app/rules'
+      path: '/rules'
+      fullPath: '/rules'
+      preLoaderRoute: typeof AppRulesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/skills': {
+      id: '/_app/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof AppSkillsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/validator': {
+      id: '/_app/validator'
+      path: '/validator'
+      fullPath: '/validator'
+      preLoaderRoute: typeof AppValidatorRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/views': {
@@ -273,40 +349,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppViewsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/automation/': {
-      id: '/automation/'
+    '/_app/automation/': {
+      id: '/_app/automation/'
       path: '/'
       fullPath: '/automation/'
-      preLoaderRoute: typeof AutomationIndexRouteImport
-      parentRoute: typeof AutomationRouteRoute
+      preLoaderRoute: typeof AppAutomationIndexRouteImport
+      parentRoute: typeof AppAutomationRouteRoute
     }
-    '/automation/integrations': {
-      id: '/automation/integrations'
+    '/_app/automation/integrations': {
+      id: '/_app/automation/integrations'
       path: '/integrations'
       fullPath: '/automation/integrations'
-      preLoaderRoute: typeof AutomationIntegrationsRouteImport
-      parentRoute: typeof AutomationRouteRoute
+      preLoaderRoute: typeof AppAutomationIntegrationsRouteImport
+      parentRoute: typeof AppAutomationRouteRoute
     }
-    '/automation/rules': {
-      id: '/automation/rules'
+    '/_app/automation/rules': {
+      id: '/_app/automation/rules'
       path: '/rules'
       fullPath: '/automation/rules'
-      preLoaderRoute: typeof AutomationRulesRouteImport
-      parentRoute: typeof AutomationRouteRoute
+      preLoaderRoute: typeof AppAutomationRulesRouteImport
+      parentRoute: typeof AppAutomationRouteRoute
     }
-    '/automation/skills': {
-      id: '/automation/skills'
+    '/_app/automation/skills': {
+      id: '/_app/automation/skills'
       path: '/skills'
       fullPath: '/automation/skills'
-      preLoaderRoute: typeof AutomationSkillsRouteImport
-      parentRoute: typeof AutomationRouteRoute
+      preLoaderRoute: typeof AppAutomationSkillsRouteImport
+      parentRoute: typeof AppAutomationRouteRoute
     }
-    '/automation/validator': {
-      id: '/automation/validator'
+    '/_app/automation/validator': {
+      id: '/_app/automation/validator'
       path: '/validator'
       fullPath: '/automation/validator'
-      preLoaderRoute: typeof AutomationValidatorRouteImport
-      parentRoute: typeof AutomationRouteRoute
+      preLoaderRoute: typeof AppAutomationValidatorRouteImport
+      parentRoute: typeof AppAutomationRouteRoute
     }
     '/_app/issues/': {
       id: '/_app/issues/'
@@ -353,29 +429,33 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AutomationRouteRouteChildren {
-  AutomationIntegrationsRoute: typeof AutomationIntegrationsRoute
-  AutomationRulesRoute: typeof AutomationRulesRoute
-  AutomationSkillsRoute: typeof AutomationSkillsRoute
-  AutomationValidatorRoute: typeof AutomationValidatorRoute
-  AutomationIndexRoute: typeof AutomationIndexRoute
+interface AppAutomationRouteRouteChildren {
+  AppAutomationIntegrationsRoute: typeof AppAutomationIntegrationsRoute
+  AppAutomationRulesRoute: typeof AppAutomationRulesRoute
+  AppAutomationSkillsRoute: typeof AppAutomationSkillsRoute
+  AppAutomationValidatorRoute: typeof AppAutomationValidatorRoute
+  AppAutomationIndexRoute: typeof AppAutomationIndexRoute
 }
 
-const AutomationRouteRouteChildren: AutomationRouteRouteChildren = {
-  AutomationIntegrationsRoute: AutomationIntegrationsRoute,
-  AutomationRulesRoute: AutomationRulesRoute,
-  AutomationSkillsRoute: AutomationSkillsRoute,
-  AutomationValidatorRoute: AutomationValidatorRoute,
-  AutomationIndexRoute: AutomationIndexRoute,
+const AppAutomationRouteRouteChildren: AppAutomationRouteRouteChildren = {
+  AppAutomationIntegrationsRoute: AppAutomationIntegrationsRoute,
+  AppAutomationRulesRoute: AppAutomationRulesRoute,
+  AppAutomationSkillsRoute: AppAutomationSkillsRoute,
+  AppAutomationValidatorRoute: AppAutomationValidatorRoute,
+  AppAutomationIndexRoute: AppAutomationIndexRoute,
 }
 
-const AutomationRouteRouteWithChildren = AutomationRouteRoute._addFileChildren(
-  AutomationRouteRouteChildren,
-)
+const AppAutomationRouteRouteWithChildren =
+  AppAutomationRouteRoute._addFileChildren(AppAutomationRouteRouteChildren)
 
 interface AppRouteChildren {
+  AppAutomationRouteRoute: typeof AppAutomationRouteRouteWithChildren
   AppInboxRoute: typeof AppInboxRoute
+  AppIntegrationsRoute: typeof AppIntegrationsRoute
   AppPolicyRoute: typeof AppPolicyRoute
+  AppRulesRoute: typeof AppRulesRoute
+  AppSkillsRoute: typeof AppSkillsRoute
+  AppValidatorRoute: typeof AppValidatorRoute
   AppViewsRoute: typeof AppViewsRoute
   AppIndexRoute: typeof AppIndexRoute
   AppIssuesIssueIdRoute: typeof AppIssuesIssueIdRoute
@@ -387,8 +467,13 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAutomationRouteRoute: AppAutomationRouteRouteWithChildren,
   AppInboxRoute: AppInboxRoute,
+  AppIntegrationsRoute: AppIntegrationsRoute,
   AppPolicyRoute: AppPolicyRoute,
+  AppRulesRoute: AppRulesRoute,
+  AppSkillsRoute: AppSkillsRoute,
+  AppValidatorRoute: AppValidatorRoute,
   AppViewsRoute: AppViewsRoute,
   AppIndexRoute: AppIndexRoute,
   AppIssuesIssueIdRoute: AppIssuesIssueIdRoute,
@@ -402,7 +487,6 @@ const AppRouteChildren: AppRouteChildren = {
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  AutomationRouteRoute: AutomationRouteRouteWithChildren,
   AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport

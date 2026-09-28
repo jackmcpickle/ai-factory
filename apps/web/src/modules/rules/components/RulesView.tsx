@@ -1,3 +1,4 @@
+import { ScrollText } from "lucide-react";
 import type { ReactElement } from "react";
 
 import { EditorPage } from "@/components/editor-frame";
@@ -9,6 +10,7 @@ export function RulesView(): ReactElement {
   return (
     <EditorPage
       title="Rules"
+      icon={<ScrollText className="text-muted-foreground size-4" />}
       lede="Write a plain-language rule, keep it in the list, and run it. Each rule is aimed at the app on all pull requests. Running records a mock pull-request result on this page. No engine is called."
     >
       <AgentUsageReadout agentId={AGENT_ID.rules} />
