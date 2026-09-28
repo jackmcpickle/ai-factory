@@ -1,6 +1,6 @@
 # Applied AI delivery presentation
 
-A dependency-free HTML slide sub-app covering the Applied AI Technical Challenge and the staged workflows in [Factor on FigJam](https://www.figma.com/board/tgOCNZD08i86wkTWWJk37X/Factor). It runs separately from the delivery UI and orchestrator.
+A dependency-free HTML slide sub-app covering applied AI delivery and the staged workflows in [Factor on FigJam](https://www.figma.com/board/tgOCNZD08i86wkTWWJk37X/Factor). It runs separately from the delivery UI and orchestrator.
 
 ## Run
 
@@ -67,7 +67,6 @@ The deck uses trusted, repository-authored HTML strings, not user-supplied conte
 - “Jev” from the request has not been identified. The deck describes strict rule-based linting without attributing capabilities to an unverified product. Update the verification slide after clarification.
 - Antiburn's public homepage was inspected on 28 September 2026. It describes local session context/compaction views, parent/subagent and token/cache cost breakdowns, loaded-but-unused skill/MCP/tool diagnostics, usage-limit meters and configuration findings. Slide 18 is an original conceptual illustration of three views, not a product screenshot or live telemetry. Team prompt evaluation is our proposed practice, not an asserted Antiburn team feature. API-equivalent costs are not necessarily billed spend.
 - The repository demo is a synthetic orchestration/control-plane slice. It does not run a live scheduler, real LLM fleet, cloud previews or airline integrations. Slides label those as proposed production capabilities.
-- Challenge source: `../../challenge-source.txt`, extracted earlier from the supplied Applied AI Technical Challenge PDF. Its submission instructions do not authorise external submission.
 
 ## Validation
 
@@ -80,10 +79,9 @@ The first checks JavaScript syntax. The second runs lint, typecheck and the Vite
 
 ## Related material
 
-- [Runnable workflow](../../README-RUNNABLE.md)
-- [Panel walkthrough](../../DEMO.md)
+- [Main README and runnable workflow](../../README.md)
+- [Web app notes](../web/README.md)
 - [Editable diagrams](../../DIAGRAMS.md)
-- [Source notes](../../SOURCES.md)
 - [FigJam workflows](https://www.figma.com/board/tgOCNZD08i86wkTWWJk37X/Factor)
 - [BuildPass factory reference](https://company.buildpass.ai/labs/factory/building-an-effective-software-factory#one-bottleneck-at-a-time)
 - [Antiburn features](https://antiburn.com/)
