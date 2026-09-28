@@ -158,5 +158,5 @@ function compact(value: number): string {
   if (Number.isInteger(rounded)) {
     return String(rounded);
   }
-  return rounded.toFixed(2).replace(/0$/, "");
+  return rounded.toFixed(2).replace(/0$/u, "");
 }

@@ -51,7 +51,7 @@ export const dashboardSnapshotSchema = z
           "Agents must be automations, skill library, validator, and rules",
       });
     }
-    snapshot.agents.forEach((agent, index) => {
+    for (const [index, agent] of snapshot.agents.entries()) {
       if (agent.href !== AGENT_HREFS[agent.id]) {
         ctx.addIssue({
           code: "custom",
@@ -59,5 +59,5 @@ export const dashboardSnapshotSchema = z
           path: ["agents", index, "href"],
         });
       }
-    });
+    }
   });
