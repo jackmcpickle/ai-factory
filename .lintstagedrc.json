@@ -1,3 +1,6 @@
 {
-  "*.{js,jsx,mjs,ts,tsx,json,jsonc,css,md}": ["pnpm exec ultracite fix"]
+  "*.{js,jsx,mjs,ts,tsx}": ["pnpm exec ultracite fix"],
+  "*.{json,jsonc,css,md,yml,yaml}": [
+    "pnpm exec oxfmt --no-error-on-unmatched-pattern"
+  ]
 }

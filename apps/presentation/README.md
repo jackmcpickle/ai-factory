@@ -7,13 +7,13 @@ A dependency-free HTML slide sub-app covering the Applied AI Technical Challenge
 From the repository root:
 
 ```sh
-npm run presentation
+pnpm presentation
 ```
 
 Open **http://localhost:4174**. No install, build, credentials or external assets are needed. It uses the repository's Node runtime (Node 24+ per the root manifest). To change the port:
 
 ```sh
-PORT=4175 npm run presentation
+PORT=4175 pnpm presentation
 ```
 
 Alternatively open `apps/presentation/index.html` directly in a browser. The server binds to loopback and serves only the four presentation assets. External reference links require internet access; they open in a new tab. Nothing is sent automatically.
@@ -72,11 +72,11 @@ The deck uses trusted, repository-authored HTML strings, not user-supplied conte
 ## Validation
 
 ```sh
-npm run presentation:check
-npm run check
+pnpm presentation:check
+pnpm check
 ```
 
-The first checks JavaScript syntax. The second runs the existing orchestrator checks. Verification completed: syntax checks, all seven existing orchestrator tests, all 22 slides navigated at desktop and 390px mobile widths without horizontal page overflow, contents links, notes, Home-key navigation, and browser console review (no warnings or errors). Desktop workflow diagrams and the stacked mobile verification stage were visually inspected. Print CSS is included; printed output and fullscreen were not separately verified. This deck does not add a Playwright test harness; Playwright discussed in the slides is part of the proposed delivery validation system.
+The first checks JavaScript syntax. The second runs lint, typecheck and the Vitest suites. Verification completed: syntax checks, the orchestrator tests, all 22 slides navigated at desktop and 390px mobile widths without horizontal page overflow, contents links, notes, Home-key navigation, and browser console review (no warnings or errors). Desktop workflow diagrams and the stacked mobile verification stage were visually inspected. Print CSS is included; printed output and fullscreen were not separately verified. This deck does not add a Playwright test harness; Playwright discussed in the slides is part of the proposed delivery validation system.
 
 ## Related material
 
