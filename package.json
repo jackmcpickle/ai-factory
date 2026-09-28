@@ -1,4 +1,4 @@
 {
   "name":"qantas-ai-delivery-factory-demo", "private":true, "version":"0.1.0", "type":"module", "packageManager":"pnpm@11.4.0",
-  "engines":{"node":">=22"}, "scripts":{"demo":"node apps/orchestrator/src/cli.js", "test":"node --test apps/orchestrator/test/*.test.js", "check":"node --check packages/contracts/src.js && node --check apps/orchestrator/src/engine.js && node --check apps/orchestrator/src/cli.js && node --test apps/orchestrator/test/*.test.js"}
+  "engines":{"node":">=22"}, "scripts":{"demo":"node apps/orchestrator/src/cli.js", "test":"node --test apps/orchestrator/test/*.test.js", "check":"node --check packages/contracts/src.js && node --check apps/orchestrator/src/engine.js && node --check apps/orchestrator/src/cli.js && node --test apps/orchestrator/test/*.test.js", "dev:web":"pnpm --dir apps/web dev"}
 }
