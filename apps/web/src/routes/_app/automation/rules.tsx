@@ -2,8 +2,8 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { FEATURE_PATH } from "@/lib/features";
 
-export const Route = createFileRoute("/automation/validator")({
+export const Route = createFileRoute("/_app/automation/rules")({
   beforeLoad: () => {
-    throw redirect({ to: FEATURE_PATH.validator });
+    throw redirect({ to: FEATURE_PATH.rules });
   },
 });

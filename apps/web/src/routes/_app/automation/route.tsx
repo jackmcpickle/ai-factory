@@ -3,7 +3,7 @@ import type { ReactElement } from "react";
 
 import { AutomationProvider } from "@/modules/automation";
 
-export const Route = createFileRoute("/automation")({
+export const Route = createFileRoute("/_app/automation")({
   component: AutomationLayout,
 });
 

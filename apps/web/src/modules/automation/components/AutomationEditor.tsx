@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
 
-import { EditorFrame } from "@/components/editor-frame";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AgentInstructions } from "@/modules/automation/components/AgentInstructions";
 import { AutomationHeader } from "@/modules/automation/components/AutomationHeader";
@@ -30,7 +29,7 @@ export function AutomationEditor(): ReactElement {
   }
 
   return (
-    <EditorFrame>
+    <div className="flex h-full min-h-0 flex-col">
       <AutomationHeader onRun={handleRun} />
       <div className="min-h-0 flex-1 overflow-y-auto">
         <div className="flex max-w-3xl flex-col gap-6 px-6 py-4">
@@ -58,6 +57,6 @@ export function AutomationEditor(): ReactElement {
           </Tabs>
         </div>
       </div>
-    </EditorFrame>
+    </div>
   );
 }

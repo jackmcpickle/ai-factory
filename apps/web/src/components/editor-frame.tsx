@@ -2,18 +2,6 @@ import type { ReactElement, ReactNode } from "react";
 
 import { PageHeader } from "@/components/shell";
 
-export function EditorFrame({
-  children,
-}: {
-  children: ReactNode;
-}): ReactElement {
-  return (
-    <div className="dark bg-background text-foreground flex h-dvh min-h-0 flex-col overflow-hidden">
-      {children}
-    </div>
-  );
-}
-
 export function EditorPage({
   title,
   lede,
