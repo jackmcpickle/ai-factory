@@ -1,6 +1,6 @@
 # Editable workflow diagrams
 
-These diagrams adapt the creator's factory pattern to the Qantas meal-preorder _delivery workflow_, not a customer-facing agent. They are proposals, not depictions of current Qantas architecture.
+These editable diagrams show a proposed meal-preorder delivery workflow, not a customer-facing agent or a live system architecture. They use synthetic examples and keep customer commitments and releases under human control.
 
 ## 1. Product signal to verified release
 
