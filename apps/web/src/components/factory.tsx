@@ -142,8 +142,7 @@ export function FactoryProvider({ children }: { children: ReactNode }) {
       markAllRead: () => {
         const next: Record<string, boolean> = {}
         for (const issue of issuesFromRun(result, drafts, overrides)) {
-          if (issue.outcome && issue.outcome.status !== 'needs_info')
-            next[issue.id] = true
+          if (issue.outcome) next[issue.id] = true
         }
         setInboxRead(next)
       },

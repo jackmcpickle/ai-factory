@@ -163,10 +163,7 @@ function Sidebar({
   const rawSearch = useRouterState({ select: (state) => state.location.search })
   const search = validateIssueSearch(rawSearch)
   const unread = factory.issues.filter(
-    (issue) =>
-      issue.outcome &&
-      issue.outcome.status !== 'needs_info' &&
-      !factory.inboxRead[issue.id],
+    (issue) => issue.outcome && !factory.inboxRead[issue.id],
   ).length
   const user = factory.result.workspace.users.find(
     (item) => item.id === CURRENT_USER_ID,
@@ -175,7 +172,7 @@ function Sidebar({
   return (
     <aside
       className={cn(
-        'h-full w-[244px] shrink-0 flex-col border-r bg-sidebar',
+        'flex h-full min-h-0 w-[244px] shrink-0 flex-col border-r bg-sidebar',
         className,
       )}
     >

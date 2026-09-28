@@ -37,6 +37,7 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
   useEffect(() => {
     setTitle(issue.title)
     setDescription(issue.description)
+    setComment('')
   }, [issue.id, issue.title, issue.description])
 
   useEffect(() => {

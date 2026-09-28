@@ -146,7 +146,16 @@ export function IssueExplorer({
   })
 
   const visible = table.getRowModel().rows.filter((row) => !row.getIsGrouped())
-  const selected = visible[cursor]?.original
+  const selectedIndex =
+    visible.length === 0
+      ? -1
+      : Math.min(Math.max(cursor, 0), visible.length - 1)
+  const selectedId =
+    selectedIndex >= 0 ? visible[selectedIndex]?.original.id : undefined
+  const ordered = useMemo(
+    () => leafIssues(table.getSortedRowModel().rows),
+    [table, sorting, grouping, filtered],
+  )
 
   useEffect(() => {
     setCursor(0)
@@ -165,23 +174,26 @@ export function IssueExplorer({
       if (commandOpen || createOpen || isTyping(event.target)) return
       if (event.key === 'j' || event.key === 'ArrowDown') {
         event.preventDefault()
-        setCursor((index) => Math.min(visible.length - 1, index + 1))
+        setCursor((index) => {
+          if (visible.length === 0) return 0
+          return Math.min(visible.length - 1, Math.max(0, index) + 1)
+        })
       }
       if (event.key === 'k' || event.key === 'ArrowUp') {
         event.preventDefault()
         setCursor((index) => Math.max(0, index - 1))
       }
-      if (event.key === 'Enter' && visible.length > 0) {
+      if (event.key === 'Enter' && selectedId) {
         event.preventDefault()
         void navigate({
           to: '/issues/$issueId',
-          params: { issueId: selected.id },
+          params: { issueId: selectedId },
         })
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [commandOpen, createOpen, navigate, selected, visible.length])
+  }, [commandOpen, createOpen, navigate, selectedId, visible.length])
 
   return (
     <div className="flex h-full min-h-0 flex-col">
@@ -230,7 +242,7 @@ export function IssueExplorer({
             </div>
           </div>
         ) : search.layout === 'board' ? (
-          <Board issues={filtered} selectedId={selected.id} />
+          <Board issues={ordered} selectedId={selectedId} />
         ) : (
           <div>
             {table.getRowModel().rows.map((row) =>
@@ -258,7 +270,9 @@ export function IssueExplorer({
                 <IssueRow
                   key={row.id}
                   issue={row.original}
-                  selected={row.original.id === selected.id}
+                  selected={
+                    selectedId !== undefined && row.original.id === selectedId
+                  }
                   showStatus={search.group !== 'status'}
                 />
               ),
@@ -268,6 +282,19 @@ export function IssueExplorer({
       </div>
     </div>
   )
+}
+
+function leafIssues(
+  rows: ReturnType<
+    ReturnType<typeof useTable<typeof features, IssueView>>['getSortedRowModel']
+  >['rows'],
+): IssueView[] {
+  const ordered: IssueView[] = []
+  for (const row of rows) {
+    if (row.getIsGrouped()) ordered.push(...leafIssues(row.subRows))
+    else ordered.push(row.original)
+  }
+  return ordered
 }
 
 function IssueRow({
