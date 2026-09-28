@@ -1,7 +1,16 @@
 import { useEffect, useState, createContext, useContext } from 'react'
 import type { ReactNode } from 'react'
 import { Link, useRouterState } from '@tanstack/react-router'
-import { Inbox, Layers, Moon, Plus, Search, Shield, Sun } from 'lucide-react'
+import {
+  Bot,
+  Inbox,
+  Layers,
+  Moon,
+  Plus,
+  Search,
+  Shield,
+  Sun,
+} from 'lucide-react'
 import { cn } from 'cn'
 import { Button } from '#/components/ui/button'
 import {
@@ -261,6 +270,13 @@ function Sidebar({
             icon={<Shield className="size-4" />}
             label="Policy"
             active={pathname === '/policy'}
+            onNavigate={onNavigate}
+          />
+          <NavLink
+            to="/automation"
+            icon={<Bot className="size-4" />}
+            label="Automations"
+            active={pathname.startsWith('/automation')}
             onNavigate={onNavigate}
           />
           <Section label="Your teams" />
