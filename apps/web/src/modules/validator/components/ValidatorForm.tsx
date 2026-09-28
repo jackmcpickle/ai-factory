@@ -1,40 +1,41 @@
-import { useState } from 'react'
-import type { FormEvent, ReactElement } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { APP_PART_OPTIONS } from '@/lib/app-part'
-import { addKeyword, removeKeyword } from '@/modules/validator/helpers'
-import { useRunValidationMutation } from '@/modules/validator/hooks/useRunValidationMutation'
-import { useValidatorForm } from '@/modules/validator/hooks/useValidatorForm'
-import { validatorDraftSchema } from '@/modules/validator/schemas/validator.schema'
-import type { ValidatorDraft } from '@/modules/validator/types'
+import { useState } from "react";
+import type { FormEvent, ReactElement } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { APP_PART_OPTIONS } from "@/lib/app-part";
+import { addKeyword, removeKeyword } from "@/modules/validator/helpers";
+import { useRunValidationMutation } from "@/modules/validator/hooks/useRunValidationMutation";
+import { useValidatorForm } from "@/modules/validator/hooks/useValidatorForm";
+import { validatorDraftSchema } from "@/modules/validator/schemas/validator.schema";
+import type { ValidatorDraft } from "@/modules/validator/types";
 
 function emptyDraft(): ValidatorDraft {
   return {
-    instructions: '',
-    target: 'frontend',
-    featureName: '',
+    instructions: "",
+    target: "frontend",
+    featureName: "",
     keywords: [],
-  }
+  };
 }
 
 export function ValidatorForm(): ReactElement {
-  const { runValidationMutationAsync } = useRunValidationMutation()
-  const [keyword, setKeyword] = useState('')
+  const { runValidationMutationAsync } = useRunValidationMutation();
+  const [keyword, setKeyword] = useState("");
   const form = useValidatorForm({
     defaultValues: emptyDraft(),
     validators: {
       onSubmit: validatorDraftSchema,
     },
     onSubmit: async ({ value }) => {
-      await runValidationMutationAsync(value)
+      await runValidationMutationAsync(value);
     },
-  })
+  });
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault()
-    event.stopPropagation()
-    void form.handleSubmit()
+    event.preventDefault();
+    event.stopPropagation();
+    void form.handleSubmit();
   }
 
   return (
@@ -66,7 +67,7 @@ export function ValidatorForm(): ReactElement {
       </form.AppField>
       <form.Field name="keywords">
         {(field) => {
-          const error = keywordFieldError(field.state.meta.errors)
+          const error = keywordFieldError(field.state.meta.errors);
           return (
             <div className="flex flex-col gap-2">
               <span className="text-sm font-medium">Keywords</span>
@@ -88,52 +89,56 @@ export function ValidatorForm(): ReactElement {
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    field.setValue(addKeyword(field.state.value, keyword))
-                    setKeyword('')
+                    field.setValue(addKeyword(field.state.value, keyword));
+                    setKeyword("");
                   }}
                 >
                   Add
                 </Button>
               </div>
               {error ? (
-                <p className="text-xs text-destructive" role="alert">
+                <p className="text-destructive text-xs" role="alert">
                   {error}
                 </p>
               ) : null}
             </div>
-          )
+          );
         }}
       </form.Field>
       <form.AppForm>
         <form.SubmitButton label="Run validation" pendingLabel="Running..." />
       </form.AppForm>
     </form>
-  )
+  );
 }
 
-function keywordFieldError(errors: ReadonlyArray<unknown>): string | null {
-  const first = errors[0]
-  if (typeof first === 'string' && first.length > 0) return first
+function keywordFieldError(errors: readonly unknown[]): string | null {
+  const [first] = errors;
+  if (typeof first === "string" && first.length > 0) {
+    return first;
+  }
   if (
     first &&
-    typeof first === 'object' &&
-    'message' in first &&
-    typeof first.message === 'string' &&
+    typeof first === "object" &&
+    "message" in first &&
+    typeof first.message === "string" &&
     first.message.length > 0
   ) {
-    return first.message
+    return first.message;
   }
-  return null
+  return null;
 }
 
 function KeywordChips({
   keywords,
   onRemove,
 }: {
-  keywords: readonly string[]
-  onRemove: (keyword: string) => void
+  keywords: readonly string[];
+  onRemove: (keyword: string) => void;
 }): ReactElement | null {
-  if (keywords.length === 0) return null
+  if (keywords.length === 0) {
+    return null;
+  }
   return (
     <ul className="flex flex-wrap gap-2">
       {keywords.map((keyword) => (
@@ -148,5 +153,5 @@ function KeywordChips({
         </li>
       ))}
     </ul>
-  )
+  );
 }

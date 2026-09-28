@@ -1,13 +1,50 @@
 {
- "users":[{"id":"user-pm","name":"Synthetic PM"},{"id":"user-engineer","name":"Synthetic engineer"}],
- "teams":[{"id":"team-app","members":["user-engineer"]},{"id":"team-platform","members":["user-engineer"]},{"id":"team-safety","members":["user-pm"]}],
- "projects":[
-  {"id":"meal-choice-demo","synthetic":true,"assignedUsers":["user-pm"],"assignedTeams":["team-app","team-platform","team-safety"],"loops":[
-   {"id":"daily-discovery","agentRole":"product-discovery","trigger":{"type":"schedule","expression":"daily-review"}},
-   {"id":"feedback-intake","agentRole":"product-discovery","trigger":{"type":"webhook","eventType":"synthetic.feedback.received"}}
-  ]},
-  {"id":"separate-sandbox","synthetic":true,"assignedUsers":[],"assignedTeams":["team-app"],"loops":[
-   {"id":"other-intake","agentRole":"product-discovery","trigger":{"type":"webhook","eventType":"synthetic.feedback.received"}}
-  ]}
- ]
+  "users": [
+    { "id": "user-pm", "name": "Synthetic PM" },
+    { "id": "user-engineer", "name": "Synthetic engineer" }
+  ],
+  "teams": [
+    { "id": "team-app", "members": ["user-engineer"] },
+    { "id": "team-platform", "members": ["user-engineer"] },
+    { "id": "team-safety", "members": ["user-pm"] }
+  ],
+  "projects": [
+    {
+      "id": "meal-choice-demo",
+      "synthetic": true,
+      "assignedUsers": ["user-pm"],
+      "assignedTeams": ["team-app", "team-platform", "team-safety"],
+      "loops": [
+        {
+          "id": "daily-discovery",
+          "agentRole": "product-discovery",
+          "trigger": { "type": "schedule", "expression": "daily-review" }
+        },
+        {
+          "id": "feedback-intake",
+          "agentRole": "product-discovery",
+          "trigger": {
+            "type": "webhook",
+            "eventType": "synthetic.feedback.received"
+          }
+        }
+      ]
+    },
+    {
+      "id": "separate-sandbox",
+      "synthetic": true,
+      "assignedUsers": [],
+      "assignedTeams": ["team-app"],
+      "loops": [
+        {
+          "id": "other-intake",
+          "agentRole": "product-discovery",
+          "trigger": {
+            "type": "webhook",
+            "eventType": "synthetic.feedback.received"
+          }
+        }
+      ]
+    }
+  ]
 }

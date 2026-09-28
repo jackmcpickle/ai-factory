@@ -1,38 +1,39 @@
-import type { FormEvent, ReactElement } from 'react'
-import { APP_PART_OPTIONS } from '@/lib/app-part'
-import { RULE_MODE_OPTIONS } from '@/modules/rules/constants'
-import { useAddRuleMutation } from '@/modules/rules/hooks/useRuleMutations'
-import { useRuleForm } from '@/modules/rules/hooks/useRuleForm'
-import { ruleDraftSchema } from '@/modules/rules/schemas/rule.schema'
-import type { RuleDraft } from '@/modules/rules/types'
+import type { FormEvent, ReactElement } from "react";
+
+import { APP_PART_OPTIONS } from "@/lib/app-part";
+import { RULE_MODE_OPTIONS } from "@/modules/rules/constants";
+import { useRuleForm } from "@/modules/rules/hooks/useRuleForm";
+import { useAddRuleMutation } from "@/modules/rules/hooks/useRuleMutations";
+import { ruleDraftSchema } from "@/modules/rules/schemas/rule.schema";
+import type { RuleDraft } from "@/modules/rules/types";
 
 function emptyDraft(): RuleDraft {
   return {
-    name: '',
-    check: '',
-    mode: 'hold',
-    target: 'frontend',
-    featureName: '',
-  }
+    name: "",
+    check: "",
+    mode: "hold",
+    target: "frontend",
+    featureName: "",
+  };
 }
 
 export function RuleForm(): ReactElement {
-  const { addRuleMutationAsync } = useAddRuleMutation()
+  const { addRuleMutationAsync } = useAddRuleMutation();
   const form = useRuleForm({
     defaultValues: emptyDraft(),
     validators: {
       onSubmit: ruleDraftSchema,
     },
     onSubmit: async ({ value }) => {
-      await addRuleMutationAsync(value)
-      form.reset()
+      await addRuleMutationAsync(value);
+      form.reset();
     },
-  })
+  });
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault()
-    event.stopPropagation()
-    void form.handleSubmit()
+    event.preventDefault();
+    event.stopPropagation();
+    void form.handleSubmit();
   }
 
   return (
@@ -79,5 +80,5 @@ export function RuleForm(): ReactElement {
         <form.SubmitButton label="Add rule" pendingLabel="Adding..." />
       </form.AppForm>
     </form>
-  )
+  );
 }

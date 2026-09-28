@@ -1,31 +1,32 @@
-import { useState } from 'react'
-import type { ReactElement } from 'react'
-import { EditorFrame } from '@/components/editor-frame'
-import { AGENT_ID, AgentUsageReadout } from '@/modules/dashboard'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { AgentInstructions } from '@/modules/automation/components/AgentInstructions'
-import { AutomationHeader } from '@/modules/automation/components/AutomationHeader'
-import { RunHistory } from '@/modules/automation/components/RunHistory'
-import { ToolsSection } from '@/modules/automation/components/ToolsSection'
-import { TriggerSection } from '@/modules/automation/components/TriggerSection'
-import { AUTOMATION_TAB } from '@/modules/automation/types'
-import type { AutomationTab } from '@/modules/automation/types'
-import { useAutomationQuery } from '@/modules/automation/hooks/useAutomationQuery'
+import { useState } from "react";
+import type { ReactElement } from "react";
+
+import { EditorFrame } from "@/components/editor-frame";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AgentInstructions } from "@/modules/automation/components/AgentInstructions";
+import { AutomationHeader } from "@/modules/automation/components/AutomationHeader";
+import { RunHistory } from "@/modules/automation/components/RunHistory";
+import { ToolsSection } from "@/modules/automation/components/ToolsSection";
+import { TriggerSection } from "@/modules/automation/components/TriggerSection";
+import { useAutomationQuery } from "@/modules/automation/hooks/useAutomationQuery";
+import { AUTOMATION_TAB } from "@/modules/automation/types";
+import type { AutomationTab } from "@/modules/automation/types";
+import { AGENT_ID, AgentUsageReadout } from "@/modules/dashboard";
 
 export function AutomationEditor(): ReactElement {
-  const { runs } = useAutomationQuery()
-  const [tab, setTab] = useState<AutomationTab>(AUTOMATION_TAB.settings)
+  const { runs } = useAutomationQuery();
+  const [tab, setTab] = useState<AutomationTab>(AUTOMATION_TAB.settings);
 
   function handleRun(): void {
-    setTab(AUTOMATION_TAB.history)
+    setTab(AUTOMATION_TAB.history);
   }
 
   function handleTab(value: string): void {
     if (value === AUTOMATION_TAB.history) {
-      setTab(AUTOMATION_TAB.history)
-      return
+      setTab(AUTOMATION_TAB.history);
+      return;
     }
-    setTab(AUTOMATION_TAB.settings)
+    setTab(AUTOMATION_TAB.settings);
   }
 
   return (
@@ -40,7 +41,7 @@ export function AutomationEditor(): ReactElement {
                 Settings
               </TabsTrigger>
               <TabsTrigger value={AUTOMATION_TAB.history}>
-                Run History{runs.length > 0 ? ` (${runs.length})` : ''}
+                Run History{runs.length > 0 ? ` (${runs.length})` : ""}
               </TabsTrigger>
             </TabsList>
             <TabsContent
@@ -58,5 +59,5 @@ export function AutomationEditor(): ReactElement {
         </div>
       </div>
     </EditorFrame>
-  )
+  );
 }

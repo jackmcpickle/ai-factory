@@ -1,7 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { AutomationEditor } from '@/modules/automation'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/automation/')({
-  head: () => ({ meta: [{ title: 'Automation · Qantas AI' }] }),
+import { AutomationEditor } from "@/modules/automation";
+
+export const Route = createFileRoute("/automation/")({
+  head: () => ({ meta: [{ title: "Automation · Qantas AI" }] }),
   component: AutomationEditor,
-})
+});

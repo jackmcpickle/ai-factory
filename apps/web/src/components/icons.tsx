@@ -1,15 +1,16 @@
-import { cn } from 'cn'
-import type { Priority, Status } from '#/data/types'
+import { cn } from "cn";
+
+import type { Priority, Status } from "#/data/types";
 
 export function StatusIcon({
   status,
   className,
 }: {
-  status: Status
-  className?: string
+  status: Status;
+  className?: string;
 }) {
-  const common = cn('size-4 shrink-0', className)
-  if (status === 'backlog') {
+  const common = cn("size-4 shrink-0", className);
+  if (status === "backlog") {
     return (
       <svg className={common} viewBox="0 0 16 16" aria-hidden>
         <circle
@@ -22,9 +23,9 @@ export function StatusIcon({
           strokeDasharray="2.4 2.2"
         />
       </svg>
-    )
+    );
   }
-  if (status === 'todo') {
+  if (status === "todo") {
     return (
       <svg className={common} viewBox="0 0 16 16" aria-hidden>
         <circle
@@ -36,9 +37,9 @@ export function StatusIcon({
           strokeWidth="1.5"
         />
       </svg>
-    )
+    );
   }
-  if (status === 'in_progress') {
+  if (status === "in_progress") {
     return (
       <svg className={common} viewBox="0 0 16 16" aria-hidden>
         <circle
@@ -51,9 +52,9 @@ export function StatusIcon({
         />
         <path d="M8 2.6a5.4 5.4 0 0 0 0 10.8z" fill="#f2c94c" />
       </svg>
-    )
+    );
   }
-  if (status === 'in_review') {
+  if (status === "in_review") {
     return (
       <svg className={common} viewBox="0 0 16 16" aria-hidden>
         <circle
@@ -66,9 +67,9 @@ export function StatusIcon({
         />
         <circle cx="8" cy="8" r="2.2" fill="#4cb782" />
       </svg>
-    )
+    );
   }
-  if (status === 'done') {
+  if (status === "done") {
     return (
       <svg className={common} viewBox="0 0 16 16" aria-hidden>
         <circle cx="8" cy="8" r="7" fill="#5e6ad2" />
@@ -81,7 +82,7 @@ export function StatusIcon({
           strokeLinejoin="round"
         />
       </svg>
-    )
+    );
   }
   return (
     <svg className={common} viewBox="0 0 16 16" aria-hidden>
@@ -100,30 +101,32 @@ export function StatusIcon({
         strokeLinecap="round"
       />
     </svg>
-  )
+  );
 }
+
+const PRIORITY_COLOR: Record<Priority, string> = {
+  urgent: "#e5484d",
+  high: "#f2994a",
+  medium: "#f2c94c",
+  low: "#9aa0a8",
+  none: "#9aa0a8",
+};
 
 export function PriorityIcon({
   priority,
   className,
 }: {
-  priority: Priority
-  className?: string
+  priority: Priority;
+  className?: string;
 }) {
-  const active = { none: 0, low: 1, medium: 2, high: 3, urgent: 3 }[priority]
-  const color =
-    priority === 'urgent'
-      ? '#e5484d'
-      : priority === 'high'
-        ? '#f2994a'
-        : priority === 'medium'
-          ? '#f2c94c'
-          : '#9aa0a8'
+  const active = { none: 0, low: 1, medium: 2, high: 3, urgent: 3 }[priority];
+  const color = PRIORITY_COLOR[priority];
   return (
     <svg
-      className={cn('size-4 shrink-0', className)}
+      className={cn("size-4 shrink-0", className)}
       viewBox="0 0 16 16"
       aria-label={priority}
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- inline SVG drawn from priority bars; an <img> would need a separate asset per priority.
       role="img"
     >
       {[
@@ -138,10 +141,10 @@ export function PriorityIcon({
           width="2.2"
           height={bar.h}
           rx="0.6"
-          fill={index < active ? color : 'currentColor'}
+          fill={index < active ? color : "currentColor"}
           opacity={index < active ? 1 : 0.28}
         />
       ))}
     </svg>
-  )
+  );
 }

@@ -1,8 +1,9 @@
-import type { ReactElement } from 'react'
-import { EditorPage } from '@/components/editor-frame'
-import { AGENT_ID, AgentUsageReadout } from '@/modules/dashboard'
-import { RuleForm } from '@/modules/rules/components/RuleForm'
-import { RuleList } from '@/modules/rules/components/RuleList'
+import type { ReactElement } from "react";
+
+import { EditorPage } from "@/components/editor-frame";
+import { AGENT_ID, AgentUsageReadout } from "@/modules/dashboard";
+import { RuleForm } from "@/modules/rules/components/RuleForm";
+import { RuleList } from "@/modules/rules/components/RuleList";
 
 export function RulesView(): ReactElement {
   return (
@@ -14,5 +15,5 @@ export function RulesView(): ReactElement {
       <RuleForm />
       <RuleList />
     </EditorPage>
-  )
+  );
 }

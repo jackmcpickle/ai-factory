@@ -1,34 +1,34 @@
-import type { AppPart } from '@/lib/app-part'
+import type { AppPart } from "@/lib/app-part";
 
-export type ValidatorDraft = {
-  instructions: string
-  target: AppPart
-  featureName: string
-  keywords: string[]
+export interface ValidatorDraft {
+  instructions: string;
+  target: AppPart;
+  featureName: string;
+  keywords: string[];
 }
 
-export type ValidationReview = {
-  id: string
-  at: string
-  targetLabel: string
-  instructions: string
-  keywords: string[]
-  headline: string
-  body: string
+export interface ValidationReview {
+  id: string;
+  at: string;
+  targetLabel: string;
+  instructions: string;
+  keywords: string[];
+  headline: string;
+  body: string;
 }
 
 interface ValidatorBase {
-  nextId: number
-  reviews: ValidationReview[]
+  nextId: number;
+  reviews: ValidationReview[];
 }
 
 export type ValidatorModel =
-  | (ValidatorBase & { type: 'Ready'; error: null })
-  | (ValidatorBase & { type: 'Reviewed'; error: null })
-  | (ValidatorBase & { type: 'Invalid'; error: string })
+  | (ValidatorBase & { type: "Ready"; error: null })
+  | (ValidatorBase & { type: "Reviewed"; error: null })
+  | (ValidatorBase & { type: "Invalid"; error: string });
 
-export type ValidatorAction = {
-  type: 'RUN'
-  draft: ValidatorDraft
-  at: string
+export interface ValidatorAction {
+  type: "RUN";
+  draft: ValidatorDraft;
+  at: string;
 }

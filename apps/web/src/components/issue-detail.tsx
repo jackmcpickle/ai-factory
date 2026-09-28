@@ -1,18 +1,19 @@
-import { useEffect, useRef, useState } from 'react'
-import type { ReactNode } from 'react'
-import { Link } from '@tanstack/react-router'
-import { Button } from '#/components/ui/button'
+import { Link } from "@tanstack/react-router";
+import { useEffect, useEffectEvent, useState } from "react";
+import type { ReactNode } from "react";
+
+import { useFactory } from "#/components/factory";
+import { PriorityIcon, StatusIcon } from "#/components/icons";
+import { LabelPill, TeamMark, UserAvatar } from "#/components/people";
+import { PageHeader } from "#/components/shell";
+import { Button } from "#/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '#/components/ui/popover'
-import { Textarea } from '#/components/ui/textarea'
-import { PageHeader } from '#/components/shell'
-import { useFactory } from '#/components/factory'
-import { PriorityIcon, StatusIcon } from '#/components/icons'
-import { LabelPill, TeamMark, UserAvatar } from '#/components/people'
-import { commentsFor, EVENT_COPY } from '#/lib/issues'
+} from "#/components/ui/popover";
+import { Textarea } from "#/components/ui/textarea";
+import type { IssueView, SafetyDecision } from "#/data/types";
 import {
   PRIORITIES,
   PRIORITY_LABEL,
@@ -21,29 +22,35 @@ import {
   money,
   teamMeta,
   userMeta,
-} from '#/lib/catalog'
-import { issueSearch } from '#/lib/search'
-import type { IssueView, SafetyDecision } from '#/data/types'
+} from "#/lib/catalog";
+import { commentsFor, EVENT_COPY } from "#/lib/issues";
+import { issueSearch } from "#/lib/search";
 
 export function IssueDetail({ issue }: { issue: IssueView }) {
-  const factory = useFactory()
-  const [title, setTitle] = useState(issue.title)
-  const [description, setDescription] = useState(issue.description)
-  const [comment, setComment] = useState('')
-  const comments = commentsFor(factory.comments, issue.id)
-  const markRead = useRef(factory.markRead)
-  markRead.current = factory.markRead
+  const factory = useFactory();
+  const [title, setTitle] = useState(issue.title);
+  const [description, setDescription] = useState(issue.description);
+  const [comment, setComment] = useState("");
+  const [syncedIssue, setSyncedIssue] = useState(issue);
+  const comments = commentsFor(factory.comments, issue.id);
+  const markRead = useEffectEvent((id: string) => factory.markRead(id));
+
+  // Reset the local edit buffers when the issue (or its saved text) changes.
+  if (
+    syncedIssue.id !== issue.id ||
+    syncedIssue.title !== issue.title ||
+    syncedIssue.description !== issue.description
+  ) {
+    setSyncedIssue(issue);
+    setTitle(issue.title);
+    setDescription(issue.description);
+    setComment("");
+  }
 
   useEffect(() => {
-    setTitle(issue.title)
-    setDescription(issue.description)
-    setComment('')
-  }, [issue.id, issue.title, issue.description])
-
-  useEffect(() => {
-    document.title = `${issue.id} ${issue.title} · Meal choice`
-    markRead.current(issue.id)
-  }, [issue.id, issue.title])
+    document.title = `${issue.id} ${issue.title} · Meal choice`;
+    markRead(issue.id);
+  }, [issue.id, issue.title]);
 
   return (
     <div className="flex h-full min-h-0 flex-col">
@@ -51,15 +58,15 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
         title={issue.id}
         icon={<StatusIcon status={issue.status} />}
         actions={
-          <span className="text-[12px] text-muted-foreground">
-            {factory.isFetching ? 'Updating · ' : ''}
-            {issue.draft ? 'Local draft' : factory.result.policy.version}
+          <span className="text-muted-foreground text-[12px]">
+            {factory.isFetching ? "Updating · " : ""}
+            {issue.draft ? "Local draft" : factory.result.policy.version}
           </span>
         }
       />
       <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
         <div className="min-w-0 flex-1 overflow-auto px-6 py-5">
-          <div className="mb-3 flex items-center gap-2 text-[12px] text-muted-foreground">
+          <div className="text-muted-foreground mb-3 flex items-center gap-2 text-[12px]">
             <Link
               to="/issues"
               search={issueSearch()}
@@ -76,7 +83,7 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
             onChange={(event) => setTitle(event.target.value)}
             onBlur={() => {
               if (title.trim() && title !== issue.title) {
-                factory.updateIssue(issue.id, { title: title.trim() })
+                factory.updateIssue(issue.id, { title: title.trim() });
               }
             }}
             className="w-full bg-transparent text-[22px] font-semibold tracking-tight outline-none"
@@ -87,18 +94,18 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
             onChange={(event) => setDescription(event.target.value)}
             onBlur={() => {
               if (description !== issue.description) {
-                factory.updateIssue(issue.id, { description })
+                factory.updateIssue(issue.id, { description });
               }
             }}
-            className="mt-4 min-h-28 w-full resize-none bg-transparent text-[14px] leading-6 text-foreground/90 outline-none"
+            className="text-foreground/90 mt-4 min-h-28 w-full resize-none bg-transparent text-[14px] leading-6 outline-none"
           />
           {issue.labelIds.some(
             (id) =>
-              id === 'human-only' ||
-              id === 'catering-commitment' ||
-              id === 'dietary',
+              id === "human-only" ||
+              id === "catering-commitment" ||
+              id === "dietary"
           ) ? (
-            <p className="mt-2 text-[13px] text-muted-foreground">
+            <p className="text-muted-foreground mt-2 text-[13px]">
               Human gate. This dry run can describe the check, and it cannot
               infer dietary safety or commit a booking or catering order.
             </p>
@@ -110,7 +117,7 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
                 {issue.events.map((event) => {
                   const owner = Object.hasOwn(factory.result.roles, event.agent)
                     ? factory.result.roles[event.agent]
-                    : undefined
+                    : undefined;
                   return (
                     <li
                       key={event.sequence}
@@ -120,17 +127,17 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
                         <div className="text-[13px]">
                           <span className="font-medium">{event.agent}</span>
                           <span className="text-muted-foreground">
-                            {' '}
+                            {" "}
                             · {event.event}
                           </span>
                         </div>
-                        <p className="text-[13px] text-muted-foreground">
+                        <p className="text-muted-foreground text-[13px]">
                           {EVENT_COPY[event.event] ?? event.event}
-                          {owner ? ` Human owner: ${owner.humanOwner}.` : ''}
+                          {owner ? ` Human owner: ${owner.humanOwner}.` : ""}
                         </p>
                       </div>
                     </li>
-                  )
+                  );
                 })}
               </ol>
             </section>
@@ -146,21 +153,21 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
                   >
                     <span
                       className={
-                        check.passed ? 'text-brand' : 'text-destructive'
+                        check.passed ? "text-brand" : "text-destructive"
                       }
                     >
-                      {check.passed ? 'Pass' : 'Fail'}
+                      {check.passed ? "Pass" : "Fail"}
                     </span>
                     <span className="text-muted-foreground">{check.name}</span>
                   </li>
                 ))}
               </ul>
-              <p className="mt-2 text-[12px] text-muted-foreground">
+              <p className="text-muted-foreground mt-2 text-[12px]">
                 Fixture flags, not command output from CI.
               </p>
             </section>
           ) : null}
-          {!issue.draft && issue.labelIds.includes('human-only') ? (
+          {!issue.draft && issue.labelIds.includes("human-only") ? (
             <SafetySamples />
           ) : null}
           <section className="mt-8">
@@ -176,11 +183,11 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
                     <div className="text-[13px]">
                       {
                         factory.result.workspace.users.find(
-                          (user) => user.id === item.authorId,
+                          (user) => user.id === item.authorId
                         )?.name
                       }
                     </div>
-                    <p className="text-[13px] text-muted-foreground">
+                    <p className="text-muted-foreground text-[13px]">
                       {item.body}
                     </p>
                   </div>
@@ -190,9 +197,9 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
             <form
               className="mt-3 flex gap-2"
               onSubmit={(event) => {
-                event.preventDefault()
-                factory.addComment(issue.id, comment)
-                setComment('')
+                event.preventDefault();
+                factory.addComment(issue.id, comment);
+                setComment("");
               }}
             >
               <Textarea
@@ -247,8 +254,8 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
             <OptionPicker
               current={
                 factory.result.workspace.users.find(
-                  (user) => user.id === issue.assigneeId,
-                )?.name ?? 'Unassigned'
+                  (user) => user.id === issue.assigneeId
+                )?.name ?? "Unassigned"
               }
               icon={
                 <UserAvatar
@@ -271,7 +278,7 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
                   />
                   <span>
                     {user.name}
-                    <span className="ml-2 text-muted-foreground">
+                    <span className="text-muted-foreground ml-2">
                       {userMeta(user.id).role}
                     </span>
                   </span>
@@ -317,17 +324,17 @@ export function IssueDetail({ issue }: { issue: IssueView }) {
         </aside>
       </div>
     </div>
-  )
+  );
 }
 
 function SafetySamples() {
-  const { safety } = useFactory().result
+  const { safety } = useFactory().result;
   const rows: { label: string; decision: SafetyDecision }[] = [
-    { label: 'Complete synthetic authority', decision: safety.review },
-    { label: 'Dietary attributes differ', decision: safety.dietaryMismatch },
-    { label: 'Replay of the idempotency key', decision: safety.replay },
-    { label: 'Missing idempotency key', decision: safety.missingKey },
-  ]
+    { label: "Complete synthetic authority", decision: safety.review },
+    { label: "Dietary attributes differ", decision: safety.dietaryMismatch },
+    { label: "Replay of the idempotency key", decision: safety.replay },
+    { label: "Missing idempotency key", decision: safety.missingKey },
+  ];
   return (
     <section className="mt-6">
       <h2 className="mb-2 text-[13px] font-medium">Safety gate</h2>
@@ -338,29 +345,29 @@ function SafetySamples() {
               <span>{row.label}</span>
               <span className="font-medium">{row.decision.decision}</span>
             </div>
-            <p className="mt-1 text-[12px] text-muted-foreground">
+            <p className="text-muted-foreground mt-1 text-[12px]">
               {row.decision.failures.length
-                ? row.decision.failures.join(', ')
-                : 'No failing checks.'}{' '}
-              Commitment executed:{' '}
-              {row.decision.commitmentExecuted ? 'yes' : 'no'}.
+                ? row.decision.failures.join(", ")
+                : "No failing checks."}{" "}
+              Commitment executed:{" "}
+              {row.decision.commitmentExecuted ? "yes" : "no"}.
             </p>
           </li>
         ))}
       </ul>
     </section>
-  )
+  );
 }
 
 function Property({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex items-start gap-2 px-2 py-1">
-      <div className="w-20 shrink-0 pt-1 text-[12px] text-muted-foreground">
+      <div className="text-muted-foreground w-20 shrink-0 pt-1 text-[12px]">
         {label}
       </div>
       <div className="min-w-0 flex-1">{children}</div>
     </div>
-  )
+  );
 }
 
 function OptionPicker({
@@ -368,16 +375,16 @@ function OptionPicker({
   icon,
   children,
 }: {
-  current: string
-  icon: ReactNode
-  children: ReactNode
+  current: string;
+  icon: ReactNode;
+  children: ReactNode;
 }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="flex h-7 w-full items-center gap-2 rounded px-1.5 text-left text-[13px] hover:bg-accent"
+          className="hover:bg-accent flex h-7 w-full items-center gap-2 rounded px-1.5 text-left text-[13px]"
         >
           {icon}
           <span className="truncate">{current}</span>
@@ -387,7 +394,7 @@ function OptionPicker({
         {children}
       </PopoverContent>
     </Popover>
-  )
+  );
 }
 
 function Option({
@@ -395,18 +402,18 @@ function Option({
   onSelect,
   children,
 }: {
-  active: boolean
-  onSelect: () => void
-  children: ReactNode
+  active: boolean;
+  onSelect: () => void;
+  children: ReactNode;
 }) {
   return (
     <button
       type="button"
-      className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-[13px] hover:bg-accent"
+      className="hover:bg-accent flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-[13px]"
       onClick={onSelect}
     >
       {children}
-      {active ? <span className="ml-auto text-brand">✓</span> : null}
+      {active ? <span className="text-brand ml-auto">✓</span> : null}
     </button>
-  )
+  );
 }

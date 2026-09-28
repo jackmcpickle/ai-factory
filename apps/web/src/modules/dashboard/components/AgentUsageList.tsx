@@ -1,13 +1,14 @@
-import { Link } from '@tanstack/react-router'
-import type { ReactElement } from 'react'
-import { AgentUsageFigures } from '@/modules/dashboard/components/AgentUsageFigures'
-import { AGENT_ID } from '@/modules/dashboard/types'
-import type { AgentUsage } from '@/modules/dashboard/types'
+import { Link } from "@tanstack/react-router";
+import type { ReactElement } from "react";
+
+import { AgentUsageFigures } from "@/modules/dashboard/components/AgentUsageFigures";
+import { AGENT_ID } from "@/modules/dashboard/types";
+import type { AgentUsage } from "@/modules/dashboard/types";
 
 export function AgentUsageList({
   agents,
 }: {
-  agents: readonly AgentUsage[]
+  agents: readonly AgentUsage[];
 }): ReactElement {
   return (
     <section aria-label="Agent usage" className="flex flex-col gap-3">
@@ -24,20 +25,21 @@ export function AgentUsageList({
         ))}
       </ul>
     </section>
-  )
+  );
 }
 
 function AgentSectionLink({ agent }: { agent: AgentUsage }): ReactElement {
-  const className = 'text-[12px] text-muted-foreground hover:text-foreground'
-  const label = `Open ${agent.label}`
+  const className = "text-[12px] text-muted-foreground hover:text-foreground";
+  const label = `Open ${agent.label}`;
   switch (agent.id) {
-    case AGENT_ID.skills:
+    case AGENT_ID.skills: {
       return (
         <Link to="/automation/skills" aria-label={label} className={className}>
           Open
         </Link>
-      )
-    case AGENT_ID.validator:
+      );
+    }
+    case AGENT_ID.validator: {
       return (
         <Link
           to="/automation/validator"
@@ -46,22 +48,25 @@ function AgentSectionLink({ agent }: { agent: AgentUsage }): ReactElement {
         >
           Open
         </Link>
-      )
-    case AGENT_ID.rules:
+      );
+    }
+    case AGENT_ID.rules: {
       return (
         <Link to="/automation/rules" aria-label={label} className={className}>
           Open
         </Link>
-      )
-    case AGENT_ID.automations:
+      );
+    }
+    case AGENT_ID.automations: {
       return (
         <Link to="/automation" aria-label={label} className={className}>
           Open
         </Link>
-      )
+      );
+    }
     default: {
-      const unknownAgent: never = agent.id
-      throw new Error(`Unknown agent ${unknownAgent}`)
+      const unknownAgent: never = agent.id;
+      throw new Error(`Unknown agent ${unknownAgent}`);
     }
   }
 }

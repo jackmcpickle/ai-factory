@@ -1,27 +1,28 @@
-import { useMemo, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link } from "@tanstack/react-router";
 import {
   createColumnHelper,
   createSortedRowModel,
   rowSortingFeature,
   tableFeatures,
   useTable,
-} from '@tanstack/react-table'
-import type { SortingState } from '@tanstack/react-table'
-import { Button } from '#/components/ui/button'
-import { Input } from '#/components/ui/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
-import { PageHeader } from '#/components/shell'
-import { triggerLabel, useFactory, webhookTrigger } from '#/components/factory'
-import { UserAvatar } from '#/components/people'
-import { IssueExplorer } from '#/components/issue-explorer'
-import { money, teamMeta } from '#/lib/catalog'
-import { SAVED_VIEWS, defaultTrigger, issueSearch } from '#/lib/search'
-import type { WorkspaceProject } from '#/data/types'
+} from "@tanstack/react-table";
+import type { SortingState } from "@tanstack/react-table";
+import { useMemo, useState } from "react";
+
+import { triggerLabel, useFactory, webhookTrigger } from "#/components/factory";
+import { IssueExplorer } from "#/components/issue-explorer";
+import { UserAvatar } from "#/components/people";
+import { PageHeader } from "#/components/shell";
+import { Button } from "#/components/ui/button";
+import { Input } from "#/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "#/components/ui/tabs";
+import type { WorkspaceProject } from "#/data/types";
+import { money, teamMeta } from "#/lib/catalog";
+import { SAVED_VIEWS, defaultTrigger, issueSearch } from "#/lib/search";
 
 export function InboxPage() {
-  const factory = useFactory()
-  const items = factory.issues.filter((issue) => issue.outcome && !issue.draft)
+  const factory = useFactory();
+  const items = factory.issues.filter((issue) => issue.outcome && !issue.draft);
   return (
     <div className="flex h-full min-h-0 flex-col">
       <PageHeader
@@ -39,13 +40,13 @@ export function InboxPage() {
       />
       <div className="min-h-0 flex-1 overflow-auto">
         {items.map((issue) => {
-          const unread = !factory.inboxRead[issue.id]
+          const unread = !factory.inboxRead[issue.id];
           return (
             <Link
               key={issue.id}
               to="/issues/$issueId"
               params={{ issueId: issue.id }}
-              className="flex items-start gap-3 border-b px-4 py-3 hover:bg-row-hover"
+              className="hover:bg-row-hover flex items-start gap-3 border-b px-4 py-3"
               onClick={() => factory.markRead(issue.id)}
             >
               <UserAvatar
@@ -55,79 +56,79 @@ export function InboxPage() {
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   {unread ? (
-                    <span className="size-1.5 rounded-full bg-brand" />
+                    <span className="bg-brand size-1.5 rounded-full" />
                   ) : null}
                   <span className="truncate text-[13px] font-medium">
                     {issue.title}
                   </span>
                 </div>
-                <p className="mt-0.5 text-[12px] text-muted-foreground">
-                  {issue.id} · {issue.outcome?.reason} ·{' '}
+                <p className="text-muted-foreground mt-0.5 text-[12px]">
+                  {issue.id} · {issue.outcome?.reason} ·{" "}
                   {issue.outcome?.requiredHuman}
                 </p>
               </div>
             </Link>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }
 
-type ProjectRow = {
-  id: string
-  name: string
-  lead: string
-  teams: string
-  loops: number
-  signals: number
+interface ProjectRow {
+  id: string;
+  name: string;
+  lead: string;
+  teams: string;
+  loops: number;
+  signals: number;
 }
 
 const projectFeatures = tableFeatures({
   rowSortingFeature,
   sortedRowModel: createSortedRowModel(),
-})
-const projectHelper = createColumnHelper<typeof projectFeatures, ProjectRow>()
+});
+const projectHelper = createColumnHelper<typeof projectFeatures, ProjectRow>();
 const projectColumns = projectHelper.columns([
-  projectHelper.accessor('name', { header: 'Name' }),
-  projectHelper.accessor('lead', { header: 'Lead' }),
-  projectHelper.accessor('signals', { header: 'Signals' }),
-  projectHelper.accessor('loops', { header: 'Loops' }),
-])
+  projectHelper.accessor("name", { header: "Name" }),
+  projectHelper.accessor("lead", { header: "Lead" }),
+  projectHelper.accessor("signals", { header: "Signals" }),
+  projectHelper.accessor("loops", { header: "Loops" }),
+]);
 
 export function ProjectsPage() {
-  const factory = useFactory()
+  const factory = useFactory();
   const [sorting, setSorting] = useState<SortingState>([
-    { id: 'name', desc: false },
-  ])
+    { id: "name", desc: false },
+  ]);
   const data = useMemo<ProjectRow[]>(
     () =>
       factory.result.workspace.projects.map((project) => ({
         id: project.id,
         name: projectName(project.id),
         lead: leadName(factory.result, project),
-        teams: project.assignedTeams.map((id) => teamMeta(id).name).join(', '),
+        teams: project.assignedTeams.map((id) => teamMeta(id).name).join(", "),
         loops: project.loops.length,
         signals:
           project.id === factory.result.run.projectId
             ? factory.result.run.summary.signals
             : 0,
       })),
-    [factory.result],
-  )
+    [factory.result]
+  );
   const table = useTable({
     features: projectFeatures,
     data,
     columns: projectColumns,
     state: { sorting },
     onSortingChange: setSorting,
-  })
+  });
 
   return (
     <div className="flex h-full min-h-0 flex-col">
       <PageHeader title="Projects" count={data.length} />
       <div className="min-h-0 flex-1 overflow-auto">
-        <div className="grid grid-cols-[1fr_140px_80px_80px] border-b px-4 py-2 text-[12px] text-muted-foreground">
+        <div className="text-muted-foreground grid grid-cols-[1fr_140px_80px_80px] border-b px-4 py-2 text-[12px]">
           {table.getHeaderGroups()[0]?.headers.map((header) => (
             <button
               key={header.id}
@@ -136,8 +137,8 @@ export function ProjectsPage() {
               onClick={header.column.getToggleSortingHandler()}
             >
               {String(header.column.columnDef.header)}
-              {header.column.getIsSorted() === 'asc' ? ' ↑' : ''}
-              {header.column.getIsSorted() === 'desc' ? ' ↓' : ''}
+              {header.column.getIsSorted() === "asc" ? " ↑" : ""}
+              {header.column.getIsSorted() === "desc" ? " ↓" : ""}
             </button>
           ))}
         </div>
@@ -146,7 +147,7 @@ export function ProjectsPage() {
             key={row.id}
             to="/projects/$projectId"
             params={{ projectId: row.original.id }}
-            className="grid grid-cols-[1fr_140px_80px_80px] items-center border-b px-4 py-2 text-[13px] hover:bg-row-hover"
+            className="hover:bg-row-hover grid grid-cols-[1fr_140px_80px_80px] items-center border-b px-4 py-2 text-[13px]"
           >
             <span className="font-medium">{row.original.name}</span>
             <span className="text-muted-foreground">{row.original.lead}</span>
@@ -156,30 +157,30 @@ export function ProjectsPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export function ProjectPage({ projectId }: { projectId: string }) {
-  const factory = useFactory()
+  const factory = useFactory();
   const project = factory.result.workspace.projects.find(
-    (item) => item.id === projectId,
-  )
-  const [search, setSearch] = useState(issueSearch())
+    (item) => item.id === projectId
+  );
+  const [search, setSearch] = useState(issueSearch());
   if (!project) {
     return (
-      <div className="grid h-full place-items-center text-muted-foreground">
+      <div className="text-muted-foreground grid h-full place-items-center">
         Unknown project
       </div>
-    )
+    );
   }
   const issues =
     project.id === factory.result.run.projectId
       ? factory.issues.filter((issue) => issue.projectId === project.id)
-      : []
+      : [];
   const dispatches =
-    project.id === 'separate-sandbox'
+    project.id === "separate-sandbox"
       ? factory.result.sandboxDispatch
-      : factory.result.run.loopDispatches
+      : factory.result.run.loopDispatches;
 
   return (
     <div className="flex h-full min-h-0 flex-col">
@@ -191,17 +192,17 @@ export function ProjectPage({ projectId }: { projectId: string }) {
           <TabsTrigger value="loops">Loops</TabsTrigger>
         </TabsList>
         <TabsContent value="overview" className="overflow-auto px-6 py-4">
-          <p className="max-w-xl text-[14px] leading-6 text-muted-foreground">
-            {project.id === 'meal-choice-demo'
-              ? 'Tenancy boundary for the meal preorder dry run. Users and teams live outside the project and are assigned in.'
-              : 'A second synthetic project. The same webhook event type does not cross into this project’s loop.'}
+          <p className="text-muted-foreground max-w-xl text-[14px] leading-6">
+            {project.id === "meal-choice-demo"
+              ? "Tenancy boundary for the meal preorder dry run. Users and teams live outside the project and are assigned in."
+              : "A second synthetic project. The same webhook event type does not cross into this project’s loop."}
           </p>
           <dl className="mt-4 grid max-w-lg grid-cols-[120px_1fr] gap-y-2 text-[13px]">
             <dt className="text-muted-foreground">Lead</dt>
             <dd>{leadName(factory.result, project)}</dd>
             <dt className="text-muted-foreground">Teams</dt>
             <dd>
-              {project.assignedTeams.map((id) => teamMeta(id).name).join(', ')}
+              {project.assignedTeams.map((id) => teamMeta(id).name).join(", ")}
             </dd>
             <dt className="text-muted-foreground">Trigger</dt>
             <dd>{triggerLabel(factory.trigger)}</dd>
@@ -211,7 +212,7 @@ export function ProjectPage({ projectId }: { projectId: string }) {
         </TabsContent>
         <TabsContent value="signals" className="min-h-0">
           {issues.length === 0 ? (
-            <p className="px-6 py-8 text-[13px] text-muted-foreground">
+            <p className="text-muted-foreground px-6 py-8 text-[13px]">
               This project has no signals in the dry run. Its loops stay
               isolated from meal-choice-demo.
             </p>
@@ -227,39 +228,41 @@ export function ProjectPage({ projectId }: { projectId: string }) {
         <TabsContent value="loops" className="overflow-auto px-6 py-4">
           <ul className="flex flex-col gap-3">
             {project.loops.map((loop) => {
-              const matched = dispatches.some((item) => item.loopId === loop.id)
+              const matched = dispatches.some(
+                (item) => item.loopId === loop.id
+              );
               const role = Object.hasOwn(factory.result.roles, loop.agentRole)
                 ? factory.result.roles[loop.agentRole]
-                : undefined
+                : undefined;
               return (
                 <li key={loop.id} className="rounded-md border px-3 py-2">
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-medium">{loop.id}</span>
-                    <span className="text-[12px] text-muted-foreground">
-                      {matched ? 'Matched this trigger' : 'Not matched'}
+                    <span className="text-muted-foreground text-[12px]">
+                      {matched ? "Matched this trigger" : "Not matched"}
                     </span>
                   </div>
-                  <p className="mt-1 text-[13px] text-muted-foreground">
+                  <p className="text-muted-foreground mt-1 text-[13px]">
                     {loop.agentRole} · {loop.trigger.type}
-                    {loop.trigger.type === 'schedule'
+                    {loop.trigger.type === "schedule"
                       ? ` · ${loop.trigger.expression}`
                       : ` · ${loop.trigger.eventType}`}
                   </p>
                   {role ? (
-                    <p className="mt-1 text-[12px] text-muted-foreground">
-                      May {role.may}. Cannot {role.cannot}. Owner:{' '}
+                    <p className="text-muted-foreground mt-1 text-[12px]">
+                      May {role.may}. Cannot {role.cannot}. Owner:{" "}
                       {role.humanOwner}.
                     </p>
                   ) : null}
                 </li>
-              )
+              );
             })}
           </ul>
           <div className="mt-4 flex gap-2">
             <Button
               size="sm"
               variant={
-                factory.trigger.type === 'schedule' ? 'secondary' : 'ghost'
+                factory.trigger.type === "schedule" ? "secondary" : "ghost"
               }
               onClick={() => factory.setTrigger(defaultTrigger)}
             >
@@ -268,7 +271,7 @@ export function ProjectPage({ projectId }: { projectId: string }) {
             <Button
               size="sm"
               variant={
-                factory.trigger.type === 'webhook' ? 'secondary' : 'ghost'
+                factory.trigger.type === "webhook" ? "secondary" : "ghost"
               }
               onClick={() => factory.setTrigger(webhookTrigger)}
             >
@@ -278,11 +281,11 @@ export function ProjectPage({ projectId }: { projectId: string }) {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
 
 export function TeamsPage() {
-  const factory = useFactory()
+  const factory = useFactory();
   return (
     <div className="flex h-full min-h-0 flex-col">
       <PageHeader title="Teams" count={factory.result.workspace.teams.length} />
@@ -291,15 +294,15 @@ export function TeamsPage() {
           const open = factory.issues.filter(
             (issue) =>
               issue.teamId === team.id &&
-              issue.status !== 'done' &&
-              issue.status !== 'canceled',
-          ).length
+              issue.status !== "done" &&
+              issue.status !== "canceled"
+          ).length;
           return (
             <Link
               key={team.id}
               to="/teams/$teamId"
               params={{ teamId: team.id }}
-              className="flex items-center gap-3 border-b px-4 py-3 hover:bg-row-hover"
+              className="hover:bg-row-hover flex items-center gap-3 border-b px-4 py-3"
             >
               <span
                 className="size-4 rounded-[4px]"
@@ -317,30 +320,32 @@ export function TeamsPage() {
                     users={factory.result.workspace.users}
                   />
                 ))}
-                <span className="w-16 text-right text-[12px] text-muted-foreground tabular-nums">
+                <span className="text-muted-foreground w-16 text-right text-[12px] tabular-nums">
                   {open} open
                 </span>
               </span>
             </Link>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }
 
 export function TeamPage({ teamId }: { teamId: string }) {
-  const factory = useFactory()
-  const team = factory.result.workspace.teams.find((item) => item.id === teamId)
-  const [search, setSearch] = useState(issueSearch())
+  const factory = useFactory();
+  const team = factory.result.workspace.teams.find(
+    (item) => item.id === teamId
+  );
+  const [search, setSearch] = useState(issueSearch());
   if (!team) {
     return (
-      <div className="grid h-full place-items-center text-muted-foreground">
+      <div className="text-muted-foreground grid h-full place-items-center">
         Unknown team
       </div>
-    )
+    );
   }
-  const issues = factory.issues.filter((issue) => issue.teamId === team.id)
+  const issues = factory.issues.filter((issue) => issue.teamId === team.id);
   return (
     <IssueExplorer
       title={teamMeta(team.id).name}
@@ -348,55 +353,61 @@ export function TeamPage({ teamId }: { teamId: string }) {
       search={search}
       onSearchChange={setSearch}
     />
-  )
+  );
 }
 
 export function ViewsPage() {
-  const factory = useFactory()
+  const factory = useFactory();
   return (
     <div className="flex h-full min-h-0 flex-col">
       <PageHeader title="Views" />
       <div className="min-h-0 flex-1 overflow-auto">
         {SAVED_VIEWS.map((view) => {
           const count = factory.issues.filter((issue) => {
-            const probe = issueSearch(view.search)
-            if (probe.assignee && issue.assigneeId !== probe.assignee)
-              return false
-            if (probe.label && !issue.labelIds.includes(probe.label))
-              return false
-            if (probe.status && !probe.status.split(',').includes(issue.status))
-              return false
-            return true
-          }).length
+            const probe = issueSearch(view.search);
+            if (probe.assignee && issue.assigneeId !== probe.assignee) {
+              return false;
+            }
+            if (probe.label && !issue.labelIds.includes(probe.label)) {
+              return false;
+            }
+            if (
+              probe.status &&
+              !probe.status.split(",").includes(issue.status)
+            ) {
+              return false;
+            }
+            return true;
+          }).length;
           return (
             <Link
               key={view.id}
               to="/issues"
               search={issueSearch(view.search)}
-              className="flex items-center gap-3 border-b px-4 py-3 hover:bg-row-hover"
+              className="hover:bg-row-hover flex items-center gap-3 border-b px-4 py-3"
             >
               <div className="min-w-0">
                 <div className="text-[13px] font-medium">{view.name}</div>
-                <div className="text-[12px] text-muted-foreground">
+                <div className="text-muted-foreground text-[12px]">
                   {view.description}
                 </div>
               </div>
-              <span className="ml-auto text-[12px] text-muted-foreground tabular-nums">
+              <span className="text-muted-foreground ml-auto text-[12px] tabular-nums">
                 {count}
               </span>
             </Link>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }
 
 export function PolicyPage() {
-  const factory = useFactory()
-  const { policy, run, filePolicy } = factory.result
-  const [tag, setTag] = useState('')
-  const sig = run.outcomes.find((item) => item.id === 'SIG-001')
+  const factory = useFactory();
+  const { policy, run, filePolicy } = factory.result;
+  const [tag, setTag] = useState("");
+  const sig = run.outcomes.find((item) => item.id === "SIG-001");
   return (
     <div className="flex h-full min-h-0 flex-col">
       <PageHeader
@@ -412,8 +423,8 @@ export function PolicyPage() {
         }
       />
       <div className="min-h-0 flex-1 overflow-auto px-6 py-5">
-        <p className="max-w-xl text-[13px] text-muted-foreground">
-          Editing here calls the same orchestrator as{' '}
+        <p className="text-muted-foreground max-w-xl text-[13px]">
+          Editing here calls the same orchestrator as{" "}
           <span className="font-mono">npm run demo</span>. The estimate is
           illustrative. Nothing is released.
         </p>
@@ -422,14 +433,14 @@ export function PolicyPage() {
             <button
               key={item}
               type="button"
-              className="rounded-full bg-accent px-2 py-1 text-[12px]"
+              className="bg-accent rounded-full px-2 py-1 text-[12px]"
               onClick={() =>
                 factory.updatePolicy((current) => ({
                   ...current,
                   version:
-                    current.version === 'demo-v1' ? 'demo-v2' : current.version,
+                    current.version === "demo-v1" ? "demo-v2" : current.version,
                   humanOnlyTags: current.humanOnlyTags.filter(
-                    (tagName) => tagName !== item,
+                    (tagName) => tagName !== item
                   ),
                 }))
               }
@@ -441,17 +452,19 @@ export function PolicyPage() {
         <form
           className="mt-3 flex max-w-sm gap-2"
           onSubmit={(event) => {
-            event.preventDefault()
-            const next = tag.trim()
-            if (!next) return
+            event.preventDefault();
+            const next = tag.trim();
+            if (!next) {
+              return;
+            }
             factory.updatePolicy((current) => ({
               ...current,
-              version: 'demo-v2',
+              version: "demo-v2",
               humanOnlyTags: current.humanOnlyTags.includes(next)
                 ? current.humanOnlyTags
                 : [...current.humanOnlyTags, next],
-            }))
-            setTag('')
+            }));
+            setTag("");
           }}
         >
           <Input
@@ -487,15 +500,15 @@ export function PolicyPage() {
           <dt className="text-muted-foreground">Illustrative cost</dt>
           <dd>{money(run.summary.estimatedUsd)}</dd>
           <dt className="text-muted-foreground">SIG-001</dt>
-          <dd>{sig?.status.replaceAll('_', ' ')}</dd>
+          <dd>{sig?.status.replaceAll("_", " ")}</dd>
           <dt className="text-muted-foreground">Release approved</dt>
-          <dd>{run.summary.releaseApproved ? 'yes' : 'no'}</dd>
+          <dd>{run.summary.releaseApproved ? "yes" : "no"}</dd>
         </dl>
         <div className="mt-6 flex gap-2">
           <Button
             size="sm"
             variant={
-              factory.trigger.type === 'schedule' ? 'secondary' : 'ghost'
+              factory.trigger.type === "schedule" ? "secondary" : "ghost"
             }
             onClick={() => factory.setTrigger(defaultTrigger)}
           >
@@ -503,39 +516,43 @@ export function PolicyPage() {
           </Button>
           <Button
             size="sm"
-            variant={factory.trigger.type === 'webhook' ? 'secondary' : 'ghost'}
+            variant={factory.trigger.type === "webhook" ? "secondary" : "ghost"}
             onClick={() => factory.setTrigger(webhookTrigger)}
           >
             Feedback webhook
           </Button>
         </div>
-        <p className="mt-4 text-[12px] text-muted-foreground">
-          Active trigger: {triggerLabel(factory.trigger)}. Loops matched:{' '}
-          {run.loopDispatches.map((item) => item.loopId).join(', ') || 'none'}.
-          Sandbox:{' '}
+        <p className="text-muted-foreground mt-4 text-[12px]">
+          Active trigger: {triggerLabel(factory.trigger)}. Loops matched:{" "}
+          {run.loopDispatches.map((item) => item.loopId).join(", ") || "none"}.
+          Sandbox:{" "}
           {factory.result.sandboxDispatch
             .map((item) => item.loopId)
-            .join(', ') || 'none'}
+            .join(", ") || "none"}
           .
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 function projectName(id: string) {
-  if (id === 'meal-choice-demo') return 'Meal choice demo'
-  if (id === 'separate-sandbox') return 'Separate sandbox'
-  return id
+  if (id === "meal-choice-demo") {
+    return "Meal choice demo";
+  }
+  if (id === "separate-sandbox") {
+    return "Separate sandbox";
+  }
+  return id;
 }
 
 function leadName(
   result: { workspace: { users: { id: string; name: string }[] } },
-  project: WorkspaceProject,
+  project: WorkspaceProject
 ) {
-  const lead = project.assignedUsers[0]
+  const [lead] = project.assignedUsers;
   return (
     result.workspace.users.find((user) => user.id === lead)?.name ??
-    'Unassigned'
-  )
+    "Unassigned"
+  );
 }

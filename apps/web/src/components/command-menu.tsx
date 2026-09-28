@@ -1,4 +1,13 @@
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate } from "@tanstack/react-router";
+
+import {
+  isWebhook,
+  triggerLabel,
+  useFactory,
+  webhookTrigger,
+} from "#/components/factory";
+import { StatusIcon } from "#/components/icons";
+import { useUi } from "#/components/ui-state";
 import {
   CommandDialog,
   CommandEmpty,
@@ -7,25 +16,17 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '#/components/ui/command'
-import { useUi } from '#/components/shell'
-import {
-  isWebhook,
-  triggerLabel,
-  useFactory,
-  webhookTrigger,
-} from '#/components/factory'
-import { StatusIcon } from '#/components/icons'
-import { SAVED_VIEWS, defaultTrigger, issueSearch } from '#/lib/search'
+} from "#/components/ui/command";
+import { SAVED_VIEWS, defaultTrigger, issueSearch } from "#/lib/search";
 
 export function CommandMenu() {
-  const { commandOpen, setCommandOpen, setCreateOpen } = useUi()
-  const factory = useFactory()
-  const navigate = useNavigate()
+  const { commandOpen, setCommandOpen, setCreateOpen } = useUi();
+  const factory = useFactory();
+  const navigate = useNavigate();
 
   function go(run: () => void) {
-    setCommandOpen(false)
-    run()
+    setCommandOpen(false);
+    run();
   }
 
   return (
@@ -45,14 +46,14 @@ export function CommandMenu() {
               onSelect={() =>
                 go(() =>
                   navigate({
-                    to: '/issues/$issueId',
+                    to: "/issues/$issueId",
                     params: { issueId: issue.id },
-                  }),
+                  })
                 )
               }
             >
               <StatusIcon status={issue.status} />
-              <span className="font-mono text-xs text-muted-foreground">
+              <span className="text-muted-foreground font-mono text-xs">
                 {issue.id}
               </span>
               <span className="truncate">{issue.title}</span>
@@ -67,7 +68,7 @@ export function CommandMenu() {
               value={view.name}
               onSelect={() =>
                 go(() =>
-                  navigate({ to: '/issues', search: issueSearch(view.search) }),
+                  navigate({ to: "/issues", search: issueSearch(view.search) })
                 )
               }
             >
@@ -76,19 +77,19 @@ export function CommandMenu() {
           ))}
           <CommandItem
             value="Projects"
-            onSelect={() => go(() => navigate({ to: '/projects' }))}
+            onSelect={() => go(() => navigate({ to: "/projects" }))}
           >
             Projects
           </CommandItem>
           <CommandItem
             value="Policy"
-            onSelect={() => go(() => navigate({ to: '/policy' }))}
+            onSelect={() => go(() => navigate({ to: "/policy" }))}
           >
             Policy
           </CommandItem>
           <CommandItem
             value="Inbox"
-            onSelect={() => go(() => navigate({ to: '/inbox' }))}
+            onSelect={() => go(() => navigate({ to: "/inbox" }))}
           >
             Inbox
           </CommandItem>
@@ -106,14 +107,14 @@ export function CommandMenu() {
             onSelect={() =>
               go(() =>
                 factory.setTrigger(
-                  isWebhook(factory.trigger) ? defaultTrigger : webhookTrigger,
-                ),
+                  isWebhook(factory.trigger) ? defaultTrigger : webhookTrigger
+                )
               )
             }
           >
             {isWebhook(factory.trigger)
-              ? 'Switch to daily review'
-              : 'Switch to feedback webhook'}
+              ? "Switch to daily review"
+              : "Switch to feedback webhook"}
           </CommandItem>
           <CommandItem
             value="Treat ui as human-only"
@@ -130,5 +131,5 @@ export function CommandMenu() {
         </CommandGroup>
       </CommandList>
     </CommandDialog>
-  )
+  );
 }

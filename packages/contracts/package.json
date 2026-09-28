@@ -1,1 +1,6 @@
-{"name":"@qantas-demo/contracts","private":true,"version":"0.1.0","type":"module"}
+{
+  "name": "@qantas-demo/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module"
+}

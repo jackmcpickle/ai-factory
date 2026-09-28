@@ -1,17 +1,18 @@
-import { createFormHook } from '@tanstack/react-form'
+import { createFormHook } from "@tanstack/react-form";
+
 import {
   fieldContext,
   formContext,
   SubmitButton,
   TextareaField,
   TextField,
-} from '@/lib/form'
+} from "@/lib/form";
 
 const skillForm = createFormHook({
   fieldContext,
   formContext,
   fieldComponents: { TextField, TextareaField },
   formComponents: { SubmitButton },
-})
+});
 
-export const useSkillForm = skillForm.useAppForm
+export const useSkillForm = skillForm.useAppForm;

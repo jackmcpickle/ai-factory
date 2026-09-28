@@ -1,18 +1,41 @@
 {
   "name": "qantas-ai-delivery-factory-demo",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "type": "module",
-  "packageManager": "pnpm@12.8.0",
-  "engines": {
-    "node": ">=24"
-  },
   "scripts": {
     "dev": "pnpm --dir apps/web dev",
     "demo": "node apps/orchestrator/src/cli.js",
-    "test": "node --test apps/orchestrator/test/*.test.js",
-    "check": "node --check packages/contracts/src.js && node --check apps/orchestrator/src/engine.js && node --check apps/orchestrator/src/cli.js && node --test apps/orchestrator/test/*.test.js",
     "presentation": "node apps/presentation/server.mjs",
-    "presentation:check": "npm --prefix apps/presentation run check"
-  }
+    "presentation:check": "pnpm --dir apps/presentation run check",
+    "lint": "ultracite check",
+    "format": "ultracite fix",
+    "typecheck": "pnpm --dir apps/web exec tsc --noEmit",
+    "taste": "taste-lint lint --profile product --dry-run --results-dir node_modules/.cache/taste-lint --exclude 'apps/web/src/components/ui/**' apps/web/src",
+    "react-doctor": "react-doctor apps/web --no-score --no-supply-chain",
+    "test": "vitest run --project unit --project web",
+    "test:integration": "vitest run --project integration",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:integration",
+    "sums": "shasum -a 256 $(awk '{print $2}' outputs/SHA256SUMS.txt) | sort > outputs/SHA256SUMS.tmp && mv outputs/SHA256SUMS.tmp outputs/SHA256SUMS.txt",
+    "prepare": "husky",
+    "skills:react-doctor": "rm -rf .agents/skills/react-doctor && cp -R node_modules/react-doctor/dist/skills/react-doctor .agents/skills/"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^5.0.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "oxfmt": "^0.70.0",
+    "oxlint": "^1.85.0",
+    "react-doctor": "0.9.14",
+    "taste-lint": "^0.4.0",
+    "typescript": "^7.0.2",
+    "ultracite": "7.12.0",
+    "vitest": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@12.8.0"
 }

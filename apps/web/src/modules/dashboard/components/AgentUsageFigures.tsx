@@ -1,15 +1,16 @@
-import type { ReactElement } from 'react'
+import type { ReactElement } from "react";
+
 import {
   formatDuration,
   formatTokenCount,
   formatUsd,
-} from '@/modules/dashboard/helpers'
-import type { AgentUsage } from '@/modules/dashboard/types'
+} from "@/modules/dashboard/helpers";
+import type { AgentUsage } from "@/modules/dashboard/types";
 
 export function AgentUsageFigures({
   usage,
 }: {
-  usage: AgentUsage
+  usage: AgentUsage;
 }): ReactElement {
   return (
     <dl className="grid grid-cols-3 gap-3">
@@ -17,20 +18,20 @@ export function AgentUsageFigures({
       <UsageStat label="Cost" value={formatUsd(usage.costUsd)} />
       <UsageStat label="Time" value={formatDuration(usage.timeMinutes)} />
     </dl>
-  )
+  );
 }
 
 function UsageStat({
   label,
   value,
 }: {
-  label: string
-  value: string
+  label: string;
+  value: string;
 }): ReactElement {
   return (
     <div>
-      <dt className="text-[11px] text-muted-foreground">{label}</dt>
+      <dt className="text-muted-foreground text-[11px]">{label}</dt>
       <dd className="text-sm tabular-nums">{value}</dd>
     </div>
-  )
+  );
 }

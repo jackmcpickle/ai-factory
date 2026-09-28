@@ -1,51 +1,54 @@
-import { useState } from 'react'
-import { useNavigate } from '@tanstack/react-router'
-import { Button } from '#/components/ui/button'
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+
+import { useFactory } from "#/components/factory";
+import { PriorityIcon, StatusIcon } from "#/components/icons";
+import { useUi } from "#/components/ui-state";
+import { Button } from "#/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from '#/components/ui/dialog'
-import { useUi } from '#/components/shell'
-import { useFactory } from '#/components/factory'
-import { PriorityIcon, StatusIcon } from '#/components/icons'
+} from "#/components/ui/dialog";
+import type { Priority, Status } from "#/data/types";
 import {
   PRIORITIES,
   PRIORITY_LABEL,
   STATUSES,
   STATUS_LABEL,
   teamMeta,
-} from '#/lib/catalog'
-import type { Priority, Status } from '#/data/types'
+} from "#/lib/catalog";
 
 export function CreateIssueDialog() {
-  const { createOpen, setCreateOpen } = useUi()
-  const factory = useFactory()
-  const navigate = useNavigate()
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [teamId, setTeamId] = useState('team-app')
-  const [status, setStatus] = useState<Status>('todo')
-  const [priority, setPriority] = useState<Priority>('medium')
+  const { createOpen, setCreateOpen } = useUi();
+  const factory = useFactory();
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [teamId, setTeamId] = useState("team-app");
+  const [status, setStatus] = useState<Status>("todo");
+  const [priority, setPriority] = useState<Priority>("medium");
 
   function close() {
-    setCreateOpen(false)
-    setTitle('')
-    setDescription('')
+    setCreateOpen(false);
+    setTitle("");
+    setDescription("");
   }
 
   function submit() {
-    if (!title.trim()) return
+    if (!title.trim()) {
+      return;
+    }
     const draft = factory.createDraft({
       title,
       description,
       teamId,
       status,
       priority,
-    })
-    close()
-    void navigate({ to: '/issues/$issueId', params: { issueId: draft.id } })
+    });
+    close();
+    void navigate({ to: "/issues/$issueId", params: { issueId: draft.id } });
   }
 
   return (
@@ -59,7 +62,7 @@ export function CreateIssueDialog() {
           Create a local draft. It is not sent through the orchestrator.
         </DialogDescription>
         <div className="px-4 pt-4 pb-2">
-          <div className="mb-2 text-[12px] text-muted-foreground">
+          <div className="text-muted-foreground mb-2 text-[12px]">
             {teamMeta(teamId).name} · local draft
           </div>
           <input
@@ -68,7 +71,7 @@ export function CreateIssueDialog() {
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Issue title"
             aria-label="Issue title"
-            className="w-full bg-transparent text-lg font-medium outline-none placeholder:text-muted-foreground"
+            className="placeholder:text-muted-foreground w-full bg-transparent text-lg font-medium outline-none"
           />
           <textarea
             value={description}
@@ -76,7 +79,7 @@ export function CreateIssueDialog() {
             placeholder="Add a description"
             aria-label="Description"
             rows={4}
-            className="mt-2 w-full resize-none bg-transparent text-[13px] outline-none placeholder:text-muted-foreground"
+            className="placeholder:text-muted-foreground mt-2 w-full resize-none bg-transparent text-[13px] outline-none"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2 border-t px-3 py-2">
@@ -84,7 +87,7 @@ export function CreateIssueDialog() {
             aria-label="Status"
             value={status}
             onChange={(event) => setStatus(event.target.value as Status)}
-            className="h-7 rounded-md bg-accent px-2 text-[12px]"
+            className="bg-accent h-7 rounded-md px-2 text-[12px]"
           >
             {STATUSES.map((item) => (
               <option key={item} value={item}>
@@ -96,7 +99,7 @@ export function CreateIssueDialog() {
             aria-label="Priority"
             value={priority}
             onChange={(event) => setPriority(event.target.value as Priority)}
-            className="h-7 rounded-md bg-accent px-2 text-[12px]"
+            className="bg-accent h-7 rounded-md px-2 text-[12px]"
           >
             {PRIORITIES.map((item) => (
               <option key={item} value={item}>
@@ -108,7 +111,7 @@ export function CreateIssueDialog() {
             aria-label="Team"
             value={teamId}
             onChange={(event) => setTeamId(event.target.value)}
-            className="h-7 rounded-md bg-accent px-2 text-[12px]"
+            className="bg-accent h-7 rounded-md px-2 text-[12px]"
           >
             {factory.result.workspace.teams.map((team) => (
               <option key={team.id} value={team.id}>
@@ -131,5 +134,5 @@ export function CreateIssueDialog() {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -1,16 +1,17 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
-import { IssueDetail } from '#/components/issue-detail'
-import { useFactory } from '#/components/factory'
-import { issueSearch } from '#/lib/search'
+import { Link, createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_app/issues/$issueId')({
+import { useFactory } from "#/components/factory";
+import { IssueDetail } from "#/components/issue-detail";
+import { issueSearch } from "#/lib/search";
+
+export const Route = createFileRoute("/_app/issues/$issueId")({
   component: IssueRoute,
-})
+});
 
 function IssueRoute() {
-  const { issueId } = Route.useParams()
-  const factory = useFactory()
-  const issue = factory.issues.find((item) => item.id === issueId)
+  const { issueId } = Route.useParams();
+  const factory = useFactory();
+  const issue = factory.issues.find((item) => item.id === issueId);
   if (!issue) {
     return (
       <div className="grid h-full place-items-center text-center">
@@ -19,13 +20,13 @@ function IssueRoute() {
           <Link
             to="/issues"
             search={issueSearch()}
-            className="mt-2 inline-block text-brand"
+            className="text-brand mt-2 inline-block"
           >
             Back to signals
           </Link>
         </div>
       </div>
-    )
+    );
   }
-  return <IssueDetail issue={issue} />
+  return <IssueDetail issue={issue} />;
 }

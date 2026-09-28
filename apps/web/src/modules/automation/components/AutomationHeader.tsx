@@ -1,50 +1,51 @@
-import { Link } from '@tanstack/react-router'
-import { ArrowLeft, ChevronDown, Pencil } from 'lucide-react'
-import { useRef } from 'react'
-import type { ChangeEvent, ReactElement } from 'react'
-import { cn } from 'cn'
-import { Button } from '@/components/ui/button'
-import { EditorNav } from '@/components/editor-frame'
+import { Link } from "@tanstack/react-router";
+import { cn } from "cn";
+import { ArrowLeft, ChevronDown, Pencil } from "lucide-react";
+import { useRef } from "react";
+import type { ChangeEvent, ReactElement } from "react";
+
+import { EditorNav } from "@/components/editor-frame";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { AUTHOR_NAME, REPOSITORIES } from '@/modules/automation/constants'
-import { repositoryLabel } from '@/modules/automation/helpers'
-import { useAutomationActions } from '@/modules/automation/hooks/useAutomationEditor'
-import { useRunAutomationMutation } from '@/modules/automation/hooks/useRunAutomationMutation'
-import { useSaveAutomationMutation } from '@/modules/automation/hooks/useSaveAutomationMutation'
-import { useAutomationQuery } from '@/modules/automation/hooks/useAutomationQuery'
+} from "@/components/ui/dropdown-menu";
+import { AUTHOR_NAME, REPOSITORIES } from "@/modules/automation/constants";
+import { repositoryLabel } from "@/modules/automation/helpers";
+import { useAutomationActions } from "@/modules/automation/hooks/useAutomationEditor";
+import { useAutomationQuery } from "@/modules/automation/hooks/useAutomationQuery";
+import { useRunAutomationMutation } from "@/modules/automation/hooks/useRunAutomationMutation";
+import { useSaveAutomationMutation } from "@/modules/automation/hooks/useSaveAutomationMutation";
 
 export function AutomationHeader({
   onRun,
 }: {
-  onRun: () => void
+  onRun: () => void;
 }): ReactElement {
-  const { automation, status, saveError } = useAutomationQuery()
-  const actions = useAutomationActions()
-  const { saveAutomationMutation, isSavePending } = useSaveAutomationMutation()
-  const { runAutomationMutation, isRunPending } = useRunAutomationMutation()
-  const nameRef = useRef<HTMLInputElement>(null)
-  const saved = status === 'Saved'
+  const { automation, status, saveError } = useAutomationQuery();
+  const actions = useAutomationActions();
+  const { saveAutomationMutation, isSavePending } = useSaveAutomationMutation();
+  const { runAutomationMutation, isRunPending } = useRunAutomationMutation();
+  const nameRef = useRef<HTMLInputElement>(null);
+  const saved = status === "Saved";
 
   function handleRename(event: ChangeEvent<HTMLInputElement>): void {
-    actions.rename(event.target.value)
+    actions.rename(event.target.value);
   }
 
   function handleSave(): void {
-    saveAutomationMutation()
+    saveAutomationMutation();
   }
 
   function handleRunNow(): void {
-    runAutomationMutation(new Date().toISOString())
-    onRun()
+    runAutomationMutation(new Date().toISOString());
+    onRun();
   }
 
   function handleFocusName(): void {
-    nameRef.current?.focus()
+    nameRef.current?.focus();
   }
 
   return (
@@ -53,7 +54,7 @@ export function AutomationHeader({
         <Link
           to="/inbox"
           aria-label="Back"
-          className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground"
+          className="text-muted-foreground hover:bg-accent hover:text-foreground inline-flex size-8 items-center justify-center rounded-md"
         >
           <ArrowLeft className="size-4" />
         </Link>
@@ -91,21 +92,20 @@ export function AutomationHeader({
             disabled={isSavePending || saved}
             onClick={handleSave}
           >
-            {saved ? 'Saved' : 'Save'}
+            {saved ? "Saved" : "Save"}
           </Button>
-          <div
+          <fieldset
             className="ml-1 flex items-center rounded-full border p-0.5 text-xs"
-            role="group"
             aria-label="Automation status"
           >
             <button
               type="button"
               aria-pressed={!automation.active}
               className={cn(
-                'rounded-full px-2.5 py-1',
+                "rounded-full px-2.5 py-1",
                 automation.active
-                  ? 'text-muted-foreground'
-                  : 'bg-accent text-foreground',
+                  ? "text-muted-foreground"
+                  : "bg-accent text-foreground"
               )}
               onClick={() => actions.setActive(false)}
             >
@@ -115,16 +115,16 @@ export function AutomationHeader({
               type="button"
               aria-pressed={automation.active}
               className={cn(
-                'rounded-full px-2.5 py-1',
+                "rounded-full px-2.5 py-1",
                 automation.active
-                  ? 'bg-foreground text-background'
-                  : 'text-muted-foreground',
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground"
               )}
               onClick={() => actions.setActive(true)}
             >
               Active
             </button>
-          </div>
+          </fieldset>
         </div>
       </div>
       <div className="flex items-center gap-3 px-4 pb-2">
@@ -132,7 +132,7 @@ export function AutomationHeader({
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-[13px] text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-[13px]"
             >
               {repositoryLabel(automation.repositoryId)}
               <ChevronDown className="size-3.5" />
@@ -152,17 +152,17 @@ export function AutomationHeader({
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-        <span className="text-xs text-muted-foreground">By {AUTHOR_NAME}</span>
+        <span className="text-muted-foreground text-xs">By {AUTHOR_NAME}</span>
         <span className="sr-only" data-testid="save-status" aria-live="polite">
-          {saved ? 'Saved' : saveError ? saveError : 'Unsaved'}
+          {saved ? "Saved" : saveError || "Unsaved"}
         </span>
       </div>
       {saveError ? (
-        <p className="px-4 pb-2 text-xs text-destructive" role="alert">
+        <p className="text-destructive px-4 pb-2 text-xs" role="alert">
           {saveError}
         </p>
       ) : null}
       <EditorNav />
     </header>
-  )
+  );
 }

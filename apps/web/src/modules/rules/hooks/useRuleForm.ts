@@ -1,4 +1,5 @@
-import { createFormHook } from '@tanstack/react-form'
+import { createFormHook } from "@tanstack/react-form";
+
 import {
   fieldContext,
   formContext,
@@ -6,13 +7,13 @@ import {
   SubmitButton,
   TextareaField,
   TextField,
-} from '@/lib/form'
+} from "@/lib/form";
 
 const ruleForm = createFormHook({
   fieldContext,
   formContext,
   fieldComponents: { TextField, TextareaField, SelectField },
   formComponents: { SubmitButton },
-})
+});
 
-export const useRuleForm = ruleForm.useAppForm
+export const useRuleForm = ruleForm.useAppForm;

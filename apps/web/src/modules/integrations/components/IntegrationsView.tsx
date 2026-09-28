@@ -1,6 +1,7 @@
-import type { ReactElement } from 'react'
-import { EditorPage } from '@/components/editor-frame'
-import { IntegrationsPanel } from '@/modules/integrations/components/IntegrationsPanel'
+import type { ReactElement } from "react";
+
+import { EditorPage } from "@/components/editor-frame";
+import { IntegrationsPanel } from "@/modules/integrations/components/IntegrationsPanel";
 
 export function IntegrationsView(): ReactElement {
   return (
@@ -10,5 +11,5 @@ export function IntegrationsView(): ReactElement {
     >
       <IntegrationsPanel />
     </EditorPage>
-  )
+  );
 }

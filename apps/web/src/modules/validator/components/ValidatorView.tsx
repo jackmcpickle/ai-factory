@@ -1,8 +1,9 @@
-import type { ReactElement } from 'react'
-import { EditorPage } from '@/components/editor-frame'
-import { AGENT_ID, AgentUsageReadout } from '@/modules/dashboard'
-import { ValidationResultList } from '@/modules/validator/components/ValidationResultList'
-import { ValidatorForm } from '@/modules/validator/components/ValidatorForm'
+import type { ReactElement } from "react";
+
+import { EditorPage } from "@/components/editor-frame";
+import { AGENT_ID, AgentUsageReadout } from "@/modules/dashboard";
+import { ValidationResultList } from "@/modules/validator/components/ValidationResultList";
+import { ValidatorForm } from "@/modules/validator/components/ValidatorForm";
 
 export function ValidatorView(): ReactElement {
   return (
@@ -14,5 +15,5 @@ export function ValidatorView(): ReactElement {
       <ValidatorForm />
       <ValidationResultList />
     </EditorPage>
-  )
+  );
 }

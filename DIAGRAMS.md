@@ -1,6 +1,6 @@
 # Editable workflow diagrams
 
-These diagrams adapt the creator's factory pattern to the Qantas meal-preorder *delivery workflow*, not a customer-facing agent. They are proposals, not depictions of current Qantas architecture.
+These diagrams adapt the creator's factory pattern to the Qantas meal-preorder _delivery workflow_, not a customer-facing agent. They are proposals, not depictions of current Qantas architecture.
 
 ## 1. Product signal to verified release
 
@@ -43,7 +43,6 @@ flowchart TD
 ```
 
 **Boundary:** an engineering agent may propose and test code, but it cannot infer allergen safety or commit a customer's meal. The live service and approved humans own authoritative data and irreversible changes.
-
 
 ## 4. Project tenancy and loops (proposed control plane)
 

@@ -1,8 +1,9 @@
-import type { ReactElement } from 'react'
-import { EditorPage } from '@/components/editor-frame'
-import { AGENT_ID, AgentUsageReadout } from '@/modules/dashboard'
-import { SkillForm } from '@/modules/skill-library/components/SkillForm'
-import { SkillList } from '@/modules/skill-library/components/SkillList'
+import type { ReactElement } from "react";
+
+import { EditorPage } from "@/components/editor-frame";
+import { AGENT_ID, AgentUsageReadout } from "@/modules/dashboard";
+import { SkillForm } from "@/modules/skill-library/components/SkillForm";
+import { SkillList } from "@/modules/skill-library/components/SkillList";
 
 export function SkillLibraryView(): ReactElement {
   return (
@@ -14,5 +15,5 @@ export function SkillLibraryView(): ReactElement {
       <SkillForm />
       <SkillList />
     </EditorPage>
-  )
+  );
 }
