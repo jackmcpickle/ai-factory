@@ -425,7 +425,7 @@ export function PolicyPage() {
       <div className="min-h-0 flex-1 overflow-auto px-6 py-5">
         <p className="text-muted-foreground max-w-xl text-[13px]">
           Editing here calls the same orchestrator as{" "}
-          <span className="font-mono">npm run demo</span>. The estimate is
+          <span className="font-mono">pnpm demo</span>. The estimate is
           illustrative. Nothing is released.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
