@@ -26,10 +26,12 @@ export async function runFactory(deps) {
   log("triage", "Jev is triaging the ticket");
   const triaged = await triage(jev, ticket);
   await record("triage", triaged);
+  log("triage", `${triaged.route}: ${triaged.reasons.join("; ")}`);
   if (triaged.route !== "eligible") {
     return { reasons: triaged.reasons, status: triaged.route };
   }
 
+  log("sandbox", "Starting the sandbox and running pnpm install (minutes)");
   const sandbox = await agents.openSandbox(branch);
   let built;
   try {

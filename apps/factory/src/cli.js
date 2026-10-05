@@ -94,6 +94,15 @@ function preflight(local) {
       `Missing ${missing.join(" and ")}. Add them to .env (see .env.example).`
     );
   }
+  // `claude setup-token` tokens start sk-ant-oat; Claude Code rejects them as
+  // an API key with a bare 401.
+  if (process.env.ANTHROPIC_API_KEY?.startsWith("sk-ant-oat")) {
+    throw new Error(
+      "ANTHROPIC_API_KEY holds a `claude setup-token` token. Move it to CLAUDE_CODE_OAUTH_TOKEN."
+    );
+  }
+  const [credential] = Object.keys(claudeAuth(process.env));
+  console.log(`Claude auth: ${credential}`);
   if (!local) {
     try {
       execFileSync("docker", ["image", "inspect", IMAGE], { stdio: "ignore" });
