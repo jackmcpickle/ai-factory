@@ -20,20 +20,27 @@ import {
   teamMeta,
 } from "#/lib/catalog";
 
+const DEFAULT_TEAM_ID = "team-app";
+const DEFAULT_STATUS: Status = "todo";
+const DEFAULT_PRIORITY: Priority = "medium";
+
 export function CreateIssueDialog() {
   const { createOpen, setCreateOpen } = useUi();
   const factory = useFactory();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [teamId, setTeamId] = useState("team-app");
-  const [status, setStatus] = useState<Status>("todo");
-  const [priority, setPriority] = useState<Priority>("medium");
+  const [teamId, setTeamId] = useState(DEFAULT_TEAM_ID);
+  const [status, setStatus] = useState(DEFAULT_STATUS);
+  const [priority, setPriority] = useState(DEFAULT_PRIORITY);
 
   function close() {
     setCreateOpen(false);
     setTitle("");
     setDescription("");
+    setTeamId(DEFAULT_TEAM_ID);
+    setStatus(DEFAULT_STATUS);
+    setPriority(DEFAULT_PRIORITY);
   }
 
   function submit() {
