@@ -1,13 +1,17 @@
+/* Qantas brand palette and type, matching the pilot kick-off deck. */
 :root {
-  --paper: #efeee8;
-  --ink: #20231f;
-  --muted: #5c625b;
-  --line: #c9cec3;
-  --red: #ac3428;
-  --lime: #d7ed9d;
-  --dark: #242b27;
-  --sans: "Avenir Next", "Avenir", "Trebuchet MS", sans-serif;
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --paper: #ffffff;
+  --ink: #323232;
+  --muted: #6b6b6b;
+  --line: #e2dfdc;
+  --red: #df0000;
+  --dred: #bc0b07;
+  --grey: #f3f2f1;
+  --stone: #f0e6dc;
+  --bay: #8de2e0;
+  --dark: #323232;
+  --radius: 22px;
+  --sans: "Qantas Sans", "Noto Sans", Arial, sans-serif;
 }
 * {
   box-sizing: border-box;
@@ -31,7 +35,7 @@ button {
   font: inherit;
   color: inherit;
   border: 1px solid var(--line);
-  border-radius: 3px;
+  border-radius: 999px;
   background: transparent;
   cursor: pointer;
   padding: 8px 12px;
@@ -61,7 +65,8 @@ a:focus-visible {
 }
 .brand {
   text-decoration: none;
-  font-weight: 800;
+  font-weight: 700;
+  color: var(--red);
 }
 .brand span {
   font-weight: 400;
@@ -79,13 +84,21 @@ nav button {
   margin: auto;
 }
 .slide {
-  padding: 35px 4.5vw 28px;
+  position: relative;
+  padding: 35px 4.5vw 28px calc(4.5vw + 12px);
   min-height: calc(100dvh - 124px);
   display: flex;
   flex-direction: column;
 }
 .slide[hidden] {
   display: none;
+}
+.slide::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 12px;
+  background: var(--red);
 }
 .eyebrow,
 .kicker {
@@ -105,10 +118,10 @@ nav button {
 }
 h1,
 h2 {
-  font-family: var(--serif);
-  font-weight: 400;
-  letter-spacing: -0.045em;
-  line-height: 1.02;
+  font-family: var(--sans);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
   margin: 0;
   max-width: 1250px;
 }
@@ -156,8 +169,9 @@ p {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .columns article {
-  border-top: 2px solid var(--ink);
-  padding-top: 12px;
+  background: var(--grey);
+  border-radius: var(--radius);
+  padding: 8px 24px 14px;
 }
 .columns p {
   font-size: 19px;
@@ -167,14 +181,15 @@ p {
   display: flex;
   gap: 25px;
   align-items: flex-start;
-  background: #e0e4d8;
-  border-left: 4px solid var(--red);
-  padding: 18px 22px;
+  background: var(--stone);
+  border-radius: var(--radius);
+  padding: 18px 24px;
   margin-top: 24px;
   font-size: 16px;
   line-height: 1.45;
 }
 .gate strong {
+  color: var(--red);
   min-width: 185px;
   max-width: 250px;
 }
@@ -187,7 +202,7 @@ p {
   gap: 12px;
   background: var(--dark);
   padding: 22px;
-  border-radius: 3px;
+  border-radius: var(--radius);
   color: var(--paper);
 }
 .flow.cols-4 {
@@ -197,8 +212,8 @@ p {
   grid-template-columns: 1fr 20px 1fr 20px 1fr;
 }
 .stage {
-  background: #343d36;
-  border: 1px solid #566053;
+  background: #444;
+  border-radius: 18px;
   padding: 14px;
   min-width: 0;
 }
@@ -207,14 +222,15 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.07em;
   margin: 0 0 22px;
-  color: var(--lime);
+  color: var(--bay);
 }
 .action {
   position: relative;
-  border: 1px solid #697263;
+  border: 1px solid #5a5a5a;
+  border-radius: 14px;
   margin-top: 22px;
   padding: 20px 13px 12px;
-  background: #222922;
+  background: #2a2a2a;
   min-height: 113px;
 }
 .action.human {
@@ -223,7 +239,7 @@ p {
   border-color: var(--paper);
 }
 .action.system {
-  background: #354338;
+  background: #555;
 }
 .action h3 {
   font-size: 20px;
@@ -242,10 +258,10 @@ p {
   letter-spacing: 0.09em;
   text-transform: uppercase;
   padding: 5px 8px;
-  background: #1b211c;
+  background: #1f1f1f;
   color: var(--paper);
-  border: 1px solid #849079;
-  border-radius: 2px;
+  border: 1px solid #777;
+  border-radius: 10px;
 }
 .action .role {
   position: absolute;
@@ -259,22 +275,35 @@ p {
   color: white;
 }
 .role.agent {
-  background: #222922;
+  background: #2a2a2a;
 }
 .role.system {
-  background: #354338;
+  background: #555;
 }
 .arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--lime);
+  color: var(--bay);
   font-size: 24px;
 }
 .cover {
   position: relative;
   overflow: hidden;
   padding-top: 50px;
+  background: var(--red);
+  color: #fff;
+}
+.cover::before {
+  background: var(--dred);
+}
+.cover .kicker,
+.cover .kicker .folio,
+.cover .lead {
+  color: #fff;
+}
+.cover .lead {
+  opacity: 0.92;
 }
 .cover .lead {
   font-size: 26px;
@@ -300,8 +329,8 @@ p {
   position: absolute;
   right: 3vw;
   top: 20px;
-  font: 430px var(--serif);
-  color: #daddd0;
+  font: 300 430px var(--sans);
+  color: #ffffff2e;
   transform: rotate(-20deg);
   z-index: -0;
   line-height: 1;
@@ -356,6 +385,7 @@ p {
   background: var(--ink);
   color: var(--paper);
   z-index: 5;
+  border-radius: var(--radius) 0 0 var(--radius);
   box-shadow: -20px 0 60px #0003;
 }
 #toc a {
@@ -366,7 +396,7 @@ p {
   font-size: 15px;
 }
 #toc a[aria-current] {
-  color: var(--lime);
+  color: var(--bay);
 }
 #notes {
   position: fixed;
@@ -376,7 +406,7 @@ p {
   max-height: 32vh;
   overflow: auto;
   padding: 24px 5vw;
-  background: #f9f7e5;
+  background: var(--stone);
   border-top: 2px solid var(--red);
   box-shadow: 0 -15px 30px #0001;
   z-index: 4;
@@ -389,8 +419,8 @@ p {
 }
 .ownership article {
   padding: 24px;
-  background: #e1e5da;
-  border-top: 3px solid var(--ink);
+  background: var(--grey);
+  border-radius: var(--radius);
 }
 .ownership article:last-child {
   background: var(--dark);
@@ -435,7 +465,7 @@ td b {
   color: var(--red);
 }
 thead th {
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 2px solid var(--red);
 }
 .team-layout {
   display: grid;
@@ -447,11 +477,11 @@ thead th {
   padding: 10px 14px;
 }
 .team-layout tbody tr:last-child {
-  background: #dfe5d5;
+  background: var(--grey);
 }
 .big-number {
-  font: 100px var(--serif);
-  letter-spacing: -0.08em;
+  font: 300 100px var(--sans);
+  letter-spacing: -0.04em;
   margin: 0;
   color: var(--red);
   line-height: 1.1;
@@ -470,12 +500,14 @@ thead th {
   gap: 10px;
   padding: 25px;
   background: var(--dark);
-  color: var(--lime);
+  color: var(--bay);
   font-size: 18px;
+  border-radius: var(--radius);
 }
 .trace span {
   color: var(--paper);
-  border: 1px solid #697263;
+  border: 1px solid #6b6b6b;
+  border-radius: 12px;
   padding: 15px;
 }
 .factory {
@@ -504,8 +536,7 @@ thead th {
 }
 .loop-centre {
   fill: var(--ink);
-  font: 48px var(--serif);
-  letter-spacing: -0.03em;
+  font: 300 48px var(--sans);
 }
 .loop-dot {
   fill: var(--red);
@@ -519,6 +550,7 @@ thead th {
 }
 .loop-check {
   fill: var(--paper);
+  rx: 25px;
 }
 .loop-check-text {
   fill: var(--red);
@@ -539,7 +571,7 @@ thead th {
   max-height: 50vh;
 }
 .ring-inner {
-  fill: #e0e4d8;
+  fill: var(--grey);
   stroke: var(--ink);
   stroke-width: 2.5;
 }
@@ -578,12 +610,12 @@ thead th {
   flex-wrap: wrap;
   gap: 28px;
   margin: 40px 0 48px;
-  font: clamp(26px, 2.6vw, 44px) var(--serif);
-  letter-spacing: -0.02em;
+  font: 300 clamp(26px, 2.6vw, 44px) var(--sans);
 }
 .efficiency-term {
   color: var(--red);
-  border: 2px solid var(--ink);
+  border: 2px solid var(--red);
+  border-radius: var(--radius);
   padding: 14px 26px;
 }
 .efficiency-eq {
@@ -595,17 +627,13 @@ thead th {
   gap: 22px 30px;
 }
 .pillars article {
-  border-top: 2px solid var(--ink);
-  padding-top: 4px;
+  background: var(--grey);
+  border-radius: var(--radius);
+  padding: 4px 20px 6px;
 }
 .pillars article:last-child {
-  background: var(--dark);
-  color: var(--paper);
-  border-top-color: var(--red);
-  padding: 4px 18px 2px;
-}
-.pillars article:last-child h3 {
-  color: var(--lime);
+  background: var(--red);
+  color: #fff;
 }
 .pillars ul {
   margin: 0;
@@ -618,12 +646,11 @@ thead th {
 .antiburn-panels {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  gap: 16px;
 }
 .antiburn-panels article {
   padding: 24px;
+  border-radius: var(--radius);
   background: var(--dark);
   color: var(--paper);
 }
@@ -632,17 +659,17 @@ thead th {
 .tool-lines {
   height: 90px;
   margin: 20px 0;
-  color: var(--lime);
+  color: var(--bay);
 }
 .spark {
   display: flex;
   align-items: flex-end;
   gap: 7px;
-  border-bottom: 1px solid #768369;
+  border-bottom: 1px solid #6b6b6b;
 }
 .spark i {
   flex: 1;
-  background: var(--lime);
+  background: var(--bay);
   height: 30%;
 }
 .spark i:nth-child(2) {
@@ -670,7 +697,7 @@ thead th {
   justify-content: center;
 }
 .cost-bars i {
-  background: var(--lime);
+  background: var(--bay);
   height: 16px;
   width: 85%;
 }
@@ -695,8 +722,9 @@ thead th {
 }
 .terminal {
   background: var(--dark);
-  color: var(--lime);
+  color: var(--bay);
   padding: 28px;
+  border-radius: var(--radius);
 }
 .terminal > span {
   font-size: 12px;
@@ -733,12 +761,12 @@ code {
   font-size: 18px;
 }
 .closing {
-  font: 46px/1.1 var(--serif);
+  font: 300 46px/1.1 var(--sans);
   margin-top: 25px;
-  letter-spacing: -0.04em;
 }
 .closing em {
   color: var(--red);
+  font-style: normal;
 }
 @media (min-width: 1600px) {
   .slide {
@@ -1191,5 +1219,67 @@ code {
   .tool-lines {
     height: 65px;
     margin: 14px 0;
+  }
+}
+.change-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 30px;
+  align-items: start;
+}
+.change-layout .columns {
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 0;
+}
+.change-layout .columns h3 {
+  margin: 8px 0 4px;
+}
+.change-layout .columns p {
+  margin: 4px 0;
+  font-size: 18px;
+}
+.change-figure {
+  margin: 0;
+  padding: 20px 22px 12px;
+  background: var(--grey);
+  border-radius: var(--radius);
+}
+.change-figure svg {
+  display: block;
+  width: 100%;
+  max-height: 46vh;
+}
+.cost-axis {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.cost-old {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 3;
+  stroke-dasharray: 7 6;
+}
+.cost-new {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 4;
+}
+.cost-label {
+  fill: var(--muted);
+  font: 15px var(--sans);
+}
+.cost-label-new {
+  fill: var(--red);
+  font-weight: 700;
+}
+.cost-axis-label {
+  fill: var(--ink);
+  font: 14px var(--sans);
+}
+@media (max-width: 760px) {
+  .change-layout {
+    grid-template-columns: 1fr;
   }
 }

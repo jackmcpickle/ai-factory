@@ -26,6 +26,8 @@ const ringLabel = (x, y, text) =>
   `<rect class="ring-pill" x="${x - 120}" y="${y - 26}" width="240" height="52" rx="26"/><text class="ring-pill-text" x="${x}" y="${y + 8}" text-anchor="middle">${text}</text>`;
 const twoLoops = `<svg viewBox="0 0 800 600" role="img" aria-labelledby="loops-title loops-desc"><title id="loops-title">Inner and outer loops</title><desc id="loops-desc">An inner loop of people asking, systems noticing and scheduled checks, surrounded by an outer loop of agent signals and agent verification.</desc><defs><marker id="ring-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L8 5 L1 9" class="loop-arrowhead"/></marker></defs><path class="loop-ring" d="M422.7 40.9 A260 260 0 1 1 390.9 40.2" marker-end="url(#ring-arrow)"/><circle class="ring-inner" cx="400" cy="300" r="150"/><text class="ring-heading" x="400" y="105" text-anchor="middle">OUTER LOOP</text><text class="ring-heading" x="400" y="205" text-anchor="middle">INNER LOOP</text><text class="ring-item" x="400" y="260" text-anchor="middle">People ask</text><text class="ring-item" x="400" y="305" text-anchor="middle">Systems notice</text><text class="ring-item" x="400" y="350" text-anchor="middle">Scheduled checks</text>${ringLabel(175, 430, "Agent signals")}${ringLabel(625, 430, "Agent verification")}</svg>`;
 const factoryLoop = `<svg viewBox="0 0 1100 600" role="img" aria-labelledby="loop-title loop-desc"><title id="loop-title">A software factory loop</title><desc id="loop-desc">A new product idea or bug report enters the loop, which runs Triage, Spec, Implement, Verify, Ship and Monitor, then back to the start. People review the spec before implementation, the code after verification, and the product before it ships.</desc><defs><marker id="loop-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L8 5 L1 9" class="loop-arrowhead"/></marker></defs><text class="loop-entry" x="550" y="58" text-anchor="middle">New product idea</text><text class="loop-entry" x="550" y="90" text-anchor="middle">or bug reported</text><path class="loop-ring" d="M569.9 126 A190 190 0 1 1 543.4 125.1" marker-end="url(#loop-arrow)"/><text class="loop-centre" x="550" y="300" text-anchor="middle">A software</text><text class="loop-centre" x="550" y="350" text-anchor="middle">factory</text>${factoryStep(701, 135, "start", "Triage")}${factoryStep(777, 254, "start", "Spec")}${factoryStep(716, 481, "start", "Implement")}${factoryStep(384, 481, "end", "Verify")}${factoryStep(323, 254, "end", "Ship")}${factoryStep(399, 135, "end", "Monitor")}${checkpoint([737, 348], [790, 348], [790, 323], "Reviewing the spec")}${checkpoint([550, 505], [550, 540], [405, 540], "Reviewing the code")}${checkpoint([363, 348], [310, 348], [20, 323], "Reviewing the product")}</svg>`;
+/* Cost of change: illustrative curves, not measured data. */
+const costCurve = `<svg viewBox="0 0 480 300" role="img" aria-labelledby="cost-title cost-desc"><title id="cost-title">Cost of change over time</title><desc id="cost-desc">In a traditional build the cost of a change rises steeply over time. With an agent-ready codebase, specs and tests, it stays low and rises slowly.</desc><path class="cost-axis" d="M50 20 V250 H465"/><path class="cost-old" d="M55 240 C 210 236, 330 200, 440 40"/><path class="cost-new" d="M55 236 C 200 222, 330 208, 450 192"/><path class="cost-old" d="M70 40 H100"/><text class="cost-label" x="110" y="45">Traditional: lock requirements early</text><path class="cost-new" d="M70 68 H100"/><text class="cost-label cost-label-new" x="110" y="73">Agent-ready: adapt as we learn</text><text class="cost-axis-label" x="258" y="280" text-anchor="middle">Time into the build</text><text class="cost-axis-label" x="20" y="135" text-anchor="middle" transform="rotate(-90 20 135)">Cost of a change</text></svg>`;
 const slides = [
   {
     id: "direction",
@@ -71,7 +73,7 @@ const slides = [
     lead: "Agents move the work around the loop. People review the spec, the code and the product.",
     body: `<figure class="factory">${factoryLoop}</figure>${gate("Three human checkpoints", "Nothing reaches the next stretch of the loop until a person has reviewed it. Agents prepare the evidence; people make the call.")}`,
     notes:
-      "Same loop for a new product idea, a bug report or a signal from production. Triage and spec turn the request into an agreed, testable piece of work. Implement and verify happen in an isolated sandbox with a preview link tied to the exact commit. Ship is a gradual rollout behind a feature flag with a rollback path. Monitor watches errors and agreed outcome measures and feeds anything unexpected back in as a new signal. The agent that wrote a change can never certify it as complete. Detail for technical questions is in the FigJam board.",
+      "Same loop for a new product idea, a bug report or a signal from production. Triage and spec turn the request into an agreed, testable piece of work. Implement and verify happen in an isolated sandbox with a preview link tied to the exact commit. Ship is a gradual rollout behind a feature flag with a rollback path. Monitor watches errors and agreed outcome measures and feeds anything unexpected back in as a new signal. The agent that wrote a change can never certify it as complete. Detail for technical questions is in the FigJam board. The same loop maps onto the four pilot lifecycle stages: Seed and set intent is Triage, Discover and define is Spec, Build covers Implement and Verify up to merge, and Verify and release covers Ship and Monitor. Learnings from Monitor loop back into the next intent, the skills and the context.",
   },
   {
     id: "inputs",
@@ -89,35 +91,41 @@ const slides = [
     lead: "What happens at each step, and where a person signs off.",
     body:
       table(
-        ["Step", "Agents do", "People decide"],
+        ["Step", "Lifecycle stage", "Agents do", "People decide"],
         [
           [
             "Triage",
+            "Seed and set intent",
             "Gather context, group duplicates, ask clarifying questions",
             "Is it worth doing? Who owns it?",
           ],
           [
             "Spec",
+            "Discover and define",
             "Draft the change with examples and a test plan",
             "<b>Review the spec:</b> scope, risk and what finished looks like",
           ],
           [
             "Implement",
+            "Build",
             "Build a small change in its own sandbox with a preview link",
             "Engineers step in on hard problems",
           ],
           [
             "Verify",
+            "Build",
             "Run automated checks, an independent review and real user flows",
             "<b>Review the code:</b> merge or send back",
           ],
           [
             "Ship",
+            "Verify and release",
             "Prepare the release and tell the person who asked",
             "<b>Review the product:</b> approve the rollout",
           ],
           [
             "Monitor",
+            "Verify and release",
             "Watch errors and outcomes; raise anything new as a signal",
             "What should we improve next?",
           ],
@@ -236,6 +244,15 @@ const slides = [
       ),
     notes:
       "The technical lead owns architectural coherence, not every line of generated code. Engineers still need implementation depth to detect subtle errors. The PM and designer stay close to users. QE moves from repeatedly executing cases toward designing independent validation and investigating escapes. Change Management and People & Culture support role clarity and learning; prompt counts are not a performance ranking.",
+  },
+  {
+    id: "change",
+    section: "05 / What changes",
+    title: "Change got cheaper. Design for it.",
+    lead: "Start from the first requirements and build on them. When new information arrives, change the spec and let agents rework the code.",
+    body: `<div class="change-layout"><figure class="change-figure">${costCurve}<figcaption class="small">Illustrative, not measured.</figcaption></figure>${columns(["Start from the first requirements", "Ship the first slice from an agreed intent and spec. No full design signed off up front."], ["Build on top", "Each story extends the same codebase. An architecture review skill and the tests keep it coherent."], ["Adapt as we learn", "Update the intent or spec and agents rework the code against it. A late change becomes a new story, not a re-plan."])}</div>${gate("Change stays cheap only while the design holds", "Clear seams between modules · specs and tests as the contract · decisions recorded in the repo · small releases behind flags")}`,
+    notes:
+      "The old cost-of-change curve made us lock requirements early: hi-fi design signed off before build, big up-front architecture. When agents can rework code against a spec and a test suite in a fraction of the time, a late change costs much less, so we can start with what we know and keep building. That only holds if engineers keep the architecture legible to agents: clear module boundaries, tests that define behaviour, architecture decisions written down where agents read them. The curve is illustrative; we have not measured it yet.",
   },
   {
     id: "measure",

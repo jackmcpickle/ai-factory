@@ -31,7 +31,7 @@ If a local Vite+ shim reports that `npm` is missing, select a working Node insta
 - Full screen: use the browser fullscreen API where supported.
 - `#3` in the URL opens the factory loop. Each slide has a numbered deep link.
 
-On narrow screens, diagrams stack vertically and the page scrolls, preserving text size. The default presentation targets a desktop or screen share. System-installed Avenir / Palatino families avoid font downloads; fallback fonts are supplied.
+On narrow screens, diagrams stack vertically and the page scrolls, preserving text size. The default presentation targets a desktop or screen share. Styling follows the Qantas brand used in the pilot kick-off deck. The font stack is Qantas Sans, then Noto Sans and Arial. Qantas Sans is licensed and is not bundled because this repository is public; it renders only where it is installed locally.
 
 ## Edit
 
@@ -47,17 +47,17 @@ The deck uses trusted, repository-authored HTML strings, not user-supplied conte
 
 | Requirement | Slides | What is addressed |
 | --- | --- | --- |
-| Workflow breakdown | 2–5 | Human-led discovery/design, the factory loop with three human checkpoints, one intake for people, systems and scheduled checks, who does what at each step. Technical stage detail lives in the speaker notes |
+| Workflow breakdown | 2–5 | Human-led discovery/design, the factory loop with three human checkpoints, one intake for people, systems and scheduled checks, who does what at each step, mapped to the four pilot lifecycle stages. Technical stage detail lives in the speaker notes |
 | Context, skills, tools | 6 | Project-local standards shared by author/reviewer; factory or CI orchestration; maintenance and ownership |
 | Objective quality | 5 | Evidence before every handoff; deterministic checks, independent review and Playwright proof (in notes) |
 | Risk and guardrails | 7 | Exact-payload approval for an external commitment, authoritative validation, idempotency and reconciliation |
-| Team shape | 8–9 | Illustrative ten-to-six core squad, shared effort, learning, architecture and role changes |
-| Cost and observability | 10–13 | Factory efficiency measure, budget ranges, subscription constraints, run trace, Antiburn feature examples |
-| Operating at scale | 14 | Traceability, auditability, governance, manageability and resilience as the foundations of trust |
-| Adoption and rollout | 15 | Product/team pilot, Change and Delivery Management, baseline and expansion gates |
-| Tradeoffs | 16 | Narrow initial loops, deliberate exclusions and evidence before autonomy |
-| Working demo | 17 | Existing synthetic CLI demo, live policy change and implementation limits |
-| Sources | 18 | FigJam, BuildPass, Antiburn and repository evidence |
+| Team shape | 8–10 | Illustrative ten-to-six core squad, shared effort, learning, architecture and role changes, and why a lower cost of change lets the design evolve |
+| Cost and observability | 11–14 | Factory efficiency measure, budget ranges, subscription constraints, run trace, Antiburn feature examples |
+| Operating at scale | 15 | Traceability, auditability, governance, manageability and resilience as the foundations of trust |
+| Adoption and rollout | 16 | Product/team pilot, Change and Delivery Management, baseline and expansion gates |
+| Tradeoffs | 17 | Narrow initial loops, deliberate exclusions and evidence before autonomy |
+| Working demo | 18 | Existing synthetic CLI demo, live policy change and implementation limits |
+| Sources | 19 | FigJam, BuildPass, Antiburn and repository evidence |
 
 ## Editorial decisions and evidence limits
 
@@ -66,7 +66,7 @@ The deck uses trusted, repository-authored HTML strings, not user-supplied conte
 - Costs and budget policies are proposals. There are no invented dollar savings or claimed throughput results.
 - Subscription capacity is finite. Use only permitted tools and account entitlements; do not automatically spill into API billing.
 - “Jev” from the request has not been identified. The deck describes strict rule-based linting without attributing capabilities to an unverified product. Update the Verify notes on slide 5 after clarification.
-- Antiburn's public homepage was inspected on 28 September 2026. It describes local session context/compaction views, parent/subagent and token/cache cost breakdowns, loaded-but-unused skill/MCP/tool diagnostics, usage-limit meters and configuration findings. Slide 13 is an original conceptual illustration of three views, not a product screenshot or live telemetry. Team prompt evaluation is our proposed practice, not an asserted Antiburn team feature. API-equivalent costs are not necessarily billed spend.
+- Antiburn's public homepage was inspected on 28 September 2026. It describes local session context/compaction views, parent/subagent and token/cache cost breakdowns, loaded-but-unused skill/MCP/tool diagnostics, usage-limit meters and configuration findings. Slide 14 is an original conceptual illustration of three views, not a product screenshot or live telemetry. Team prompt evaluation is our proposed practice, not an asserted Antiburn team feature. API-equivalent costs are not necessarily billed spend.
 - The repository demo is a synthetic orchestration/control-plane slice. It does not run a live scheduler, real LLM fleet, cloud previews or airline integrations. Slides label those as proposed production capabilities.
 
 ## Validation
