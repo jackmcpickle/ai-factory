@@ -29,7 +29,7 @@ If a local Vite+ shim reports that `npm` is missing, select a working Node insta
 - Escape: close notes and contents.
 - Print: all slides, landscape handout; notes and controls are omitted.
 - Full screen: use the browser fullscreen API where supported.
-- `#9` in the URL opens the verification slide. Each slide has a numbered deep link.
+- `#3` in the URL opens the factory loop. Each slide has a numbered deep link.
 
 On narrow screens, diagrams stack vertically and the page scrolls, preserving text size. The default presentation targets a desktop or screen share. System-installed Avenir / Palatino families avoid font downloads; fallback fonts are supplied.
 
@@ -47,16 +47,17 @@ The deck uses trusted, repository-authored HTML strings, not user-supplied conte
 
 | Requirement | Slides | What is addressed |
 | --- | --- | --- |
-| Workflow breakdown | 2–10 | Human-led discovery/design, recurring scans, system signals, five delivery stages, release and feedback |
-| Context, skills, tools | 11 | Project-local standards shared by author/reviewer; factory or CI orchestration; maintenance and ownership |
-| Objective quality | 9, 12 | Deterministic tests and lint, independent review, Playwright proof, commit-bound evidence |
-| Risk and guardrails | 13 | Exact-payload approval for an external commitment, authoritative validation, idempotency and reconciliation |
-| Team shape | 14–15 | Illustrative ten-to-six core squad, shared effort, learning, architecture and role changes |
-| Cost and observability | 16–18 | Budget ranges, subscription constraints, whole-flow cost, run trace, Antiburn feature examples |
-| Adoption and rollout | 19 | Product/team pilot, Change and Delivery Management, baseline and expansion gates |
-| Tradeoffs | 20 | Narrow initial loops, deliberate exclusions and evidence before autonomy |
-| Working demo | 21 | Existing synthetic CLI demo, live policy change and implementation limits |
-| Sources | 22 | FigJam, BuildPass, Antiburn and repository evidence |
+| Workflow breakdown | 2–5 | Human-led discovery/design, the factory loop with three human checkpoints, one intake for people, systems and scheduled checks, who does what at each step. Technical stage detail lives in the speaker notes |
+| Context, skills, tools | 6 | Project-local standards shared by author/reviewer; factory or CI orchestration; maintenance and ownership |
+| Objective quality | 5 | Evidence before every handoff; deterministic checks, independent review and Playwright proof (in notes) |
+| Risk and guardrails | 7 | Exact-payload approval for an external commitment, authoritative validation, idempotency and reconciliation |
+| Team shape | 8–9 | Illustrative ten-to-six core squad, shared effort, learning, architecture and role changes |
+| Cost and observability | 10–13 | Factory efficiency measure, budget ranges, subscription constraints, run trace, Antiburn feature examples |
+| Operating at scale | 14 | Traceability, auditability, governance, manageability and resilience as the foundations of trust |
+| Adoption and rollout | 15 | Product/team pilot, Change and Delivery Management, baseline and expansion gates |
+| Tradeoffs | 16 | Narrow initial loops, deliberate exclusions and evidence before autonomy |
+| Working demo | 17 | Existing synthetic CLI demo, live policy change and implementation limits |
+| Sources | 18 | FigJam, BuildPass, Antiburn and repository evidence |
 
 ## Editorial decisions and evidence limits
 
@@ -64,8 +65,8 @@ The deck uses trusted, repository-authored HTML strings, not user-supplied conte
 - Six core staff is a pilot hypothesis, not a measured saving. Shared specialists and cross-platform capacity must be counted.
 - Costs and budget policies are proposals. There are no invented dollar savings or claimed throughput results.
 - Subscription capacity is finite. Use only permitted tools and account entitlements; do not automatically spill into API billing.
-- “Jev” from the request has not been identified. The deck describes strict rule-based linting without attributing capabilities to an unverified product. Update the verification slide after clarification.
-- Antiburn's public homepage was inspected on 28 September 2026. It describes local session context/compaction views, parent/subagent and token/cache cost breakdowns, loaded-but-unused skill/MCP/tool diagnostics, usage-limit meters and configuration findings. Slide 18 is an original conceptual illustration of three views, not a product screenshot or live telemetry. Team prompt evaluation is our proposed practice, not an asserted Antiburn team feature. API-equivalent costs are not necessarily billed spend.
+- “Jev” from the request has not been identified. The deck describes strict rule-based linting without attributing capabilities to an unverified product. Update the Verify notes on slide 5 after clarification.
+- Antiburn's public homepage was inspected on 28 September 2026. It describes local session context/compaction views, parent/subagent and token/cache cost breakdowns, loaded-but-unused skill/MCP/tool diagnostics, usage-limit meters and configuration findings. Slide 13 is an original conceptual illustration of three views, not a product screenshot or live telemetry. Team prompt evaluation is our proposed practice, not an asserted Antiburn team feature. API-equivalent costs are not necessarily billed spend.
 - The repository demo is a synthetic orchestration/control-plane slice. It does not run a live scheduler, real LLM fleet, cloud previews or airline integrations. Slides label those as proposed production capabilities.
 
 ## Validation
@@ -75,7 +76,7 @@ pnpm presentation:check
 pnpm check
 ```
 
-The first checks JavaScript syntax. The second runs lint, typecheck and the Vitest suites. Verification completed: syntax checks, the orchestrator tests, all 22 slides navigated at desktop and 390px mobile widths without horizontal page overflow, contents links, notes, Home-key navigation, and browser console review (no warnings or errors). Desktop workflow diagrams and the stacked mobile verification stage were visually inspected. Print CSS is included; printed output and fullscreen were not separately verified. This deck does not add a Playwright test harness; Playwright discussed in the slides is part of the proposed delivery validation system.
+The first checks JavaScript syntax. The second runs lint, typecheck and the Vitest suites. Verification completed: syntax checks, the orchestrator tests, the original 22-slide deck navigated at desktop and 390px mobile widths without horizontal page overflow, contents links, notes, Home-key navigation, and browser console review (no warnings or errors). Desktop workflow diagrams and the stacked mobile verification stage were visually inspected. Print CSS is included; printed output and fullscreen were not separately verified. This deck does not add a Playwright test harness; Playwright discussed in the slides is part of the proposed delivery validation system.
 
 ## Related material
 

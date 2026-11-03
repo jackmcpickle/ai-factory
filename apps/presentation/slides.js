@@ -14,6 +14,18 @@ const table = (heads, rows) =>
   `<div class="table-wrap"><table><thead><tr>${heads.map((h) => `<th scope="col">${h}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((v, i) => (i === 0 ? `<th scope="row">${v}</th>` : `<td>${v}</td>`)).join("")}</tr>`).join("")}</tbody></table></div>`;
 const link = (url, text) =>
   `<a href="${url}" target="_blank" rel="noopener noreferrer">${text} ↗</a>`;
+const pillars = (...items) =>
+  `<div class="pillars">${items.map(([title, points]) => `<article><h3>${title}</h3><ul>${points.map((p) => `<li>${p}</li>`).join("")}</ul></article>`).join("")}</div>`;
+/* Factory loop: clockwise from the top. Steps sit outside the ring; human checkpoints hang off it. */
+const factoryStep = (x, y, anchor, text) =>
+  `<text class="loop-step" x="${x}" y="${y}" text-anchor="${anchor}">${text}</text>`;
+const checkpoint = (dot, line, frame, text) =>
+  `<circle class="loop-dot" cx="${dot[0]}" cy="${dot[1]}" r="9"/><path class="loop-link" d="M${dot[0]} ${dot[1]} L${line[0]} ${line[1]}"/><rect class="loop-check" x="${frame[0]}" y="${frame[1]}" width="290" height="50"/><text class="loop-check-text" x="${frame[0] + 145}" y="${frame[1] + 33}" text-anchor="middle">${text}</text>`;
+/* Two loops: intake sources inside, agent signals and verification on the surrounding ring. */
+const ringLabel = (x, y, text) =>
+  `<rect class="ring-pill" x="${x - 120}" y="${y - 26}" width="240" height="52" rx="26"/><text class="ring-pill-text" x="${x}" y="${y + 8}" text-anchor="middle">${text}</text>`;
+const twoLoops = `<svg viewBox="0 0 800 600" role="img" aria-labelledby="loops-title loops-desc"><title id="loops-title">Inner and outer loops</title><desc id="loops-desc">An inner loop of people asking, systems noticing and scheduled checks, surrounded by an outer loop of agent signals and agent verification.</desc><defs><marker id="ring-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L8 5 L1 9" class="loop-arrowhead"/></marker></defs><path class="loop-ring" d="M422.7 40.9 A260 260 0 1 1 390.9 40.2" marker-end="url(#ring-arrow)"/><circle class="ring-inner" cx="400" cy="300" r="150"/><text class="ring-heading" x="400" y="105" text-anchor="middle">OUTER LOOP</text><text class="ring-heading" x="400" y="205" text-anchor="middle">INNER LOOP</text><text class="ring-item" x="400" y="260" text-anchor="middle">People ask</text><text class="ring-item" x="400" y="305" text-anchor="middle">Systems notice</text><text class="ring-item" x="400" y="350" text-anchor="middle">Scheduled checks</text>${ringLabel(175, 430, "Agent signals")}${ringLabel(625, 430, "Agent verification")}</svg>`;
+const factoryLoop = `<svg viewBox="0 0 1100 600" role="img" aria-labelledby="loop-title loop-desc"><title id="loop-title">A software factory loop</title><desc id="loop-desc">A new product idea or bug report enters the loop, which runs Triage, Spec, Implement, Verify, Ship and Monitor, then back to the start. People review the spec before implementation, the code after verification, and the product before it ships.</desc><defs><marker id="loop-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L8 5 L1 9" class="loop-arrowhead"/></marker></defs><text class="loop-entry" x="550" y="58" text-anchor="middle">New product idea</text><text class="loop-entry" x="550" y="90" text-anchor="middle">or bug reported</text><path class="loop-ring" d="M569.9 126 A190 190 0 1 1 543.4 125.1" marker-end="url(#loop-arrow)"/><text class="loop-centre" x="550" y="300" text-anchor="middle">A software</text><text class="loop-centre" x="550" y="350" text-anchor="middle">factory</text>${factoryStep(701, 135, "start", "Triage")}${factoryStep(777, 254, "start", "Spec")}${factoryStep(716, 481, "start", "Implement")}${factoryStep(384, 481, "end", "Verify")}${factoryStep(323, 254, "end", "Ship")}${factoryStep(399, 135, "end", "Monitor")}${checkpoint([737, 348], [790, 348], [790, 323], "Reviewing the spec")}${checkpoint([550, 505], [550, 540], [405, 540], "Reviewing the code")}${checkpoint([363, 348], [310, 348], [20, 323], "Reviewing the product")}</svg>`;
 const slides = [
   {
     id: "direction",
@@ -53,398 +65,70 @@ const slides = [
       "For this initiative, discovery tests whether the proposed capability addresses preference availability, waste and visibility. We do not delegate the product strategy to the delivery loop. Human-only refers to decision authority; agents may prepare options and evidence.",
   },
   {
-    id: "map",
-    section: "02 / Workflows",
-    title: "Three loops. One delivery standard.",
-    lead: "The FigJam model, separated into readable stages and nested actions.",
-    body: `<div class="loop-list"><a href="#4"><b>01</b><div><h3>Recurring work</h3><p>Define → Validate → Enable → Run & review</p></div><span>Scans and checks ↗</span></a><a href="#5"><b>02</b><div><h3>System signals</h3><p>Detect → Triage → Act → Close & learn</p></div><span>Evidence into work ↗</span></a><a href="#6"><b>03</b><div><h3>Signals to delivery</h3><p>Intake → Triage → Build → Verify → Close the loop</p></div><span>Accepted work ↗</span></a></div><div class="legend"><span class="role human">Human</span><span class="role agent">Agent</span><span class="role system">System</span><span>Labels identify responsibility; arrows show handoffs.</span>${link(figjam, "Open editable FigJam")}</div>`,
+    id: "factory",
+    section: "02 / The factory loop",
+    title: "A software factory, with people at the checkpoints.",
+    lead: "Agents move the work around the loop. People review the spec, the code and the product.",
+    body: `<figure class="factory">${factoryLoop}</figure>${gate("Three human checkpoints", "Nothing reaches the next stretch of the loop until a person has reviewed it. Agents prepare the evidence; people make the call.")}`,
     notes:
-      "These loops match the Factor FigJam. Recurring work produces signals. Signals enter the same delivery path as requests from people. Agents can propose improvements to schedules and skills, but a person approves those changes.",
+      "Same loop for a new product idea, a bug report or a signal from production. Triage and spec turn the request into an agreed, testable piece of work. Implement and verify happen in an isolated sandbox with a preview link tied to the exact commit. Ship is a gradual rollout behind a feature flag with a rollback path. Monitor watches errors and agreed outcome measures and feeds anything unexpected back in as a new signal. The agent that wrote a change can never certify it as complete. Detail for technical questions is in the FigJam board.",
   },
   {
-    id: "recurring",
-    section: "02 / Loop 1 · Recurring work",
-    title: "The smallest loop: a scheduled check.",
-    lead: "Begin with an observable, read-only task and a named owner.",
-    body:
-      flow(
-        stage("1 / Define", [
-          box(
-            "Human",
-            "Purpose & owner",
-            "What to check, why it matters, who acts."
-          ),
-          box(
-            "Human",
-            "Cadence & limits",
-            "Frequency, scope, budget, stop conditions."
-          ),
-        ]),
-        stage("2 / Validate", [
-          box(
-            "Agent",
-            "Draft schedule",
-            "Propose instructions and expected output."
-          ),
-          box(
-            "System",
-            "Dry run",
-            "Check permissions, timeout and sample result."
-          ),
-        ]),
-        stage("3 / Enable", [
-          box(
-            "Human",
-            "Approve evidence",
-            "Accept scope and useful signal quality."
-          ),
-          box(
-            "System",
-            "Activate & pause",
-            "Version schedule; expose a kill switch."
-          ),
-        ]),
-        stage("4 / Run & review", [
-          box("System", "Trigger run", "Create isolated run with a unique ID."),
-          box(
-            "Agent",
-            "Check & report",
-            "Return evidence or an explicit failure."
-          ),
-        ])
-      ) +
-      gate(
-        "Repeat at the next scheduled time",
-        "Human owner reviews noise, cost and failures. Findings enter the signals loop; changes to cadence need approval."
-      ),
+    id: "inputs",
+    section: "02 / The factory loop",
+    title: "Work comes in through one front door.",
+    lead: "People and systems feed the inner loop. Agents run an outer loop around it.",
+    body: `<div class="loops"><figure class="loops-figure">${twoLoops}</figure><div class="loops-key"><span class="eyebrow">Inner loop</span><p><b>People ask.</b> Product ideas, customer feedback, support threads and team requests.</p><p><b>Systems notice.</b> Production errors and failed checks, grouped so repeats don't pile up.</p><p><b>Scheduled checks.</b> Read-only scans on a timer, such as outdated dependencies.</p><span class="eyebrow">Outer loop</span><p><b>Agent signals.</b> Agents flag what they find while working, such as repeated failures or gaps in project skills.</p><p><b>Agent verification.</b> Agents independently check finished work and its outcomes, then feed results back in.</p></div></div>${gate("A request is not a permission", "Every item keeps its source and a named owner. Finding a problem never gives an agent new access; a person decides what happens next.")}`,
     notes:
-      "Example: a recurring dependency or error-pattern scan. A timer is deterministic system behaviour; interpreting the findings may use an agent. A scan never receives production write access merely because its schedule is approved. Pause on repeated failures or budget exhaustion.",
+      "Behind the scenes: each signal gets an ID, a source link and an access scope. An agent summarises the ask and separates observed facts from assumptions, but the original stays attached so the summary can be challenged. External text is treated as evidence, never as instructions. Scheduled checks start read-only with a named owner, budget, stop conditions and a kill switch; changes to cadence or rules need human approval. Start with a person accepting every proposed action; pre-authorise a narrow low-risk class only after measuring false positives and testing rollback.",
   },
   {
-    id: "signals",
-    section: "02 / Loop 2 · System signals",
-    title: "Turn a signal into a bounded decision.",
-    lead: "Production errors and factory scans share the same intake discipline.",
+    id: "steps",
+    section: "02 / The factory loop",
+    title: "Agents do the work. People make the calls.",
+    lead: "What happens at each step, and where a person signs off.",
     body:
-      flow(
-        stage("1 / Detect", [
-          box(
-            "System",
-            "Capture evidence",
-            "Source, time, affected flow and severity."
-          ),
-          box(
-            "System",
-            "Deduplicate",
-            "Group recurrence; retain source links."
-          ),
-        ]),
-        stage("2 / Triage", [
-          box(
-            "Agent",
-            "Gather context",
-            "Inspect relevant docs, code and prior work."
-          ),
-          box(
-            "Human",
-            "Resolve uncertainty",
-            "Answer questions; validate impact."
-          ),
-        ]),
-        stage("3 / Act", [
-          box(
-            "Human",
-            "Accept, hold or close",
-            "Choose priority and authorised scope."
-          ),
-          box(
-            "Agent",
-            "Route accepted work",
-            "Create a task for build and verify."
-          ),
-        ]),
-        stage("4 / Close & learn", [
-          box(
-            "System",
-            "Record outcome",
-            "Link change, checks and recurrence."
-          ),
-          box(
-            "Human",
-            "Improve checks",
-            "Approve proposed rule or schedule updates."
-          ),
-        ])
+      table(
+        ["Step", "Agents do", "People decide"],
+        [
+          [
+            "Triage",
+            "Gather context, group duplicates, ask clarifying questions",
+            "Is it worth doing? Who owns it?",
+          ],
+          [
+            "Spec",
+            "Draft the change with examples and a test plan",
+            "<b>Review the spec:</b> scope, risk and what finished looks like",
+          ],
+          [
+            "Implement",
+            "Build a small change in its own sandbox with a preview link",
+            "Engineers step in on hard problems",
+          ],
+          [
+            "Verify",
+            "Run automated checks, an independent review and real user flows",
+            "<b>Review the code:</b> merge or send back",
+          ],
+          [
+            "Ship",
+            "Prepare the release and tell the person who asked",
+            "<b>Review the product:</b> approve the rollout",
+          ],
+          [
+            "Monitor",
+            "Watch errors and outcomes; raise anything new as a signal",
+            "What should we improve next?",
+          ],
+        ]
       ) +
       gate(
-        "No silent self-expansion",
-        "A finding does not grant new permissions. Verified outcomes feed the next scan; uncertain or risky work goes to a person."
+        "Evidence before every handoff",
+        "Each step records what was checked. Missing or out-of-date evidence stops the line, and no agent can sign off its own work."
       ),
     notes:
-      "Start with human acceptance of all proposed actions. A future pilot may pre-authorise a narrow low-risk class, but only after measuring false positives and validating rollback. Monitoring and failure detection remain deterministic wherever possible.",
-  },
-  {
-    id: "intake",
-    section: "02 / Delivery stage 1 of 5",
-    title: "Intake: preserve the original signal.",
-    lead: "People and systems arrive through different doors, then use one work record.",
-    body:
-      flow(
-        stage("Sources", [
-          box(
-            "Human",
-            "From people",
-            "Feedback, support threads and requests."
-          ),
-          box("System", "From systems", "Production errors, scans and checks."),
-        ]),
-        stage("Capture", [
-          box(
-            "System",
-            "Create the record",
-            "Signal ID, reporter, evidence and access scope."
-          ),
-          box(
-            "Agent",
-            "Summarise the ask",
-            "Separate observed facts from assumptions."
-          ),
-        ]),
-        stage("Ready for triage", [
-          box(
-            "Human",
-            "Own the outcome",
-            "Assign an accountable product or technical owner."
-          ),
-          box(
-            "System",
-            "Keep provenance",
-            "Source links remain attached to the task."
-          ),
-        ])
-      ) +
-      gate(
-        "Exit evidence",
-        "A deduplicated signal with a source, an owner and enough context to ask useful questions."
-      ),
-    notes:
-      "Treat external text as evidence, not as instructions that can change agent permissions. Redact secrets and limit context retrieval to authorised sources. The original request remains available so summaries can be challenged.",
-  },
-  {
-    id: "triage",
-    section: "02 / Delivery stage 2 of 5",
-    title: "Triage: clarify before building.",
-    lead: "A confident-sounding answer is not an acceptance criterion.",
-    body:
-      flow(
-        stage("Understand", [
-          box(
-            "Agent",
-            "Clarify intent",
-            "Describe the outcome behind the request."
-          ),
-          box(
-            "Agent",
-            "Gather context",
-            "Read project docs, code and prior decisions."
-          ),
-        ]),
-        stage("Challenge", [
-          box(
-            "Agent",
-            "Apply criteria",
-            "Check fit, confidence, risk and testability."
-          ),
-          box(
-            "Human",
-            "Answer uncertainty",
-            "Return missing information to context gathering."
-          ),
-        ]),
-        stage("Accept", [
-          box(
-            "Human",
-            "Approve scope",
-            "Choose the smallest useful change and exclusions."
-          ),
-          box(
-            "Human",
-            "Agree acceptance",
-            "Define examples, failure cases and measurable proof."
-          ),
-        ])
-      ) +
-      gate(
-        "Exit evidence",
-        "An accepted task with explicit criteria, risk class and a validation plan. Missing evidence means hold, not guess."
-      ),
-    notes:
-      "The human remains hands-on when the work changes the product experience. For routine engineering work, standard acceptance templates can make this short. Agent disagreement about scope, domain rules or safety creates an escalation, not another unbounded debate.",
-  },
-  {
-    id: "build",
-    section: "02 / Delivery stage 3 of 5",
-    title: "Build: give each agent its own space.",
-    lead: "A bounded task, a pinned context version and an isolated environment.",
-    body:
-      flow(
-        stage("Queue", [
-          box(
-            "System",
-            "Dispatch accepted task",
-            "Attach criteria, skill versions and budgets."
-          ),
-          box(
-            "System",
-            "Provision isolation",
-            "Own branch, worktree, sandbox and test data."
-          ),
-        ]),
-        stage("Implement", [
-          box(
-            "Agent",
-            "Make a small change",
-            "Follow the same project rules as reviewers."
-          ),
-          box(
-            "Agent",
-            "Prepare evidence",
-            "Diff, tests, assumptions and unresolved issues."
-          ),
-        ]),
-        stage("Preview", [
-          box(
-            "System",
-            "Publish unique URL",
-            "Bind environment and build to the commit."
-          ),
-          box(
-            "System",
-            "Limit lifetime",
-            "Scoped credentials, expiry and cleanup."
-          ),
-        ])
-      ) +
-      gate(
-        "Exit evidence",
-        "A reviewable diff and an accessible preview for the exact commit. Product owners can inspect core experiences during the work."
-      ),
-    notes:
-      "Production proposal: cloud agents should be able to start an isolated app and expose a unique, access-controlled preview URL. A URL alone proves nothing; it must map to the tested build. Web flows use Playwright; native mobile changes need platform-specific device or simulator validation as well.",
-  },
-  {
-    id: "verify",
-    section: "02 / Delivery stage 4 of 5",
-    title: "Verify: prove the change works.",
-    lead: "Independent review and real interaction evidence precede the human merge decision.",
-    body:
-      flow(
-        stage("1 / Checks", [
-          box(
-            "System",
-            "Enforce rules",
-            "Types, lint, architecture rules, security and tests."
-          ),
-          box(
-            "System",
-            "Block failures",
-            "Required gates cannot be waived by an agent."
-          ),
-        ]),
-        stage("2 / Review", [
-          box(
-            "Agent",
-            "Review independently",
-            "Inspect intent, diff and failure cases."
-          ),
-          box(
-            "Human",
-            "Resolve conflicts",
-            "Assess review disputes or risky changes."
-          ),
-        ]),
-        stage("3 / Browser", [
-          box(
-            "Agent",
-            "Exercise real flows",
-            "Playwright against the isolated preview."
-          ),
-          box(
-            "System",
-            "Capture proof",
-            "Assertions, trace, console and persisted outcome."
-          ),
-        ]),
-        stage("4 / Decision", [
-          box(
-            "Human",
-            "Merge or revise",
-            "Read the signal, change and evidence."
-          ),
-          box(
-            "System",
-            "Refresh evidence",
-            "New commit means fresh required checks."
-          ),
-        ])
-      ) +
-      gate(
-        "Revision loop → Build",
-        "Failed checks, inadequate evidence or unresolved disagreement return the task to implementation. Retry limits prevent endless churn."
-      ),
-    notes:
-      "The agent that wrote the change cannot certify itself as complete. Deterministic assertions must establish expected outcomes. Screenshots complement assertions; they do not replace them. Rule-based linting tooling is deliberately generic pending clarification of the requested “Jev” tool.",
-  },
-  {
-    id: "close",
-    section: "02 / Delivery stage 5 of 5",
-    title: "Close the loop after release.",
-    lead: "Merged code is a delivery event. The outcome must still be observed.",
-    body:
-      flow(
-        stage("Release", [
-          box(
-            "Human",
-            "Approve rollout",
-            "Check operational readiness and residual risk."
-          ),
-          box(
-            "System",
-            "Deploy gradually",
-            "Feature flag, health thresholds and rollback path."
-          ),
-        ]),
-        stage("Communicate", [
-          box(
-            "Agent",
-            "Reply to the reporter",
-            "Explain what changed and link the evidence."
-          ),
-          box(
-            "System",
-            "Record the chain",
-            "Signal → task → commit → release → outcome."
-          ),
-        ]),
-        stage("Learn", [
-          box(
-            "System",
-            "Observe behaviour",
-            "Check recurrence, errors and agreed outcome metrics."
-          ),
-          box(
-            "Human",
-            "Refine the workflow",
-            "Approve updates to skills, rules and schedules."
-          ),
-        ])
-      ) +
-      gate(
-        "Feedback → Intake",
-        "Unexpected results create a new signal. Release regressions trigger the agreed stop or rollback policy."
-      ),
-    notes:
-      "Launch needs its own human owner and evidence, beyond merge approval. For the initiative, agree product measures such as successful fulfilment, availability and waste with domain owners; instrumentation and data quality must be established before claiming improvement.",
+      "Technical detail if asked. Triage: an accepted task has explicit criteria, a risk class and a validation plan; missing evidence means hold, not guess. Implement: own branch, worktree, sandbox and test data; pinned skill versions and budgets; a unique, access-controlled preview URL bound to the commit. Verify: types, lint, architecture rules, security scans and tests are required gates an agent cannot waive; a separate reviewer agent checks intent and failure cases; Playwright exercises the preview and captures assertions and traces; a new commit means fresh checks; retry limits stop endless churn. Ship: feature flags, health thresholds and a rollback path. Record commit SHA, environment, skill version and check results for every run. Native mobile changes also need device or simulator validation.",
   },
   {
     id: "skills",
@@ -456,51 +140,8 @@ const slides = [
       "The CoE maintains reusable templates; product teams own their local domain truth. Chapter leads review shared patterns. Promote a correction into a skill only after a reviewed example or evaluation shows improvement. Workflow definitions can be housed in a factory service or CI configuration, but are separate from project skills. Existing repo loop descriptors are a demonstrator of this separation, not a production control plane.",
   },
   {
-    id: "quality",
-    section: "04 / Quality contract",
-    title: "Each stage earns its next handoff.",
-    lead: "Define observable pass conditions before an agent starts.",
-    body:
-      table(
-        ["Stage", "Required evidence", "Accountable decision"],
-        [
-          [
-            "Discovery & design",
-            "Traceable research, tested prototype, explicit acceptance examples",
-            "PM + designer approve intent and experience",
-          ],
-          [
-            "Triage",
-            "Known scope, risk class, owner, test plan",
-            "Human accepts or asks for clarification",
-          ],
-          [
-            "Build",
-            "Small diff, rule-based lint, types, tests, security checks",
-            "CI rejects incomplete or failing evidence",
-          ],
-          [
-            "Verify",
-            "Independent review + Playwright assertions on current preview",
-            "Human resolves risk and review disagreement",
-          ],
-          [
-            "Launch & learn",
-            "Release readiness, health checks, rollback test, outcome measures",
-            "Release owner approves; team reviews results",
-          ],
-        ]
-      ) +
-      gate(
-        "Completion is evidence-bound",
-        "Record commit SHA, environment, skill version and check results. Stale, missing or contradictory evidence blocks progress."
-      ),
-    notes:
-      "For non-web surfaces add platform-specific validators, contract tests and device coverage. Track escaped defects and false pass rates, not just green checks. The actual repository demo uses synthetic evidence flags; production must obtain these results from trusted CI and test runners.",
-  },
-  {
     id: "risk",
-    section: "05 / Risk & escalation",
+    section: "04 / Risk & escalation",
     title: "One hard boundary: an external commitment.",
     lead: "For the challenge: committing a customer’s selection to a downstream catering system.",
     body:
@@ -551,7 +192,7 @@ const slides = [
   },
   {
     id: "team",
-    section: "06 / Team shape",
+    section: "05 / Team shape",
     title: "Pilot a six-person core squad.",
     lead: "A staffing hypothesis to test, with shared specialist effort counted explicitly.",
     body: `<div class="team-layout">${table(
@@ -571,7 +212,7 @@ const slides = [
   },
   {
     id: "roles",
-    section: "06 / What changes",
+    section: "05 / What changes",
     title: "More learning, architecture and sharing.",
     lead: "The retained roles spend more time making the work legible and checking its consequences.",
     body:
@@ -597,17 +238,26 @@ const slides = [
       "The technical lead owns architectural coherence, not every line of generated code. Engineers still need implementation depth to detect subtle errors. The PM and designer stay close to users. QE moves from repeatedly executing cases toward designing independent validation and investigating escapes. Change Management and People & Culture support role clarity and learning; prompt counts are not a performance ranking.",
   },
   {
+    id: "measure",
+    section: "06 / Measure & improve",
+    title: "You need to measure and improve.",
+    lead: "Speed alone isn't the goal. Count what reached users against everything it took to get there.",
+    body: `<div class="efficiency"><span class="efficiency-term">Factory efficiency</span><span class="efficiency-eq">=</span><span>Software shipped / (token cost + human cost)</span></div>${columns(["Software shipped", "Accepted changes that reach users and hold up in production."], ["Token cost", "What the AI models charge, including retries, reviews and failed attempts."], ["Human cost", "Time spent specifying, reviewing, fixing and supporting the work."])}`,
+    notes:
+      "Rework and escaped defects reduce software shipped, so cutting corners doesn't improve the number. Human cost includes review queues and shared specialists, not just the core squad. Compare like with like: median and p90 per work type. Improve one bottleneck at a time, then measure again.",
+  },
+  {
     id: "cost",
-    section: "07 / Cost & observability",
+    section: "06 / Cost & observability",
     title: "Choose the pace. Measure the whole flow.",
     lead: "Cost rises with throughput, retries, context size and environment lifetime.",
-    body: `<div class="formula">Cost per accepted change <span>=</span><div>agent usage + CI / previews + human review + shared support<br><hr>accepted changes</div></div>${columns(["Budget before dispatch", "Set per-run token or spend ceilings, retry limits, concurrency and environment TTL. Alert near limits; pause at the cap."], ["Subscription-first option", "Use included capacity where provider terms and tooling permit. Queue work when limits are reached. Any metered overflow needs an explicit budget."], ["Compare like with like", "Track median and p90 cost, acceptance rate and review time per work type. Faster is useful only if quality and total cost hold."])}${gate("Pilot baseline → agreed operating ranges", "Example policy: alert at 80% of a run budget; stop at 100%; at most two repair attempts. These are proposed controls, not measured results.")}`,
+    body: `${columns(["Budget before dispatch", "Set per-run token or spend ceilings, retry limits, concurrency and environment TTL. Alert near limits; pause at the cap."], ["Subscription-first option", "Use included capacity where provider terms and tooling permit. Queue work when limits are reached. Any metered overflow needs an explicit budget."], ["Compare like with like", "Track median and p90 cost, acceptance rate and review time per work type. Faster is useful only if quality and total cost hold."])}${gate("Pilot baseline → agreed operating ranges", "Example policy: alert at 80% of a run budget; stop at 100%; at most two repair attempts. These are proposed controls, not measured results.")}`,
     notes:
       "No fixed dollar estimate is credible before measuring representative runs and reviewing licences. Subscription usage still has finite limits and allocated seat cost. Do not equate API-equivalent estimates with billed spend. The synthetic demo estimates cost; real cloud execution, CI, previews and human effort must be instrumented. No automatic switch from subscription to paid API.",
   },
   {
     id: "debug",
-    section: "07 / Debugging a run",
+    section: "06 / Debugging a run",
     title: "Follow one ID from signal to outcome.",
     lead: "A person should be able to explain why a run acted, failed or became expensive.",
     body: `<div class="trace"><span>Signal</span>→<span>Task</span>→<span>Run</span>→<span>Commit</span>→<span>Preview</span>→<span>Release</span></div>${columns(["What we record", "Prompt and skill versions; model; tool calls; tokens and cache; latency; retries; check results; approvals; preview and trace links."], ["Where we investigate", "A run timeline shows the first failing gate. Cost breakdown separates author, reviewer, repair attempts and environment time."], ["How we improve", "Reproduce with sanitised fixtures. Fix the failing rule or context. Add a regression case, review it and compare the next cohort."])}${gate("Example investigation", "Cost rises → find repeated repair attempts → inspect failing browser assertion → fix missing project context → rerun within the same cap.")}`,
@@ -616,12 +266,70 @@ const slides = [
   },
   {
     id: "antiburn",
-    section: "08 / Learn from actual usage",
+    section: "06 / Learn from actual usage",
     title: "Make token waste visible with Antiburn.",
     lead: "Use local session diagnostics to improve prompts, context and tool configuration.",
     body: `<div class="antiburn-panels"><article><span class="eyebrow">CONTEXT</span><div class="spark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><h3>Growth & compaction</h3><p>Inspect context depth, token traffic and subagent activity.</p></article><article><span class="eyebrow">COST</span><div class="cost-bars" aria-hidden="true"><i></i><i></i><i></i></div><h3>Where usage goes</h3><p>Break down parent/subagent usage and input, output and cache costs.</p></article><article><span class="eyebrow">TOOLS</span><div class="tool-lines" aria-hidden="true">Skills ▰▰▰<br>MCPs ▰▰<br>Tools ▰▰▰▰</div><h3>Loaded but unused</h3><p>Find skills, MCP servers and tools that consume context without being used.</p></article></div><p class="source-line">Conceptual feature illustration, not live usage. ${link("https://antiburn.com/", "View Antiburn features")} · Verified 28 September 2026.</p>${gate("Team practice we add", "Review redacted examples together; compare task outcomes before and after prompt changes. Antiburn is local diagnostics, not a verified team prompt-scoring platform.")}`,
     notes:
       "Official site describes a local, open-source app with context, cost and tools views, usage-limit meters and checks for wasteful settings. Its example savings use API-pricing equivalents. We should not present those as our savings. Aggregate team outcomes with consent; avoid treating token usage or prompt counts as individual productivity. Link opens the product site for a live feature walkthrough.",
+  },
+  {
+    id: "pillars",
+    section: "07 / Running it at scale",
+    title: "What it takes to trust the factory.",
+    lead: "Five foundations, built into the factory from day one. Together they earn trust.",
+    body: pillars(
+      [
+        "Traceability",
+        [
+          "Trace every agent session end to end",
+          "Log agent and developer tool calls",
+          "Token usage and cost per pull request",
+        ],
+      ],
+      [
+        "Auditability",
+        [
+          "Who ran which tool, and when, for agents and developers alike",
+          "Review sessions for drift from the agreed task",
+          "A permanent record linked to every change",
+        ],
+      ],
+      [
+        "Governance",
+        [
+          "Processes, standards and guardrails that keep AI safe",
+          "Meet regulatory requirements and protect sensitive data",
+          "Decide who can run which workflows",
+        ],
+      ],
+      [
+        "Manageability",
+        [
+          "Run the same way across teams and products",
+          "Shared templates, with local product ownership",
+          "Budgets, permissions and skill versions managed in one place",
+        ],
+      ],
+      [
+        "Resilience",
+        [
+          "Not reliant on a single frontier model",
+          "Regularly test against open-weight models",
+          "Staged deployments with fallback and rollback",
+        ],
+      ],
+      [
+        "Trust",
+        [
+          "All five foundations working together",
+          "Confidence that agents can do the work",
+          "Agents earn more responsibility on our products over time",
+        ],
+      ]
+    ),
+    notes:
+      "Traceability: one ID follows signal, task, run, commit and release, with tokens and cost rolled up per PR. Auditability: an append-only record of tool calls for people and agents; periodic session review catches agents drifting from instructions, scope or project rules. Governance: the processes, standards and guardrails that keep AI safe, guiding how we build and apply it. In practice: privacy and security designed into agent-first workflows, regulatory compliance, synthetic or redacted data by default, scoped short-lived credentials, role-based access to start or approve workflows, and retention limits on logs. Manageability: a central control plane for templates, budgets and permissions, with products owning their own domain skills. Resilience: keep an evaluation suite so we can swap or fall back between providers and open-weight models; roll out model and skill changes gradually. Trust is the outcome, not a separate control.",
   },
   {
     id: "rollout",
